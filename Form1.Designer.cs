@@ -36,6 +36,7 @@ namespace Desafio___Tetris
             this.panelAtual = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.panelProx = new System.Windows.Forms.Panel();
+            this.buttonNJ = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -56,6 +57,7 @@ namespace Desafio___Tetris
             // 
             // panelTabuleiro
             // 
+            this.panelTabuleiro.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelTabuleiro.Location = new System.Drawing.Point(13, 13);
             this.panelTabuleiro.Name = "panelTabuleiro";
             this.panelTabuleiro.Size = new System.Drawing.Size(770, 863);
@@ -73,6 +75,7 @@ namespace Desafio___Tetris
             // 
             // panelAtual
             // 
+            this.panelAtual.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelAtual.Location = new System.Drawing.Point(790, 37);
             this.panelAtual.Name = "panelAtual";
             this.panelAtual.Size = new System.Drawing.Size(250, 250);
@@ -90,16 +93,28 @@ namespace Desafio___Tetris
             // 
             // panelProx
             // 
+            this.panelProx.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelProx.Location = new System.Drawing.Point(790, 318);
             this.panelProx.Name = "panelProx";
             this.panelProx.Size = new System.Drawing.Size(250, 250);
             this.panelProx.TabIndex = 7;
+            // 
+            // buttonNJ
+            // 
+            this.buttonNJ.Location = new System.Drawing.Point(789, 575);
+            this.buttonNJ.Name = "buttonNJ";
+            this.buttonNJ.Size = new System.Drawing.Size(112, 34);
+            this.buttonNJ.TabIndex = 8;
+            this.buttonNJ.Text = "Novo Jogo";
+            this.buttonNJ.UseVisualStyleBackColor = true;
+            this.buttonNJ.Click += new System.EventHandler(this.buttonNJ_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 951);
+            this.Controls.Add(this.buttonNJ);
             this.Controls.Add(this.panelProx);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panelAtual);
@@ -123,6 +138,7 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Panel panelAtual;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelProx;
+        private System.Windows.Forms.Button buttonNJ;
     }
 }
 

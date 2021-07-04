@@ -19,20 +19,18 @@ namespace Desafio___Tetris
 
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-            //TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
-            //Tela tel = new Tela(tableLayoutPanel);
-            Tela tt = new Tela(panelTabuleiro);
-            Tela ta = new Tela(panelAtual);
-            Tela tp = new Tela(panelProx);
-            Tabuleiro tab = new Tabuleiro(tt);
-            
-            new Jogo(tab, ta, tp);
-
+           
         }
 
         private void panelAtual_Paint(object sender, PaintEventArgs e)
         {
             
+        }
+
+        private void buttonNJ_Click(object sender, EventArgs e)
+        {
+            Tabuleiro tab = new Tabuleiro(panelTabuleiro);
+            new Jogo(tab, panelAtual, panelProx);
         }
     }
 }

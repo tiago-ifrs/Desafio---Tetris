@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Threading;
+using System.Windows.Forms;
 
 public class Jogo
 {
@@ -8,10 +9,10 @@ public class Jogo
     private readonly int ytab;   // coordenada y do tabuleiro
     private readonly Tabuleiro tabuleiro;
     bool pecaNova = false;
-    public Jogo(Tabuleiro tabuleiro, Tela janelaAtual, Tela janelaProx)
+    public Jogo(Tabuleiro tabuleiro, Panel janelaAtual, Panel janelaProx)
     {
         this.tabuleiro = tabuleiro;
-        this.at = new Peca(tabuleiro.Larg, tabuleiro.Alt, janelaAtual);
+        this.at = new Peca(tabuleiro, janelaAtual);
         this.prox = null;
 
         this.pecaNova = false;
@@ -28,24 +29,21 @@ public class Jogo
             {
                 if(this.prox != null) 
                 {
-                    /*
-                    this.prox.Tela = janelaAtual;
+                    this.prox.ap = janelaAtual;
                     this.at = this.prox;
-                    */
-                    this.prox.Move(this.at);
-                    //this.at.Tela = janelaProx;
+                    at.AtualizaPeca();
                 }
 
-                this.prox = new Peca(tabuleiro.Larg, tabuleiro.Alt, janelaProx);
+                this.prox = new Peca(tabuleiro, janelaProx);
                 pecaNova = true;
             }
             for (ytab = 0; ytab < tabuleiro.nlin; ytab++) // percorre as linhas do tabuleiro
             {
                 int ypec;
-                ypec = ~ytab & (at.QLinhas() - 1);         //inicializa posição y das peças com ytab de offset          
+                ypec = (~ytab & (at.QLinhas)-1);         //inicializa posição y das peças com ytab de offset          
                 for (int xtab = 0; xtab < at.QColunas(ypec); xtab++)        // percorre as colunas do tabuleiro abaixo da peça
                 {
-                    if (tabuleiro.Linhas[ytab][xtab].Valor == 0) //local vazio no tabuleiro
+                    if (tabuleiro.Matrix[ytab][xtab].Valor == 0) //local vazio no tabuleiro
                     {
                         colisaoY = false; //não há colisão
                         tabXLivre = true; // posição livre
@@ -54,7 +52,7 @@ public class Jogo
                     {
                         tabXLivre = false;  // posição ocupada
                                             // pode haver colisão se a peça for 1
-                        if (at.Ponto(ytab, xtab) == 1) // peça está ocupando posição x
+                        if (at.Ponto(ypec, xtab) == 1) // peça está ocupando posição x
                         {
                             colisaoY = true;
                             //empilhar peças
@@ -100,22 +98,23 @@ public class Jogo
     } //construtor
     private void PoePeca()
     {
-        int ul = at.QLinhas() - 1;
+        int ul = at.QLinhas-1;
 
         for (int ypec = 0; ypec <= ul; ypec++)
         {
             for (int xpec = 0; xpec < at.QColunas(ypec); xpec++)
             {
-                tabuleiro.Linhas[ypec - ytab][xpec].Valor = at.Ponto(ypec - ytab, xpec);
+                tabuleiro.Matrix[ypec - ytab][xpec].Valor = at.Ponto(ypec - ytab, xpec);
 
                 if (at.Ponto(ypec - ytab, xpec) == 1)
                 {
-                    tabuleiro.Linhas[ypec - ytab][xpec].Cor = at.Cor;
+                    tabuleiro.Matrix[ypec - ytab][xpec].BackColor = at.Cor;
                 }
                 else
                 {
-                    tabuleiro.Linhas[ypec - ytab][xpec].Cor = Color.White;
+                    tabuleiro.Matrix[ypec - ytab][xpec].BackColor = Color.White;
                 }
+                tabuleiro.Matrix[ypec - ytab][xpec].Refresh();
             }
         }
         pecaNova = false;
@@ -123,7 +122,7 @@ public class Jogo
 
     private void MoveTabY()
     {
-        int ul = at.QLinhas() - 1;
+        int ul = at.QLinhas-1;
         int uc = at.QColunas(ul);
 
         for (int ytaux = ytab; ytaux > 0; ytaux--)
@@ -131,16 +130,18 @@ public class Jogo
             for (int xpec = 0; xpec < uc; xpec++)
             {
                 //atualiza posição no tabuleiro
-                tabuleiro.Linhas[ytaux][xpec].Valor = tabuleiro.Linhas[ytaux - 1][xpec].Valor;
-                tabuleiro.Linhas[ytaux][xpec].Cor = tabuleiro.Linhas[ytaux - 1][xpec].Cor;
+                tabuleiro.Matrix[ytaux][xpec].Valor = tabuleiro.Matrix[ytaux - 1][xpec].Valor;
+                tabuleiro.Matrix[ytaux][xpec].BackColor = tabuleiro.Matrix[ytaux - 1][xpec].BackColor;
+                tabuleiro.Matrix[ytaux][xpec].Refresh();
             }
         }
         if (ytab > 0) 
         {
             for (int xpec = 0; xpec < uc; xpec++)
             {
-                tabuleiro.Linhas[0][xpec].Valor = 0;
-                tabuleiro.Linhas[0][xpec].Cor = Color.AntiqueWhite;
+                tabuleiro.Matrix[0][xpec].Valor = 0;
+                tabuleiro.Matrix[0][xpec].BackColor = Color.AntiqueWhite;
+                tabuleiro.Matrix[0][xpec].Refresh();
             }
         }
         Thread.Sleep(1000);

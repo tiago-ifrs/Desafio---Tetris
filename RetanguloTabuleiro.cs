@@ -2,31 +2,36 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-public class RetanguloTabuleiro
+public class RetanguloTabuleiro:Panel
 {
-    public Panel Panel { get; }
     public int Valor { get; set; }
-    public Point Xy 
-    { 
-        get { return Panel.Location; } 
-        set { Panel.Location = value; } 
-    }   
-    public Size La
+    
+    public RetanguloTabuleiro() { }
+    public static RetanguloTabuleiro[][] Inicializa(Panel pai, int qy, int qx, int alt, int larg)
     {
-        get { return Panel.Size; }
-        set { Panel.Size = value; }
-    }
-    public Color Cor
-    {
-        get { return Panel.BackColor; }
-        set 
-        { 
-            Panel.BackColor = value;
-            Panel.Refresh();
+        RetanguloTabuleiro[][] rt;
+        int xform, yform;
+
+        rt = new RetanguloTabuleiro[qy][];
+
+        for (int i = 0; i < qy; i++)
+        {
+            rt[i] = new RetanguloTabuleiro[qx];
+            for (int j = 0; j < qx; j++)
+            {
+                rt[i][j] = new RetanguloTabuleiro();
+                xform = j * larg;
+                yform = i * alt;
+
+                rt[i][j].Valor = 0;
+                rt[i][j].BackColor = Color.Black;
+                rt[i][j].Location = new Point(xform, yform);
+                rt[i][j].Size = new Size(larg - 1, alt - 1);
+
+                pai.Controls.Add(rt[i][j]);
+            }
         }
-    }
-    public RetanguloTabuleiro()
-    {
-        this.Panel = new Panel();
+        pai.Size = new Size(larg * qx, alt * qy);
+        return rt;
     }
 }
