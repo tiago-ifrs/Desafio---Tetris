@@ -23,7 +23,7 @@ public class Tabuleiro
         Matrix = RetanguloTabuleiro.Inicializa(t, nlin, ncol, menor, menor);
     }
 
-    public void PoePeca(Peca p, int ytab, int ypec)
+    public void PoePeca(Peca p, int ypec)
     {
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
@@ -42,6 +42,23 @@ public class Tabuleiro
             Matrix[0][xpec].Refresh();
         }
     }
+    public void MoveY(Peca p, int ytab, int xtab)
+    {
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+
+        for (int y = ytab; y >= 0; y--)
+        {
+            for (int xpec = 0; xpec < uc; xpec++)
+            {
+                //atualiza posição abaixo no tabuleiro
+                Matrix[y + 1][xtab+xpec].Valor = Matrix[y][xtab+xpec].Valor;
+                Matrix[y + 1][xtab+xpec].BackColor = Matrix[y][xtab+xpec].BackColor;
+                Matrix[y + 1][xtab+xpec].Refresh();
+            }
+        }
+    }
+    /*
     public void MoveY(Peca p, int ytab)
     {
         int ul = p.QLinhas - 1;
@@ -58,7 +75,8 @@ public class Tabuleiro
             }
         }
     }
-
+    */
+    /*
     public void LimpaAcima(Peca p, int ytab, int ypec)
     {
         int ul = p.QLinhas - 1;
@@ -92,6 +110,19 @@ public class Tabuleiro
                 Matrix[0][xpec].BackColor = Color.AntiqueWhite;
                 Matrix[0][xpec].Refresh();
             }
+        }
+    }
+    */
+    public void LimpaAcima(Peca p)
+    {
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+
+        for (int xpec = 0; xpec < uc; xpec++)
+        {
+            Matrix[0][xpec].Valor = 0;
+            Matrix[0][xpec].BackColor = Color.AntiqueWhite;
+            Matrix[0][xpec].Refresh();
         }
     }
 }

@@ -11,6 +11,7 @@ public class RetanguloTabuleiro:Panel
     {
         RetanguloTabuleiro[][] rt;
         int xform, yform;
+        pai.Controls.Clear();
 
         rt = new RetanguloTabuleiro[qy][];
 
