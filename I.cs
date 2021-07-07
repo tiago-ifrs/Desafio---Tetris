@@ -4,43 +4,52 @@ using System.Drawing;
 
 public class I : Abspeca
 {
+    private int _rot;
+    
     public override List<int[]> Linhas { get; set; }
     public I()
     {
-        this.Linhas = null;
-        switch (Rot)
+        Rot = 0;
+    }
+
+    public override Color Cor => Color.LightCyan;
+
+    public override int Rot
+    {
+        get { return _rot; }
+        set
         {
-            case 0:
-                this.Linhas = new List<int[]>
+            _rot = value;
+            switch (value)
+            {
+                case 0:
+                    this.Linhas = new List<int[]>
                 {
                     new int[]   { 1 },
                     new int[]   { 1 },
                     new int[]   { 1 },
                     new int[]   { 1 }
                 };
-                break;
-            case 1:
-                this.Linhas = new List<int[]>{
+                    break;
+                case 1:
+                    this.Linhas = new List<int[]>{
                     new int[]   { 1,1,1,1 }
                 };
-                break;
-            case 2:
-                this.Linhas = new List<int[]>{
+                    break;
+                case 2:
+                    this.Linhas = new List<int[]>{
                     new int[]   { 1 },
                     new int[]   { 1 },
                     new int[]   { 1 },
                     new int[]   { 1 }
                 };
-                break;
-            case 3:
-                this.Linhas = new List<int[]>{
+                    break;
+                case 3:
+                    this.Linhas = new List<int[]>{
                     new int[]   { 1,1,1,1 },
                 };
-                break;
+                    break;
+            }
         }
     }
-
-    public override Color Cor => Color.LightCyan;
-
-    public override int Rot { get; set; }
 }

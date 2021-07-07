@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Desafio___Tetris
@@ -56,12 +57,12 @@ namespace Desafio___Tetris
             if (pause == false)
             {
                 labelPause.Text = "PAUSE";
-                labelPause.Visible = true;
+                //labelPause.Visible = true;
                 pause = true;
             }
             else
             {
-                labelPause.Visible = false;
+                //labelPause.Visible = false;
                 labelPause.Text = "Tetris";
                 pause = false;
             }
@@ -73,30 +74,48 @@ namespace Desafio___Tetris
             {
                 case (Keys.Up):
                     labelKey.Text = Char.ToString((char)0xe1);
+                    if (at.Rot < 4)
+                    {
+                        at.Rot++;
+                    }
+                    else 
+                    {
+                        at.Rot = 0;
+                    }
+                    tabuleiro.PoePeca(at, ytab, xtab);
+                    Thread.Sleep(500);
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
-                    if (xtab < tabuleiro.ncol - at.QLinhas - 1) 
+                    if (xtab < tabuleiro.nlin - at.QLinhas) 
                     {
                         ytab++;
-                        tabuleiro.LimpaAcima(at, ytab, xtab);
+                        /*
+                        tabuleiro.LimpaAcima(at, ytab, ytab);
+                        tabuleiro.MoveY(at, ytab, xtab);
+                        */
                     }
                     return true;
                 case (Keys.Left):
                     labelKey.Text = Char.ToString((char)0xdf);
-                    
+                    if (xtab > 0)
+                    {
+                        xtab--;
+                        Thread.Sleep(500);
+                        tabuleiro.DireitaLimpa(at, ytab, xtab);
+                        
+                        tabuleiro.XMove(at, ytab - 1, xtab);
+                    }
                     return true;
                 case (Keys.Right):
                     labelKey.Text = Char.ToString((char)0xe0);
                     if (xtab < tabuleiro.ncol - at.QColunas(at.QLinhas - 1))
                     {
                         xtab++;
-                        tabuleiro.LimpaXant(at, ytab, xtab);
-                        //tabuleiro.MoveX(at, ytab, xtab);
-
-                        //ytab++;//a partir do MoveX, não entra mais em detecção de colisão Y
-                        //tabuleiro.LimpaAcima(at, ytab, xtab);
-
+                        Thread.Sleep(500);
+                        tabuleiro.EsquerdaLimpa(at, ytab, xtab);
+                        
+                        tabuleiro.XMove(at, ytab-1, xtab);
                     }
                     return true;
             };
@@ -123,12 +142,12 @@ namespace Desafio___Tetris
                 if (pecaNova)
                 {
                     GeraProx();
-                    xtab = 0; // coordenada x inicial da queda de peças
+                    xtab = tabuleiro.ncol/2; // coordenada x inicial da queda de peças
                     pecaNova = false;
                 }
                 bool colisao = false;
 
-                for (ytab = 0; ytab < tabuleiro.nlin - 1; ytab++) // percorre as linhas do tabuleiro
+                for (ytab = 0; ytab < tabuleiro.nlin; ytab++) // percorre as linhas do tabuleiro
                 {
                     if (!colisao)
                     {
@@ -144,12 +163,15 @@ namespace Desafio___Tetris
                                 over = true;
                             }
                         }
-                        if (!over)
+                        else
                         {
-                            if (!tabuleiro.MoveY(at, ytab, xtab))
+                            if (!over)
                             {
-                                //colisão, parar o movimento
-                                colisao = true;
+                                if (!tabuleiro.MoveY(at, ytab, xtab))
+                                {
+                                    //colisão, parar o movimento
+                                    colisao = true;
+                                }
                             }
                         }
                     }//if !colisao 

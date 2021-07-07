@@ -2,45 +2,53 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-public class T:Abspeca
+public class T : Abspeca
 {
+    private int _rot;
+    
 	public T()
     {
-        this.Linhas = null;
-        switch (Rot)
-        {
-            case 0:
-                this.Linhas = new List<int[]>{
-                    new int[]{ 1,1,1 },
-                    new int[]{ 0,1,0 }
-                };
-                break;
-            case 1:
-                this.Linhas = new List<int[]>{
-                    new int[]{ 1,0 },
-                    new int[]{ 1,1 },
-                    new int[]{ 1,0 }
-                };
-                break;
-            case 2:
-                this.Linhas = new List<int[]>{
-                    new int[]{ 0,1,0 },
-                    new int[]{ 1,1,1 }
-                };
-                break;
-            case 3:
-                this.Linhas = new List<int[]>{
-                    new int[]{ 0,0,1 },
-                    new int[]{ 0,1,1 },
-                    new int[]{ 0,0,1 }
-                };
-                break;
-        }
+        Rot = 0;
     }
 
     public override Color Cor => Color.Violet;
 
-    public override int Rot { get; set; }
-
-    public override List<int[]> Linhas { get; set; }    
+    public override List<int[]> Linhas { get; set; }
+    public override int Rot
+    {
+        get { return _rot; }
+        set
+        {
+            _rot = value;
+            switch (value)
+            {
+                case 0:
+                    this.Linhas = new List<int[]>{
+                    new int[]{ 1,1,1 },
+                    new int[]{ 0,1,0 }
+                };
+                    break;
+                case 1:
+                    this.Linhas = new List<int[]>{
+                    new int[]{ 1,0 },
+                    new int[]{ 1,1 },
+                    new int[]{ 1,0 }
+                };
+                    break;
+                case 2:
+                    this.Linhas = new List<int[]>{
+                    new int[]{ 0,1,0 },
+                    new int[]{ 1,1,1 }
+                };
+                    break;
+                case 3:
+                    this.Linhas = new List<int[]>{
+                    new int[]{ 0,0,1 },
+                    new int[]{ 0,1,1 },
+                    new int[]{ 0,0,1 }
+                };
+                    break;
+            }
+        }
+    }
 }

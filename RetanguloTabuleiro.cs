@@ -25,7 +25,7 @@ public class RetanguloTabuleiro:Panel
                 yform = i * alt;
 
                 rt[i][j].Valor = 0;
-                rt[i][j].BackColor = Color.Black;
+                rt[i][j].BackColor = Color.White;
                 rt[i][j].Location = new Point(xform, yform);
                 rt[i][j].Size = new Size(larg - 1, alt - 1);
 

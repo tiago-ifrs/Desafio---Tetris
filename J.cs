@@ -4,11 +4,21 @@ using System.Drawing;
 
 public class J : Abspeca
 {
+    private int _rot;
     public J()
     {
+        Rot = 0;
+    }
+    public override Color Cor => Color.Orange;
+
+    public override List<int[]> Linhas { get; set; }
+    public override int Rot
+    {
+        get { return _rot; }
+        set
         {
-            this.Linhas = null;
-            switch (Rot)
+            _rot = value;
+            switch (value)
             {
                 case 0:
                     this.Linhas = new List<int[]>{
@@ -40,10 +50,4 @@ public class J : Abspeca
         }
     }
 
-    public override Color Cor => Color.Orange;
-
-    public override int Rot { get; set; }
-
-    public override List<int[]> Linhas { get; set; }
-    
 }

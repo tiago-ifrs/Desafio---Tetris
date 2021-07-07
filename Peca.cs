@@ -16,15 +16,30 @@ public class Peca : Abspeca
     {
         if (Ponto(y, x) == 0)
         {
-            return Color.LightGray;
+            //return Color.LightGray;
+            //return Color.White;
+            return Color.Transparent;
         }
         else
         {
             return Abspeca.Cor;
         }
     }
-    public override int Rot { get { return Abspeca.Rot; } set => Abspeca.Rot = value; }
-    public int Ponto(int y, int x) { return (int)this.Abspeca.Linhas[y].GetValue(x); }
+    public override int Rot
+    {
+        get { return Abspeca.Rot; }
+        set
+        {
+            Abspeca.Rot = value;
+            this.Linhas = Abspeca.Linhas;
+            //this.Abspeca.Linhas = Abspeca.Linhas;
+        }
+    }
+    public int Ponto(int y, int x) 
+    {
+        return (int)Linhas[y].GetValue(x);
+        //return (int)this.Abspeca.Linhas[y].GetValue(x); 
+    }
     private Abspeca Abspeca { get; set; }
     private RetanguloTabuleiro[][] Matrix;
     //this.prox.Tela = janelaAtual;
@@ -67,6 +82,7 @@ public class Peca : Abspeca
         }
         // devem ser colocados depois da instanciação
         this.Abspeca.Rot = 0;
+        this.Linhas = Abspeca.Linhas;
         //cria os quadradinhos redimensionados conforme o tamanho da peça
         int ql, qc, h, w;
         ql = QLinhas;
@@ -106,15 +122,7 @@ public class Peca : Abspeca
                     Valor = Ponto(i, j),
                     BorderStyle = BorderStyle.FixedSingle
                 };
-
-                if (Ponto(i, j) == 0)
-                {
-                    nova[i][j].BackColor = ap.BackColor;// Color.Black;
-                }
-                else
-                {
-                    nova[i][j].BackColor = Abspeca.Cor;
-                }
+                nova[i][j].BackColor = CorPonto(i, j);
                 ap.Controls.Add(nova[i][j]);
             }
         }
