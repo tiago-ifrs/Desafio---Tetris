@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 public class Tabuleiro
@@ -6,123 +7,136 @@ public class Tabuleiro
     public readonly int nlin = 16;
     public readonly int ncol = 10;
     public RetanguloTabuleiro[][] Matrix { get; }
+    private int Menor(int a, int b) 
+    {
+        if (a < b)
+            return a;
+        else
+            return b;
+    }
     public Tabuleiro(Panel t)
     {
         int l, a, menor;
         a = t.Height / nlin;
         l = t.Width / ncol;
-        if (l < a)
-        {
-            menor = l;
-        }
-        else
-        {
-            menor = a;
-        }
-
+        menor = Menor(l, a);
         Matrix = RetanguloTabuleiro.Inicializa(t, nlin, ncol, menor, menor);
     }
 
-    public void PoePeca(Peca p, int ypec)
+    public bool PoePeca(Peca p, int ytab, int xtab)
+    {
+        if (!colisaoY(p, ytab+1, xtab))
+        {
+            int ul = p.QLinhas - 1;
+            int uc = p.QColunas(ul);
+            int mask = ul & ~ytab;
+            for (int xpec = 0; xpec < uc; xpec++)
+            {
+                Matrix[0][xpec].Valor = p.Ponto(mask, xpec);
+                Matrix[0][xpec].BackColor = p.CorPonto(mask, xpec);
+                Matrix[0][xpec].Refresh();
+            }
+            return true;  //pôs a peça
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool MoveY(Peca p, int ytab, int xtab)
+    {
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+
+        int ynovo = ytab + 1;
+        int ypec = ul;
+
+        int menor = Menor(ypec, ynovo);
+        
+        if (!colisaoY(p, ynovo, xtab)) //detecta colisão na linha onde a peça vai ser colocada, não precisa detecção para linhas anteriores
+        {
+            LimpaAcima(p, ytab, xtab);
+            for (; menor >= 0; menor--)//peça é preenchida de baixo para cima
+            {
+                for (int xpec = 0; xpec < uc; xpec++)
+                {
+                    Matrix[ynovo][xtab + xpec].BackColor = p.CorPonto(ypec, xpec);                   
+                    Matrix[ynovo][xtab + xpec].Valor = p.Ponto(ypec, xpec);
+                    Matrix[ynovo][xtab + xpec].Refresh();
+                }
+                ynovo--;
+                ypec--;
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void MoveX(Peca p, int ytab, int xtab)
+    {
+        //tabuleiro está desenhando uma posição abaixo de ytab?
+        int ul = p.QLinhas-1;
+        int uc = p.QColunas(ul);
+        int ypec = 0;
+
+        for (int y= ytab; y <= ul; y++) 
+        {
+            for (int xpec = 0; xpec < uc; xpec++)
+            {
+                Matrix[y][xtab + xpec].Valor = p.Ponto(ypec, xpec);
+                Matrix[y][xtab + xpec].BackColor = p.CorPonto(ypec, xpec);
+                Matrix[y][xtab + xpec].Refresh();
+            }
+            ypec++;
+        }
+        LimpaXant(p, ytab, xtab);
+        LimpaAcima(p, ytab, xtab);
+    }
+    public void LimpaXant(Peca p, int ytab, int xtab)
+    {
+        int ul = p.QLinhas - 1;
+        //tabuleiro está desenhando uma posição abaixo de ytab?
+        //int ynovo = ytab+1;
+        int ynovo = ytab;
+
+        for (int ypec = ul; ypec >= 0; ypec--)
+        {
+            Matrix[ynovo][xtab - 1].Valor = 0;
+            Matrix[ynovo][xtab - 1].BackColor = Color.Black;
+            Matrix[ynovo][xtab - 1].Refresh();
+            ynovo--;
+        }
+    }
+
+    public void LimpaAcima(Peca p, int ytab, int xtab)
+    {
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+
+        for (int ynovo = ytab - ul; ynovo >= 0; ynovo--)
+        {
+            for (int xpec = 0; xpec < uc; xpec++)
+            {
+                Matrix[ynovo][xpec + xtab].Valor = 0;
+                Matrix[ynovo][xpec + xtab].BackColor = Color.AntiqueWhite;
+                Matrix[ynovo][xpec].Refresh();
+            }
+        }
+    }
+
+    public bool colisaoY(Peca p, int linha, int xtab)
     {
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
         for (int xpec = 0; xpec < uc; xpec++)
         {
-            Matrix[0][xpec].Valor = p.Ponto(ypec, xpec);
-
-            if (p.Ponto(ypec, xpec) == 1)
+            if ((Matrix[linha][xtab+xpec].Valor & p.Ponto(ul, xpec)) == 1)
             {
-                Matrix[0][xpec].BackColor = p.Cor;
-            }
-            else
-            {
-                Matrix[0][xpec].BackColor = Color.White;
-            }
-            Matrix[0][xpec].Refresh();
-        }
-    }
-    public void MoveY(Peca p, int ytab, int xtab)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-
-        for (int y = ytab; y >= 0; y--)
-        {
-            for (int xpec = 0; xpec < uc; xpec++)
-            {
-                //atualiza posição abaixo no tabuleiro
-                Matrix[y + 1][xtab+xpec].Valor = Matrix[y][xtab+xpec].Valor;
-                Matrix[y + 1][xtab+xpec].BackColor = Matrix[y][xtab+xpec].BackColor;
-                Matrix[y + 1][xtab+xpec].Refresh();
+                return true;
             }
         }
-    }
-    /*
-    public void MoveY(Peca p, int ytab)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-
-        for (int cont = ytab; cont >= 0; cont--)
-        {
-            for (int xpec = 0; xpec < uc; xpec++)
-            {
-                //atualiza posição abaixo no tabuleiro
-                Matrix[cont + 1][xpec].Valor = Matrix[cont][xpec].Valor;
-                Matrix[cont + 1][xpec].BackColor = Matrix[cont][xpec].BackColor;
-                Matrix[cont + 1][xpec].Refresh();
-            }
-        }
-    }
-    */
-    /*
-    public void LimpaAcima(Peca p, int ytab, int ypec)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-        if (ypec != -1)
-        {
-            
-            //atualiza posições acima no tabuleiro
-            for (int xpec = 0; xpec < uc; xpec++)
-            {
-                if (p.Ponto(ypec, xpec) == 0)
-                {
-                    Matrix[0][xpec].Valor = 0;
-                    Matrix[0][xpec].BackColor = Color.AntiqueWhite;
-                }
-                else 
-                {
-                    Matrix[0][xpec].Valor = p.Ponto(ypec, xpec); //1
-                    Matrix[0][xpec].BackColor = p.Cor;
-                    
-                }
-                Matrix[0][xpec].Refresh();
-            }
-
-        }
-        else //ypec == -1, terminou de gerar a peça
-        {
-            for (int xpec = 0; xpec < uc; xpec++)
-            {
-                Matrix[0][xpec].Valor = 0;
-                Matrix[0][xpec].BackColor = Color.AntiqueWhite;
-                Matrix[0][xpec].Refresh();
-            }
-        }
-    }
-    */
-    public void LimpaAcima(Peca p)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-
-        for (int xpec = 0; xpec < uc; xpec++)
-        {
-            Matrix[0][xpec].Valor = 0;
-            Matrix[0][xpec].BackColor = Color.AntiqueWhite;
-            Matrix[0][xpec].Refresh();
-        }
+        return false;
     }
 }

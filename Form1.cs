@@ -76,15 +76,27 @@ namespace Desafio___Tetris
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
+                    if (xtab < tabuleiro.ncol - at.QLinhas - 1) 
+                    {
+                        ytab++;
+                        tabuleiro.LimpaAcima(at, ytab, xtab);
+                    }
                     return true;
                 case (Keys.Left):
                     labelKey.Text = Char.ToString((char)0xdf);
+                    
                     return true;
                 case (Keys.Right):
                     labelKey.Text = Char.ToString((char)0xe0);
-                    if (xtab < tabuleiro.ncol)
+                    if (xtab < tabuleiro.ncol - at.QColunas(at.QLinhas - 1))
                     {
                         xtab++;
+                        tabuleiro.LimpaXant(at, ytab, xtab);
+                        //tabuleiro.MoveX(at, ytab, xtab);
+
+                        //ytab++;//a partir do MoveX, não entra mais em detecção de colisão Y
+                        //tabuleiro.LimpaAcima(at, ytab, xtab);
+
                     }
                     return true;
             };
@@ -106,101 +118,46 @@ namespace Desafio___Tetris
             bool over = false;
             bool pecaNova = true;
 
-            int ypec = -1;
-            int ul = -1;
             while (!over)
             {
                 if (pecaNova)
                 {
                     GeraProx();
+                    xtab = 0; // coordenada x inicial da queda de peças
                     pecaNova = false;
                 }
-                //atualiza o índice de peça após a geração de cada peça nova ou em condição inicial:
-                ul = at.QLinhas - 1;
-                ypec = ul;
-
-                //condições atualizadas a cada nova peça
-                bool colisaoX = false;
-                bool colisaoY = false;
-                bool tabXLivre = true;
-                // bool terminaPeca = false;
+                bool colisao = false;
 
                 for (ytab = 0; ytab < tabuleiro.nlin - 1; ytab++) // percorre as linhas do tabuleiro
                 {
-                    if (!over)
+                    if (!colisao)
                     {
+                        Wait(1000);
                         while (pause)
                         {
                             Wait(1000);
                         }
-                        if (tabXLivre == true) // os espaços inferiores estão vazios, peça cai
+                        if (ytab < at.QLinhas)
                         {
-                            if (ypec >= 0)
+                            if (!tabuleiro.PoePeca(at, ytab, xtab))
                             {
-                                tabuleiro.PoePeca(at, ypec);
-                                ypec--;
-                            }
-                            else //ypec == -1
-                            {
-                                if (!pecaNova)
-                                {
-                                    //tabuleiro.PoePeca(at, ytab, ypec);
-                                    //tabuleiro.TerminaPeca(at);
-                                    pecaNova = true;
-                                }
-                            }
-                            if (!colisaoY)
-                            {
-                                //for (int xtab = 0; xtab < at.QColunas(ul); xtab++)        // percorre as colunas do tabuleiro abaixo da peça
-                                for (int xpec = 0; xpec < at.QColunas(ul); xpec++)        // percorre as colunas do tabuleiro abaixo da peça
-                                {
-                                    if (!colisaoY)
-                                    {
-                                        if (tabuleiro.Matrix[ytab + 1][xtab].Valor == 0) //local vazio no tabuleiro
-                                        {
-                                            colisaoY = false; //não há colisão
-                                            tabXLivre = true; // posição livre
-                                        }
-                                        else // local ocupado no tabuleiro
-                                        {
-                                            tabXLivre = false;  // posição ocupada
-                                                                // pode haver colisão se a peça for 1
-                                            if (at.Ponto(ul, xpec) == 1) // peça está ocupando posição x
-                                            {
-                                                colisaoY = true;
-                                                //empilhar peças
-                                            }
-                                        } //else local ocupado no tabuleiro			
-                                    }
-                                } //for xpec
-                                if (!colisaoY)
-                                {
-                                    tabuleiro.MoveY(at, ytab, xtab);
-                                    if (ypec == -1)
-                                    {
-                                        tabuleiro.LimpaAcima(at);
-                                    }
-                                    //Thread.Sleep(1000);
-                                    Wait(1000);
-                                }
-
-                            }
-                        } // fim if tabXlivre
-                        else
-                        {
-                            if (colisaoY)
-                            {
-                                if (ytab < this.prox.QLinhas)
-                                {
-                                    MessageBox.Show("Game Over");
-                                    over = true;
-                                }
+                                over = true;
                             }
                         }
-                    }//if !over
-                } //for ytab
+                        if (!over)
+                        {
+                            if (!tabuleiro.MoveY(at, ytab, xtab))
+                            {
+                                //colisão, parar o movimento
+                                colisao = true;
+                            }
+                        }
+                    }//if !colisao 
+                    pecaNova = true;
+                }//for ytab
 
             }//while !over
+            MessageBox.Show("Game Over");
         } //construtor
         private void Wait(int ms)
         {

@@ -8,7 +8,21 @@ public class Peca : Abspeca
     //public int Larg { get; set; }
     //public int Alt { get; set; }
     public override List<int[]> Linhas { get; set; }
-    public override Color Cor { get { return Abspeca.Cor; } }
+    public override Color Cor
+    {
+        get { return Abspeca.Cor; }
+    }
+    public Color CorPonto(int y, int x)
+    {
+        if (Ponto(y, x) == 0)
+        {
+            return Color.LightGray;
+        }
+        else
+        {
+            return Abspeca.Cor;
+        }
+    }
     public override int Rot { get { return Abspeca.Rot; } set => Abspeca.Rot = value; }
     public int Ponto(int y, int x) { return (int)this.Abspeca.Linhas[y].GetValue(x); }
     private Abspeca Abspeca { get; set; }
@@ -16,15 +30,14 @@ public class Peca : Abspeca
     //this.prox.Tela = janelaAtual;
     public Panel ap { get; set; } //ap = atual ou proximo
     private readonly Tabuleiro tabuleiro;
-    public Peca(Tabuleiro tab, Panel ap) 
+    public char Tpeca { get; }
+    public Peca(Tabuleiro tab, Panel ap)
     {
         char[] TiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
-        char Tpeca;
-
         int al;
         Random random = new Random();
         al = random.Next(0, TiposPeca.Length);
-        Tpeca = TiposPeca[al];
+        this.Tpeca = TiposPeca[al];
         this.ap = ap;
         this.tabuleiro = tab;
 
@@ -57,7 +70,7 @@ public class Peca : Abspeca
         //cria os quadradinhos redimensionados conforme o tamanho da peça
         int ql, qc, h, w;
         ql = QLinhas;
-        qc = QColunas(QLinhas-1);
+        qc = QColunas(QLinhas - 1);
         //altura e largura do 1º quadradinho do tabuleiro:
         h = tab.Matrix[0][0].Height;
         w = tab.Matrix[0][0].Width;
@@ -71,18 +84,18 @@ public class Peca : Abspeca
     }*/
     public int QLinhas { get { return this.Abspeca.Linhas.Count; } }
     public int QColunas(int y) { return this.Abspeca.Linhas[y].Length; }
-    public void AtualizaPeca() 
+    public void AtualizaPeca()
     {
         RetanguloTabuleiro[][] nova;
         int xform, yform;
-        
+
         ap.Controls.Clear();
 
         nova = new RetanguloTabuleiro[QLinhas][];
         for (int i = 0; i < QLinhas; i++)
         {
-            nova[i] = new RetanguloTabuleiro[QColunas(QLinhas-1)];
-            for (int j = 0; j < QColunas(QLinhas-1); j++)
+            nova[i] = new RetanguloTabuleiro[QColunas(QLinhas - 1)];
+            for (int j = 0; j < QColunas(QLinhas - 1); j++)
             {
                 xform = j * tabuleiro.Matrix[0][0].Width; //larg;
                 yform = i * tabuleiro.Matrix[0][0].Height; //alt;
@@ -98,7 +111,7 @@ public class Peca : Abspeca
                 {
                     nova[i][j].BackColor = ap.BackColor;// Color.Black;
                 }
-                else 
+                else
                 {
                     nova[i][j].BackColor = Abspeca.Cor;
                 }
