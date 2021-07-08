@@ -82,7 +82,8 @@ namespace Desafio___Tetris
                     {
                         at.Rot = 0;
                     }
-                    tabuleiro.PoePeca(at, ytab-1, xtab);
+                    //tabuleiro.PoePeca(at, ytab-1, xtab);
+                    tabuleiro.MoveY(at, ytab - 1, xtab);
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
@@ -90,11 +91,8 @@ namespace Desafio___Tetris
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         ytab++;
-                        tabuleiro.PoePeca(at, ytab-1, xtab);
-                        /*
-                        tabuleiro.LimpaAcima(at, ytab, ytab);
-                        tabuleiro.MoveY(at, ytab, xtab);
-                        */
+                        //tabuleiro.PoePeca(at, ytab-1, xtab);
+                        tabuleiro.MoveY(at, ytab-1, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
                 case (Keys.Left):
@@ -103,11 +101,9 @@ namespace Desafio___Tetris
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab--;
-                        //tabuleiro.DireitaLimpa(at, ytab, xtab);
-                        //tabuleiro.XMove(at, ytab - 1, xtab);
-                        
-                        tabuleiro.PoePeca(at, ytab - 1, xtab);
-                        
+                        //tabuleiro.PoePeca(at, ytab - 1, xtab);
+                        tabuleiro.MoveY(at, ytab - 1, xtab); //verificar valor de ytab antes de mandar o parâmetro
+
                     }
                     return true;
                 case (Keys.Right):
@@ -116,10 +112,8 @@ namespace Desafio___Tetris
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab++;
-                        //tabuleiro.EsquerdaLimpa(at, ytab, xtab);
-                        //tabuleiro.XMove(at, ytab - 1, xtab);
-                        
-                        tabuleiro.PoePeca(at, ytab - 1, xtab);
+                        //tabuleiro.PoePeca(at, ytab - 1, xtab);
+                        tabuleiro.MoveY(at, ytab - 1, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
             };
@@ -162,7 +156,8 @@ namespace Desafio___Tetris
                         }
                         if (ytab < at.QLinhas)
                         {
-                            if (!tabuleiro.PoePeca(at, ytab, xtab))
+                            //if (!tabuleiro.PoePeca(at, ytab, xtab))
+                            if (!tabuleiro.MoveY(at, ytab, xtab))
                             {
                                 over = true;
                             }
