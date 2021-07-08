@@ -9,7 +9,7 @@ public class J : Abspeca
     {
         Rot = 0;
     }
-    public override Color Cor => Color.Orange;
+    public override Color Cor => Color.Gold;
 
     public override List<int[]> Linhas { get; set; }
     public override int Rot

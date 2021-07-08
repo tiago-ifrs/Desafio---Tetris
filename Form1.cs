@@ -66,6 +66,10 @@ namespace Desafio___Tetris
                 pause = false;
             }
             labelPause.Refresh();
+            while (pause)
+            {
+                Wait(1000);
+            }
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
@@ -73,36 +77,35 @@ namespace Desafio___Tetris
             {
                 case (Keys.Up):
                     labelKey.Text = Char.ToString((char)0xe1);
-                    tabuleiro.LimpaPeca(at, ytab, xtab); // precisa limpar o espaço da peça antes de rotacionar
+                    tabuleiro.LimpaPeca(at, ytab+1, xtab); // precisa limpar o espaço da peça antes de rotacionar
                     if (at.Rot < 4)
                     {
                         at.Rot++;
                     }
-                    else 
+                    else
                     {
                         at.Rot = 0;
                     }
                     //tabuleiro.PoePeca(at, ytab-1, xtab);
-                    tabuleiro.MoveY(at, ytab - 1, xtab);
+                    tabuleiro.MoveY(at, ytab, xtab);
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
-                    if (xtab < tabuleiro.nlin - at.QLinhas) 
+                    if (xtab < tabuleiro.nlin - at.QLinhas)
                     {
-                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
+                        tabuleiro.LimpaPeca(at, ytab + 1, xtab);//limpa o espaço da peça antes de alterar a variável
                         ytab++;
-                        //tabuleiro.PoePeca(at, ytab-1, xtab);
-                        tabuleiro.MoveY(at, ytab-1, xtab); //verificar valor de ytab antes de mandar o parâmetro
+                        tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
                 case (Keys.Left):
                     labelKey.Text = Char.ToString((char)0xdf);
                     if (xtab > 0)
                     {
-                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
+                        tabuleiro.LimpaPeca(at, ytab+1, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab--;
                         //tabuleiro.PoePeca(at, ytab - 1, xtab);
-                        tabuleiro.MoveY(at, ytab - 1, xtab); //verificar valor de ytab antes de mandar o parâmetro
+                        tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
 
                     }
                     return true;
@@ -110,10 +113,10 @@ namespace Desafio___Tetris
                     labelKey.Text = Char.ToString((char)0xe0);
                     if (xtab < tabuleiro.ncol - at.QColunas(at.QLinhas - 1))
                     {
-                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
+                        tabuleiro.LimpaPeca(at, ytab+1, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab++;
                         //tabuleiro.PoePeca(at, ytab - 1, xtab);
-                        tabuleiro.MoveY(at, ytab - 1, xtab); //verificar valor de ytab antes de mandar o parâmetro
+                        tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
             };
@@ -133,53 +136,30 @@ namespace Desafio___Tetris
 
             //condições iniciais:
             bool over = false;
-            bool pecaNova = true;
+            
 
             while (!over)
             {
-                if (pecaNova)
+                GeraProx();
+                xtab = tabuleiro.ncol / 2; // coordenada x inicial da queda de peças
+                bool colisaoY = false;
+                for (ytab = 0; ytab < tabuleiro.nlin && colisaoY==false; ytab++) // percorre as linhas do tabuleiro
                 {
-                    GeraProx();
-                    xtab = tabuleiro.ncol/2; // coordenada x inicial da queda de peças
-                    pecaNova = false;
-                }
-                bool colisao = false;
-
-                for (ytab = 0; ytab < tabuleiro.nlin; ytab++) // percorre as linhas do tabuleiro
-                {
-                    if (!colisao)
+                    colisaoY = tabuleiro.ColisaoY(at, ytab, xtab);
+                    if (!colisaoY)
                     {
-                        Wait(1000);
-                        while (pause)
+                        tabuleiro.LimpaPeca(at, ytab, xtab);
+                        tabuleiro.MoveY(at, ytab, xtab);
+                    }//if !colisaoY
+                    else
+                    {
+                        if (ytab == 0) // colisão na 1ª linha
                         {
-                            Wait(1000);
+                            over = true;
                         }
-                        if (ytab < at.QLinhas)
-                        {
-                            //if (!tabuleiro.PoePeca(at, ytab, xtab))
-                            if (!tabuleiro.MoveY(at, ytab, xtab))
-                            {
-                                over = true;
-                            }
-                        }
-                        else
-                        {
-                            if (!over)
-                            {
-                                if (ytab < tabuleiro.nlin) //variável ytab pode ser incrementada nas funções de teclado
-                                {
-                                    if (!tabuleiro.MoveY(at, ytab, xtab))
-                                    {
-                                        //colisão, parar o movimento
-                                        colisao = true;
-                                    }
-                                }
-                            }
-                        }
-                    }//if !colisao 
-                    pecaNova = true;
+                    }
+                    Wait(1000);
                 }//for ytab
-
             }//while !over
             MessageBox.Show("Game Over");
         } //construtor
@@ -190,7 +170,6 @@ namespace Desafio___Tetris
                 Application.DoEvents();
         }
     }
-
 }
 
 

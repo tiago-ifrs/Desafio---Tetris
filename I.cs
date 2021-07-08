@@ -12,7 +12,7 @@ public class I : Abspeca
         Rot = 0;
     }
 
-    public override Color Cor => Color.LightCyan;
+    public override Color Cor => Color.DarkBlue;
 
     public override int Rot
     {

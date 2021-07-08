@@ -21,49 +21,126 @@ public class Tabuleiro
         l = t.Width / ncol;
         menor = Menor(l, a);
         Matrix = RetanguloTabuleiro.Inicializa(t, nlin, ncol, menor, menor);
-    }    
+    }
+
     public bool MoveY(Peca p, int ytab, int xtab)
     {
         /*
          * FUNÇÃO DE MOVIMENTO NO EIXO DAS ORDENADAS (Y)
          */
-        
-        if (!ColisaoY(p, ytab, xtab))   // detecta colisão na linha onde a peça vai ser colocada
-        {
-            LimpaPeca(p, ytab, xtab);
-            int ul = p.QLinhas - 1;
-            int uc = p.QColunas(ul);
-            int ypec = ul;
+        bool col = false;
 
-            for (int ynovo = ytab; ynovo >= 0; ynovo--, ypec--)
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+        int ypec = ul;
+        int y = ytab;
+        int qtdY = Menor(y, ul); //tratamento para evitar IndexOutofRangeException
+
+        if (ytab < nlin) //evita erros de índice
+        {
+            for (; qtdY >= 0; y--, ypec--, qtdY--)
             {
-                if (ypec >= 0)
+                for (int xpec = 0; xpec < uc; xpec++)
                 {
-                    for (int xpec = 0; xpec < uc; xpec++)
+                    if (p.Ponto(ypec, xpec) == 1)
                     {
-                        if (p.Ponto(ypec, xpec) == 1)
+                        if (Matrix[y][xtab + xpec].Valor == 0)
                         {
-                            Matrix[ynovo][xtab + xpec].Valor = p.Ponto(ypec, xpec);
-                            Matrix[ynovo][xtab + xpec].BackColor = p.CorPonto(ypec, xpec);
+
+                            Matrix[y][xtab + xpec].BackColor = p.CorPonto(ypec, xpec);
                         }
-                        Matrix[ynovo][xtab + xpec].Refresh();
+                        if (Matrix[y][xtab + xpec].Valor == 1) //colisão
+                        {
+                            //return false;
+                        }
                     }
+                    Matrix[y][xtab + xpec].Valor |= p.Ponto(ypec, xpec);
+                    Matrix[y][xtab + xpec].Refresh();
                 }
             }
-            return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+
+        /*   
+            if (!ColisaoY(p, ytab, xtab))   // detecta colisão na linha onde a peça vai ser colocada
+            {
+                LimpaPeca(p, ytab, xtab);
+                int ul = p.QLinhas - 1;
+                int uc = p.QColunas(ul);
+                int ypec = ul;
+
+                for (int ynovo = ytab; ynovo >= 0; ynovo--, ypec--)
+                {
+                    if (ypec >= 0)
+                    {
+                        for (int xpec = 0; xpec < uc; xpec++)
+                        {
+                            if (p.Ponto(ypec, xpec) == 1)
+                            {
+                                Matrix[ynovo][xtab + xpec].Valor = p.Ponto(ypec, xpec);
+                                Matrix[ynovo][xtab + xpec].BackColor = p.CorPonto(ypec, xpec);
+                            }
+                            Matrix[ynovo][xtab + xpec].Refresh();
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        */
     }
+
     public bool ColisaoY(Peca p, int ytab, int xtab)
     {
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
 
-        for (int xpec = 0; xpec < uc; xpec++)
+        int y = 0;
+        int dif;
+        if (ytab - 1 > ul)
         {
+            if (ytab + ul < nlin)
+            {
+                for (int ypec = ul; ypec >= 0; ypec--) 
+                {
+                    for (int xpec = 0; xpec < uc; xpec++)
+                    {
+                        if ((Matrix[ytab][xtab + xpec].Valor & p.Ponto(ypec, xpec)) == 1)
+                        {
+                            if (ypec == 0) 
+                            {
+                                LimpaPeca(p, ytab, xtab);
+                                if (ytab + ypec < nlin)
+                                {
+                                    MoveY(p, ytab + Math.Abs(ypec), xtab);
+                                }
+                                return false;
+                            }
+                            else //colisão na linha inferior da peça
+                            {
+                                return true; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /*
+    public bool ColisaoY(Peca p, int ytab, int xtab)
+    {
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+        int xpec = 0;
+
+        for (; xpec < uc; xpec++)
+        {
+            //if ((Matrix[ytab][xtab + xpec].Valor & p.Ponto(ul, xpec)) == 1)
             if ((Matrix[ytab][xtab + xpec].Valor & p.Ponto(ul, xpec)) == 1)
             {
                 return true;
@@ -71,6 +148,43 @@ public class Tabuleiro
         }
         return false;
     }
+    */
+    /*
+    public bool ColisaoY(Peca p, int ytab, int xtab)
+    {
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+        int cq = 0;
+        int yc = ytab+1;
+        int qtdY = Menor(ytab, ul); //tratamento para evitar IndexOutofRangeException
+        
+        if (xtab >= 0)
+        {
+            if (xtab < ncol - 1)
+                for (int ypec = ul; qtdY > 0; qtdY--, ypec--, yc--) //for (int y = 0; qtdY >= 0; qtdY--, y--)
+                {
+                    
+                    for (int xpec = 0; xpec < uc; xpec++)
+                    {
+                        
+                        if ((Matrix[yc][xtab + xpec].Valor & p.Ponto(ypec, xpec)) == 1)
+                        {
+                            cq++;
+                            return true;
+                        }
+                    }
+                }
+        }
+        if (cq > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    */
     public void LimpaPeca(Peca p, int ytab, int xtab)
     {
         /*
@@ -79,8 +193,8 @@ public class Tabuleiro
          */
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
-        
-        //tabuleiro está desenhando uma posição abaixo de ytab
+
+        //tabuleiro está desenhando uma posição abaixo de ytab?
 
         int qtdY = Menor(ytab - 1, ul); //tratamento para evitar IndexOutofRangeException
         int xl = xtab;
