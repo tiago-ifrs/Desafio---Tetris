@@ -4,7 +4,8 @@ using System.Drawing;
 
 public class L:Abspeca
 {
-	public L()
+    private int _rot;
+    public L()
 	{
         Rot = 0;
     }
@@ -12,10 +13,10 @@ public class L:Abspeca
 
     public override int Rot
     {
-        get { return Rot; }
+        get { return _rot; }
         set
         {
-            Rot = value;
+            _rot = value;
             switch (value)
             {
                 case 0:
@@ -49,5 +50,4 @@ public class L:Abspeca
     } 
     
     public override List<int[]> Linhas { get; set; }
-        
 }

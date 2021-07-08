@@ -128,11 +128,11 @@ public class Tabuleiro
         int uc = p.QColunas(ul);
         //tabuleiro está desenhando uma posição abaixo de ytab?
 
-        int qtdY = Menor(ytab-1, ul); //tratamento para evitar IndexOutofRangeException
+        int qtdY = Menor(ytab - 1, ul); //tratamento para evitar IndexOutofRangeException
         int xl = xtab - 1;
         if (xtab < ncol)
         {
-            for (int y = 0; qtdY >= 0; qtdY--,y--)
+            for (int y = 0; qtdY >= 0; qtdY--, y--)
             {
                 Matrix[ytab - 1 + y][xl].Valor = 0;
                 Matrix[ytab - 1 + y][xl].BackColor = Color.AntiqueWhite;
@@ -151,15 +151,15 @@ public class Tabuleiro
         int uc = p.QColunas(ul);
         //tabuleiro está desenhando uma posição abaixo de ytab?
 
-        int qtdY = Menor(ytab-1, ul); //tratamento para evitar IndexOutofRangeException
+        int qtdY = Menor(ytab - 1, ul); //tratamento para evitar IndexOutofRangeException
         int xl = xtab + uc;
         if (xtab > 0)
         {
             for (int y = 0; qtdY >= 0; qtdY--, y--)
             {
-                Matrix[ytab-1+y][xl].Valor = 0;
-                Matrix[ytab-1+y][xl].BackColor = Color.AntiqueWhite;
-                Matrix[ytab-1+y][xl].Refresh();
+                Matrix[ytab - 1 + y][xl].Valor = 0;
+                Matrix[ytab - 1 + y][xl].BackColor = Color.AntiqueWhite;
+                Matrix[ytab - 1 + y][xl].Refresh();
             }
         }
     }
@@ -196,5 +196,32 @@ public class Tabuleiro
             }
         }
         return false;
+    }
+    public void LimpaPeca(Peca p, int ytab, int xtab)
+    {
+        /*
+         NÃO PRECISA DETECTAR COLISÃO NO EIXO X
+        FUNÇÃO DE LIMPEZA CHAMADA PELA SETA CIMA
+         */
+        int ul = p.QLinhas - 1;
+        int uc = p.QColunas(ul);
+        
+        //tabuleiro está desenhando uma posição abaixo de ytab
+
+        int qtdY = Menor(ytab - 1, ul); //tratamento para evitar IndexOutofRangeException
+        int xl = xtab;
+        if (xtab >= 0)
+        {
+            if (xtab < ncol - 1)
+                for (int ypec = 0; qtdY >= 0; qtdY--, ypec--) //for (int y = 0; qtdY >= 0; qtdY--, y--)
+                {
+                    for (int xpec = 0; xpec < uc; xpec++)
+                    {
+                        Matrix[ytab - 1 + ypec][xl + xpec].Valor = 0;
+                        Matrix[ytab - 1 + ypec][xl + xpec].BackColor = Color.White;
+                        Matrix[ytab - 1 + ypec][xl + xpec].Refresh();
+                    }
+                }
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Desafio___Tetris
@@ -74,6 +73,7 @@ namespace Desafio___Tetris
             {
                 case (Keys.Up):
                     labelKey.Text = Char.ToString((char)0xe1);
+                    tabuleiro.LimpaPeca(at, ytab, xtab); // precisa limpar o espaço da peça antes de rotacionar
                     if (at.Rot < 4)
                     {
                         at.Rot++;
@@ -82,14 +82,15 @@ namespace Desafio___Tetris
                     {
                         at.Rot = 0;
                     }
-                    tabuleiro.PoePeca(at, ytab, xtab);
-                    Thread.Sleep(500);
+                    tabuleiro.PoePeca(at, ytab-1, xtab);
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
                     if (xtab < tabuleiro.nlin - at.QLinhas) 
                     {
+                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         ytab++;
+                        tabuleiro.PoePeca(at, ytab-1, xtab);
                         /*
                         tabuleiro.LimpaAcima(at, ytab, ytab);
                         tabuleiro.MoveY(at, ytab, xtab);
@@ -100,22 +101,25 @@ namespace Desafio___Tetris
                     labelKey.Text = Char.ToString((char)0xdf);
                     if (xtab > 0)
                     {
+                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab--;
-                        Thread.Sleep(500);
-                        tabuleiro.DireitaLimpa(at, ytab, xtab);
+                        //tabuleiro.DireitaLimpa(at, ytab, xtab);
+                        //tabuleiro.XMove(at, ytab - 1, xtab);
                         
-                        tabuleiro.XMove(at, ytab - 1, xtab);
+                        tabuleiro.PoePeca(at, ytab - 1, xtab);
+                        
                     }
                     return true;
                 case (Keys.Right):
                     labelKey.Text = Char.ToString((char)0xe0);
                     if (xtab < tabuleiro.ncol - at.QColunas(at.QLinhas - 1))
                     {
+                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab++;
-                        Thread.Sleep(500);
-                        tabuleiro.EsquerdaLimpa(at, ytab, xtab);
+                        //tabuleiro.EsquerdaLimpa(at, ytab, xtab);
+                        //tabuleiro.XMove(at, ytab - 1, xtab);
                         
-                        tabuleiro.XMove(at, ytab-1, xtab);
+                        tabuleiro.PoePeca(at, ytab - 1, xtab);
                     }
                     return true;
             };
@@ -167,10 +171,13 @@ namespace Desafio___Tetris
                         {
                             if (!over)
                             {
-                                if (!tabuleiro.MoveY(at, ytab, xtab))
+                                if (ytab < tabuleiro.nlin) //variável ytab pode ser incrementada nas funções de teclado
                                 {
-                                    //colisão, parar o movimento
-                                    colisao = true;
+                                    if (!tabuleiro.MoveY(at, ytab, xtab))
+                                    {
+                                        //colisão, parar o movimento
+                                        colisao = true;
+                                    }
                                 }
                             }
                         }
