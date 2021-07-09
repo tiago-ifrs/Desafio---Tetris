@@ -201,13 +201,26 @@ public class Tabuleiro
         if (xtab >= 0)
         {
             if (xtab < ncol - 1)
-                for (int ypec = 0; qtdY >= 0; qtdY--, ypec--) //for (int y = 0; qtdY >= 0; qtdY--, y--)
+                for (int ypec = ul; qtdY >= 0; qtdY--, ypec--) //for (int y = 0; qtdY >= 0; qtdY--, y--)
                 {
                     for (int xpec = 0; xpec < uc; xpec++)
                     {
-                        Matrix[ytab - 1 + ypec][xl + xpec].Valor = 0;
-                        Matrix[ytab - 1 + ypec][xl + xpec].BackColor = Color.White;
-                        Matrix[ytab - 1 + ypec][xl + xpec].Refresh();
+                        if (ytab > ul)
+                        {
+                            if (p.Ponto(ypec, xpec) == 1)
+                            {
+                                Matrix[ytab - 1 + ypec][xl + xpec].Valor = 0;
+                                Matrix[ytab - 1 + ypec][xl + xpec].BackColor = Color.AntiqueWhite;
+                                Matrix[ytab - 1 + ypec][xl + xpec].Refresh();
+                            }
+                        }
+                        else 
+                        {
+                            Matrix[ytab - 1 + ypec][xl + xpec].Valor = 0;
+                            Matrix[ytab - 1 + ypec][xl + xpec].BackColor = Color.White;
+                            Matrix[ytab - 1 + ypec][xl + xpec].Refresh();
+                        }
+                        
                     }
                 }
         }

@@ -39,6 +39,8 @@ namespace Desafio___Tetris
             this.buttonNJ = new System.Windows.Forms.Button();
             this.buttonPause = new System.Windows.Forms.Button();
             this.labelKey = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelPlacar = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -135,11 +137,31 @@ namespace Desafio___Tetris
             this.labelKey.Size = new System.Drawing.Size(0, 20);
             this.labelKey.TabIndex = 10;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(695, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 25);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Score";
+            // 
+            // labelPlacar
+            // 
+            this.labelPlacar.AutoSize = true;
+            this.labelPlacar.Location = new System.Drawing.Point(696, 42);
+            this.labelPlacar.Name = "labelPlacar";
+            this.labelPlacar.Size = new System.Drawing.Size(59, 25);
+            this.labelPlacar.TabIndex = 12;
+            this.labelPlacar.Text = "label5";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.labelPlacar);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.labelKey);
             this.Controls.Add(this.labelPause);
             this.Controls.Add(this.buttonPause);
@@ -151,7 +173,7 @@ namespace Desafio___Tetris
             this.Controls.Add(this.panelTabuleiro);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Tetris";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -169,6 +191,8 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label labelPause;
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Label labelKey;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelPlacar;
     }
 }
 

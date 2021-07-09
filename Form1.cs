@@ -11,6 +11,7 @@ namespace Desafio___Tetris
         private Tabuleiro tabuleiro;
         private Panel janelaAtual;
         private Panel janelaProx;
+        private Placar Placar;
 
         private int ytab;   // coordenada y do tabuleiro
         private int xtab;   // coordenada x do tabuleiro
@@ -48,7 +49,7 @@ namespace Desafio___Tetris
 
         private void buttonNJ_Click(object sender, EventArgs e)
         {
-            Tetris(panelTabuleiro, panelAtual, panelProx);
+            Tetris(panelTabuleiro, panelAtual, panelProx, labelPlacar);
         }
 
         private void buttonPause_Click(object sender, EventArgs e)
@@ -125,12 +126,14 @@ namespace Desafio___Tetris
             return true;
         }
 
-        public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx)
+        public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx, Label placar)
         {
             this.tabuleiro = new Tabuleiro(janelaTabuleiro);
             this.janelaAtual = janelaAtual;
             this.janelaProx = janelaProx;
 
+            this.Placar = new Placar(placar, tabuleiro);
+            
             this.at = new Peca(tabuleiro, janelaAtual);
             this.prox = null;
 
@@ -153,6 +156,7 @@ namespace Desafio___Tetris
                     }//if !colisaoY
                     else
                     {
+                        Placar.Atualiza(at, ytab);
                         if (ytab == 0) // colisão na 1ª linha
                         {
                             over = true;
