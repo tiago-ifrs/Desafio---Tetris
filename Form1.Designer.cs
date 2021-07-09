@@ -172,6 +172,8 @@ namespace Desafio___Tetris
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panelTabuleiro);
             this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(1024, 768);
+            this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Form1";
             this.Text = "Tetris";
             this.Load += new System.EventHandler(this.Form1_Load);

@@ -78,7 +78,7 @@ namespace Desafio___Tetris
             {
                 case (Keys.Up):
                     labelKey.Text = Char.ToString((char)0xe1);
-                    tabuleiro.LimpaPeca(at, ytab+1, xtab); // precisa limpar o espaço da peça antes de rotacionar
+                    tabuleiro.LimpaPeca(at, ytab, xtab); // precisa limpar o espaço da peça antes de rotacionar
                     if (at.Rot < 4)
                     {
                         at.Rot++;
@@ -94,7 +94,7 @@ namespace Desafio___Tetris
                     labelKey.Text = Char.ToString((char)0xe2);
                     if (xtab < tabuleiro.nlin - at.QLinhas)
                     {
-                        tabuleiro.LimpaPeca(at, ytab + 1, xtab);//limpa o espaço da peça antes de alterar a variável
+                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         ytab++;
                         tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
@@ -103,9 +103,8 @@ namespace Desafio___Tetris
                     labelKey.Text = Char.ToString((char)0xdf);
                     if (xtab > 0)
                     {
-                        tabuleiro.LimpaPeca(at, ytab+1, xtab);//limpa o espaço da peça antes de alterar a variável
+                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab--;
-                        //tabuleiro.PoePeca(at, ytab - 1, xtab);
                         tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
 
                     }
@@ -114,7 +113,7 @@ namespace Desafio___Tetris
                     labelKey.Text = Char.ToString((char)0xe0);
                     if (xtab < tabuleiro.ncol - at.QColunas(at.QLinhas - 1))
                     {
-                        tabuleiro.LimpaPeca(at, ytab+1, xtab);//limpa o espaço da peça antes de alterar a variável
+                        tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab++;
                         //tabuleiro.PoePeca(at, ytab - 1, xtab);
                         tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
@@ -151,7 +150,7 @@ namespace Desafio___Tetris
                     colisaoY = tabuleiro.ColisaoY(at, ytab, xtab);
                     if (!colisaoY)
                     {
-                        tabuleiro.LimpaPeca(at, ytab, xtab);
+                        tabuleiro.LimpaPeca(at, ytab-1, xtab);
                         tabuleiro.MoveY(at, ytab, xtab);
                     }//if !colisaoY
                     else

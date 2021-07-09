@@ -35,10 +35,13 @@ public class Peca : Abspeca
             //this.Abspeca.Linhas = Abspeca.Linhas;
         }
     }
-    public int Ponto(int y, int x) 
+    public int Ponto(int y, int x)
     {
         return (int)Linhas[y].GetValue(x);
-        //return (int)this.Abspeca.Linhas[y].GetValue(x); 
+    }
+    public void PontoSet(int y, int x, int val)
+    {
+        Linhas[y][x] = val;
     }
     private Abspeca Abspeca { get; set; }
     private RetanguloTabuleiro[][] Matrix;
@@ -46,6 +49,7 @@ public class Peca : Abspeca
     public Panel ap { get; set; } //ap = atual ou proximo
     private readonly Tabuleiro tabuleiro;
     public char Tpeca { get; }
+    public Peca() { }
     public Peca(Tabuleiro tab, Panel ap)
     {
         char[] TiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
