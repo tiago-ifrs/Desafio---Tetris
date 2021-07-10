@@ -87,12 +87,11 @@ namespace Desafio___Tetris
                     {
                         at.Rot = 0;
                     }
-                    //tabuleiro.PoePeca(at, ytab-1, xtab);
                     tabuleiro.MoveY(at, ytab, xtab);
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
-                    if (xtab < tabuleiro.nlin - at.QLinhas)
+                    if (ytab < tabuleiro.nlin-at.QLinhas)
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         ytab++;
@@ -106,7 +105,6 @@ namespace Desafio___Tetris
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab--;
                         tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
-
                     }
                     return true;
                 case (Keys.Right):
@@ -115,7 +113,6 @@ namespace Desafio___Tetris
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab++;
-                        //tabuleiro.PoePeca(at, ytab - 1, xtab);
                         tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
@@ -151,10 +148,12 @@ namespace Desafio___Tetris
                     if (!colisaoY)
                     {
                         tabuleiro.LimpaPeca(at, ytab-1, xtab);
-                        tabuleiro.MoveY(at, ytab, xtab);
+                        tabuleiro.MoveY(at, ytab, xtab);                        
                     }//if !colisaoY
                     else
                     {
+                        tabuleiro.MoveY(at, ytab-1, xtab);
+                        
                         Placar.Atualiza(at, ytab);
                         if (ytab == 0) // colisão na 1ª linha
                         {
