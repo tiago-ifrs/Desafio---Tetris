@@ -8,7 +8,7 @@ public class Tabuleiro
 {
     public readonly int nlin = 16;
     public readonly int ncol = 10;
-    public RetanguloTabuleiro[][] Matrix { get; }
+    public RetanguloTabuleiro[][] Matrix { get; set; }
     private int Menor(int a, int b)
     {
         if (a < b)
@@ -23,6 +23,30 @@ public class Tabuleiro
         l = t.Width / ncol;
         menor = Menor(l, a);
         Matrix = RetanguloTabuleiro.Inicializa(t, nlin, ncol, menor, menor);
+    }
+
+    public void Atualiza(Peca peca, int ytab)
+    {
+        if (ytab > 0) // evita erro de indice ao mover valor da linha anterior
+        {
+            for (int i = 0; i < nlin - 2; i++) // de baixo pra cima. deixa a linha 0 liberada pra receber o array zerado
+                                               // precisa mover até a linha 1 e não somente até o tamanho da peça  
+            {
+                for (int j = 0; j < ncol; j++)
+                {
+                    Matrix[ytab - i][j].Valor = Matrix[ytab - i - 1][j].Valor;
+                    Matrix[ytab - i][j].BackColor = Matrix[ytab - i - 1][j].BackColor;
+                    Matrix[ytab - i][j].Refresh();
+                }
+            }
+
+            for (int j = 0; j < ncol; j++)
+            {
+                Matrix[0][j].Valor = 0;
+                Matrix[0][j].BackColor = Color.White;
+                Matrix[0][j].Refresh();
+            }
+        }
     }
 
     public bool MoveY(Peca p, int ytab, int xtab)

@@ -4,8 +4,7 @@ using System.Windows.Forms;
 
 public class RetanguloTabuleiro:Panel
 {
-    public int Valor { get; set; }
-    
+    public int Valor { get; set; }   
     public RetanguloTabuleiro() { }
     public static RetanguloTabuleiro[][] Inicializa(Panel pai, int qy, int qx, int alt, int larg)
     {

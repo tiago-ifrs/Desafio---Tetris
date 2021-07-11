@@ -151,9 +151,9 @@ namespace Desafio___Tetris
             this.labelPlacar.AutoSize = true;
             this.labelPlacar.Location = new System.Drawing.Point(696, 42);
             this.labelPlacar.Name = "labelPlacar";
-            this.labelPlacar.Size = new System.Drawing.Size(59, 25);
+            this.labelPlacar.Size = new System.Drawing.Size(22, 25);
             this.labelPlacar.TabIndex = 12;
-            this.labelPlacar.Text = "label5";
+            this.labelPlacar.Text = "0";
             // 
             // Form1
             // 

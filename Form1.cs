@@ -122,13 +122,13 @@ namespace Desafio___Tetris
             return true;
         }
 
-        public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx, Label placar)
+        public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx, Label lbplacar)
         {
             this.tabuleiro = new Tabuleiro(janelaTabuleiro);
             this.janelaAtual = janelaAtual;
             this.janelaProx = janelaProx;
 
-            this.Placar = new Placar(placar, tabuleiro);
+            this.Placar = new Placar(lbplacar, tabuleiro);
             
             this.at = new Peca(tabuleiro, janelaAtual);
             this.prox = null;
@@ -142,23 +142,24 @@ namespace Desafio___Tetris
                 GeraProx();
                 xtab = tabuleiro.ncol / 2; // coordenada x inicial da queda de peças
                 bool colisaoY = false;
-                for (ytab = 0; ytab < tabuleiro.nlin && colisaoY==false; ytab++) // percorre as linhas do tabuleiro
+                //for (ytab = 0; ytab < tabuleiro.nlin && colisaoY==false; ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
+                for (ytab = 0; ytab < tabuleiro.nlin; ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
                 {
+                    Placar.Atualiza(at, ytab);
                     colisaoY = tabuleiro.ColisaoY(at, ytab, xtab);
                     if (!colisaoY)
                     {
                         tabuleiro.LimpaPeca(at, ytab-1, xtab);
-                        tabuleiro.MoveY(at, ytab, xtab);                        
+                        tabuleiro.MoveY(at, ytab, xtab);
                     }//if !colisaoY
                     else
                     {
                         tabuleiro.MoveY(at, ytab-1, xtab);
-                        
-                        Placar.Atualiza(at, ytab);
                         if (ytab == 0) // colisão na 1ª linha
                         {
                             over = true;
                         }
+                        break;
                     }
                     Wait(1000);
                 }//for ytab

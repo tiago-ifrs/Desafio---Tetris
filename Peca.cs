@@ -5,8 +5,6 @@ using System.Windows.Forms;
 
 public class Peca : Abspeca
 {
-    //public int Larg { get; set; }
-    //public int Alt { get; set; }
     public override List<int[]> Linhas { get; set; }
     public override Color Cor
     {
@@ -16,8 +14,6 @@ public class Peca : Abspeca
     {
         if (Ponto(y, x) == 0)
         {
-            //return Color.LightGray;
-            //return Color.White;
             return Color.Transparent;
         }
         else
@@ -32,7 +28,6 @@ public class Peca : Abspeca
         {
             Abspeca.Rot = value;
             this.Linhas = Abspeca.Linhas;
-            //this.Abspeca.Linhas = Abspeca.Linhas;
         }
     }
     public int Ponto(int y, int x)
@@ -44,8 +39,7 @@ public class Peca : Abspeca
         Linhas[y][x] = val;
     }
     private Abspeca Abspeca { get; set; }
-    private RetanguloTabuleiro[][] Matrix;
-    //this.prox.Tela = janelaAtual;
+    private RetanguloTabuleiro[][] Matrix { get; set; }
     public Panel ap { get; set; } //ap = atual ou proximo
     private readonly Tabuleiro tabuleiro;
     public char Tpeca { get; }
@@ -88,20 +82,14 @@ public class Peca : Abspeca
         this.Abspeca.Rot = 0;
         this.Linhas = Abspeca.Linhas;
         //cria os quadradinhos redimensionados conforme o tamanho da peça
-        int ql, qc, h, w;
-        ql = QLinhas;
+        int qc, h, w;
         qc = QColunas(QLinhas - 1);
         //altura e largura do 1º quadradinho do tabuleiro:
         h = tab.Matrix[0][0].Height;
         w = tab.Matrix[0][0].Width;
         Matrix = RetanguloTabuleiro.Inicializa(ap, QLinhas, qc, h, w);
         AtualizaPeca();
-    }
-    /*
-    public int QLinhas()
-    {
-        return this.Abspeca.Linhas.Count;
-    }*/
+    }   
     public int QLinhas { get { return this.Abspeca.Linhas.Count; } }
     public int QColunas(int y) { return this.Abspeca.Linhas[y].Length; }
     public void AtualizaPeca()
