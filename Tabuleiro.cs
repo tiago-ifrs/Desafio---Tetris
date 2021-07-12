@@ -16,7 +16,7 @@ public class Tabuleiro
         else
             return b;
     }
-    public Tabuleiro(Panel t)
+    private Tabuleiro(Panel t)
     {
         int l, a, menor;
         a = t.Height / nlin;
@@ -24,12 +24,21 @@ public class Tabuleiro
         menor = Menor(l, a);
         Matrix = RetanguloTabuleiro.Inicializa(t, nlin, ncol, menor, menor);
     }
+    private static Tabuleiro _instance;
+    public static Tabuleiro GetInstance(Panel t)
+    {
+        if (_instance == null)
+        {
+            _instance = new Tabuleiro(t);
+        }
+        return _instance;
+    }
 
-    public void Atualiza(Peca peca, int ytab)
+    public void Deleta(int ytab)
     {
         if (ytab > 0) // evita erro de indice ao mover valor da linha anterior
         {
-            for (int i = 0; i < nlin - 2; i++) // de baixo pra cima. deixa a linha 0 liberada pra receber o array zerado
+            for (int i = 0; ytab - i > 0; i++) // de baixo pra cima
                                                // precisa mover até a linha 1 e não somente até o tamanho da peça  
             {
                 for (int j = 0; j < ncol; j++)
@@ -49,11 +58,8 @@ public class Tabuleiro
         }
     }
 
-    public bool MoveY(Peca p, int ytab, int xtab)
+    public bool DesenhaY(Peca p, int ytab, int xtab)
     {
-        /*
-         * FUNÇÃO DE MOVIMENTO
-         */
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
         int ypec = ul;
@@ -86,50 +92,7 @@ public class Tabuleiro
         return false;
     }
 
-    public bool ColisaoY(Peca p, int ytab, int xtab)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-        List<int> vetl = new List<int>();
 
-        for (int i = 0; i < Matrix[ytab].Length; i++)
-        {
-            vetl.Add(Matrix[ytab][i].Valor);
-        }
-
-        vetl = vetl.GetRange(xtab, uc);
-        if (vetl.Contains(1)&&ytab>0) // existe uma posição ocupada onde a peça vai cair
-        {
-            LimpaPeca(p, ytab-1, xtab);
-            for (int ypec = ul; ypec >= 0 && ytab >= 0; ypec--, ytab--)
-            {
-                for (int xpec = 0; xpec < uc; xpec++)
-                {
-                    if ((Matrix[ytab][xtab + xpec].Valor & p.Ponto(ypec, xpec)) == 0)
-                    {
-                        if (p.Ponto(ypec, xpec) == 1)
-                        {
-                            //Matrix[ytab][xtab + xpec].Valor = 0;
-                            //Matrix[ytab][xtab + xpec].BackColor = Color.Transparent;
-                            //Matrix[ytab][xtab + xpec].Refresh();
-                        }
-                    }
-                    else
-                    {
-                        //LimpaPeca(p, ytab, xtab);
-                        //MoveY(p, ytab, xtab);
-                        /*
-                        Matrix[ytab][xtab + xpec].BackColor = Color.Black;
-                        Matrix[ytab][xtab + xpec].Refresh();
-                        */
-                        return true;
-                    }
-                }
-            }
-
-        }
-        return false;
-    }
 
     /*
     public bool ColisaoY(Peca p, int ytab, int xtab)
@@ -246,16 +209,11 @@ public class Tabuleiro
         /*
          NÃO PRECISA DETECTAR COLISÃO
         FUNÇÃO DE LIMPEZA
+        CHAMADA PELA DETECÇÃO DE COLISÃO 
          */
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
 
-        //ytab = Menor(ul, ytab);
-        //if (xtab >= 0 && xtab < ncol && ytab >= 0 && ytab < nlin) //restrições
-        //{
-
-
-        //for (int ypec = ul; ypec >= 0 && ytab >= 0; ypec--, ytab--)
         for (int ypec = ul; ypec >= 0 && ytab >= 0; ypec--, ytab--)
         {
             for (int xpec = 0; xpec < uc; xpec++)

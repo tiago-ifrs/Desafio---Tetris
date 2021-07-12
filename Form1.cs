@@ -74,6 +74,7 @@ namespace Desafio___Tetris
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
+            Colisao baixo;
             switch (keyData)
             {
                 case (Keys.Up):
@@ -87,16 +88,28 @@ namespace Desafio___Tetris
                     {
                         at.Rot = 0;
                     }
-                    tabuleiro.MoveY(at, ytab, xtab);
+                    tabuleiro.DesenhaY(at, ytab, xtab);
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
-                    if (ytab < tabuleiro.nlin-at.QLinhas)
+                    if (ytab < tabuleiro.nlin)
+                    {
+                        baixo = new Colisao(tabuleiro, at, ytab, xtab);
+
+                        if (baixo.Ycoli == -1)//não houve colisão
+                        {
+                            ytab++;
+
+                        }//if !colisaoY
+                    }
+                    /*
+                    if (ytab < tabuleiro.nlin - at.QLinhas)
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         ytab++;
-                        tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
+                        tabuleiro.DesenhaY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
+                    */
                     return true;
                 case (Keys.Left):
                     labelKey.Text = Char.ToString((char)0xdf);
@@ -104,7 +117,7 @@ namespace Desafio___Tetris
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab--;
-                        tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
+                        tabuleiro.DesenhaY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
                 case (Keys.Right):
@@ -113,7 +126,7 @@ namespace Desafio___Tetris
                     {
                         tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
                         xtab++;
-                        tabuleiro.MoveY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
+                        tabuleiro.DesenhaY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
                     }
                     return true;
             };
@@ -124,43 +137,46 @@ namespace Desafio___Tetris
 
         public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx, Label lbplacar)
         {
-            this.tabuleiro = new Tabuleiro(janelaTabuleiro);
+            //this.tabuleiro = new Tabuleiro(janelaTabuleiro);
+            this.tabuleiro = Tabuleiro.GetInstance(janelaTabuleiro);
             this.janelaAtual = janelaAtual;
             this.janelaProx = janelaProx;
 
             this.Placar = new Placar(lbplacar, tabuleiro);
-            
+
             this.at = new Peca(tabuleiro, janelaAtual);
             this.prox = null;
 
             //condições iniciais:
             bool over = false;
-            
-
+            Colisao colisaoY;
             while (!over)
             {
                 GeraProx();
-                xtab = tabuleiro.ncol / 2; // coordenada x inicial da queda de peças
-                bool colisaoY = false;
+                xtab = (tabuleiro.ncol - at.QColunas(at.QLinhas - 1)) / 2; // coordenada x inicial da queda de peças
+                colisaoY = null;
                 //for (ytab = 0; ytab < tabuleiro.nlin && colisaoY==false; ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
                 for (ytab = 0; ytab < tabuleiro.nlin; ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
                 {
-                    Placar.Atualiza(at, ytab);
-                    colisaoY = tabuleiro.ColisaoY(at, ytab, xtab);
-                    if (!colisaoY)
+                    colisaoY = new Colisao(tabuleiro, at, ytab, xtab);
+
+                    if (colisaoY.Ycoli == -1)//não houve colisão
                     {
+                        //detecção de colisão está limpando a peça, limpar de novo
                         tabuleiro.LimpaPeca(at, ytab-1, xtab);
-                        tabuleiro.MoveY(at, ytab, xtab);
+                        tabuleiro.DesenhaY(at, ytab, xtab);
+
                     }//if !colisaoY
                     else
                     {
-                        tabuleiro.MoveY(at, ytab-1, xtab);
-                        if (ytab == 0) // colisão na 1ª linha
+                        tabuleiro.DesenhaY(at, ytab - 1, xtab); //desenha na linha anterior se houver colisão
+                        if (ytab == 0) // colisão na 1ª linha, não é detectada pela classe colisão ainda
                         {
                             over = true;
                         }
                         break;
                     }
+                    Placar.Atualiza();
                     Wait(1000);
                 }//for ytab
             }//while !over
