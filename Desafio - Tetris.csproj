@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Colisao.cs" />
     <Compile Remove="Eventos.cs" />
     <Compile Remove="Linha.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 public class Jogo
@@ -11,8 +12,7 @@ public class Jogo
     private Peca Prox { get; set; }
     private Placar Placar { get; set; }
     private Tabuleiro Tabuleiro { get; set; }
-
-
+    private int Yoffset { get; set; }
 
     public Jogo(Tabuleiro t, Panel jA, Panel jP, Label lP)
     {
@@ -38,7 +38,7 @@ public class Jogo
     }
     public void RotacionaPeca()
     {
-        Tabuleiro.LimpaPeca(At, Ytab, Xtab); // precisa limpar o espaço da peça antes de rotacionar
+        Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
         if (At.Rot < 4)
         {
             At.Rot++;
@@ -47,94 +47,130 @@ public class Jogo
         {
             At.Rot = 0;
         }
-        Tabuleiro.DesenhaY(At, Ytab, Xtab);
+        Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
     }
     public void MoveAbaixo()
     {
-        Colisao baixo;
-        if (Ytab < Tabuleiro.nlin-1)
+
+
+        int ul = At.QLinhas - 1;
+        int uc = At.QColunas(ul);
+
+        List<int> vetl = new List<int>();
+
+        if ((Ytab + Yoffset) < Tabuleiro.nlin - 1)
         {
-            baixo = new Colisao(Tabuleiro, At, Ytab+1, Xtab); //detectar colisão uma linha abaixo
+            for (int i = 0; i < Tabuleiro.Matrix[Ytab + Yoffset + 1].Length; i++)
+            {
+                vetl.Add(Tabuleiro.Matrix[Ytab + Yoffset + 1][i].Valor);
+            }
+            vetl = vetl.GetRange(Xtab, uc);
+            if (!vetl.Contains(1))
+            {
+                Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab);
+
+                Yoffset++;
+
+                Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
+                Wait(100);
+            }
+            else //colisao
+            {
+            }
+
+        }
+
+        /*
+        Colisao baixo;
+        if (Ytab < Tabuleiro.nlin-1 && Ytab > At.QLinhas - 1)
+        {
+            baixo = new Colisao(Tabuleiro, At, Ytab, Ytab+1, Xtab, Xtab,'Y'); //detectar colisão uma linha abaixo
 
             if (baixo.Ycoli == -1)//não houve colisão
             {
                 Tabuleiro.LimpaPeca(At, Ytab, Xtab);
                 Ytab++;
-                
                 Tabuleiro.DesenhaY(At, Ytab, Xtab);
-            }//if !colisaoY
-        }
-        /*
-        if (colisaoY.Ycoli == -1)//não houve colisão
-        {
-            //detecção de colisão está limpando a peça, limpar de novo
-            Tabuleiro.LimpaPeca(At, Ytab - 1, Xtab);
-            Tabuleiro.DesenhaY(At, Ytab, Xtab);
-
-        }//if !colisaoY
-        else
-        {
-            Tabuleiro.DesenhaY(At, Ytab - 1, Xtab); //desenha na linha anterior se houver colisão
-            if (colisaoY.Ycoli == 0) // colisão na 1ª linha, não é detectada pela classe colisão ainda
-            {
-                return true;
             }
-            break;
-        }
-        */
-        /*
-        if (ytab < tabuleiro.nlin - at.QLinhas)
-        {
-            tabuleiro.LimpaPeca(at, ytab, xtab);//limpa o espaço da peça antes de alterar a variável
-            ytab++;
-            tabuleiro.DesenhaY(at, ytab, xtab); //verificar valor de ytab antes de mandar o parâmetro
         }
         */
     }
     public void MoveEsquerda()
     {
+        ColisaoX Esquerda;
         if (Xtab > 0)
         {
-            Tabuleiro.LimpaPeca(At, Ytab, Xtab);//limpa o espaço da peça antes de alterar a variável
-            Xtab--;
-            Tabuleiro.DesenhaY(At, Ytab, Xtab); //verificar valor de ytab antes de mandar o parâmetro
+            /* Colisão X não vai limpar a peça 
+             *  precisa limpar para fazer o teste 
+             */
+            Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab);
+            Esquerda = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab - 1); //detectar colisão uma linha abaixo
+
+            if (Esquerda.Xcoli == -1)//não houve colisão
+            {
+                Xtab--;
+            }
+            Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
         }
     }
     public void MoveDireita()
     {
+        ColisaoX Direita;
         if (Xtab < Tabuleiro.ncol - At.QColunas(At.QLinhas - 1))
         {
-            Tabuleiro.LimpaPeca(At, Ytab, Xtab);//limpa o espaço da peça antes de alterar a variável
-            Xtab++;
-            Tabuleiro.DesenhaY(At, Ytab, Xtab); //verificar valor de ytab antes de mandar o parâmetro
+            /* Colisão X não vai limpar a peça 
+             *  precisa limpar para fazer o teste 
+             */
+            Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab);
+            Direita = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab + 1); //detectar colisão uma linha abaixo
+
+            if (Direita.Xcoli == -1)//não houve colisão
+            {
+                Xtab++;
+            }
+            Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
         }
     }
     public bool Percorre()
     {
         //condições iniciais:
+        Yoffset = 0;
         this.At = new Peca(Tabuleiro, JanelaAtual);
-        this.Prox = null;
-        Colisao colisaoY;
+        //this.Prox = null;
+        ColisaoY colisaoY;
 
         GeraProx();
         Xtab = (Tabuleiro.ncol - At.QColunas(At.QLinhas - 1)) / 2; // coordenada x inicial da queda de peças
-        colisaoY = null;
-        //for (ytab = 0; ytab < tabuleiro.nlin && colisaoY==false; ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
-        for (Ytab = 0; Ytab < Tabuleiro.nlin; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
+
+        for (Ytab = 0; (Ytab + Yoffset) < Tabuleiro.nlin; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
         {
-            colisaoY = new Colisao(Tabuleiro, At, Ytab, Xtab);
+
+            /*
+             * NO LOOP PRINCIPAL, O PONTO DE COLISÃO É O PRÓPRIO PONTO A SER DESENHADO
+             * NO CASO DE SETA ABAIXO, O YTAB FOI INCREMENTADO FORA DO LOOP
+             */
+            colisaoY = new ColisaoY(Tabuleiro, At, Ytab + Yoffset, Xtab);
 
             if (colisaoY.Ycoli == -1)//não houve colisão
             {
-                //detecção de colisão está limpando a peça, limpar de novo
-                Tabuleiro.LimpaPeca(At, Ytab - 1, Xtab);
-                Tabuleiro.DesenhaY(At, Ytab, Xtab);
+                /*
+                 * detecção de colisão está limpando a peça somente no caso de colisão
+                 */
+                Tabuleiro.LimpaPeca(At, Ytab + Yoffset - 1, Xtab);
+                Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
 
             }//if !colisaoY
             else
             {
-                Tabuleiro.DesenhaY(At, Ytab - 1, Xtab); //desenha na linha anterior se houver colisão
-                if (colisaoY.Ycoli == 0) // colisão na 1ª linha, não é detectada pela classe colisão ainda
+                /*
+                 * DETECTOR DE COLISÃO VAI DESENHAR A PEÇA NO PONTO ANTERIOR
+                 */
+                //Tabuleiro.DesenhaY(At, Ytab - 1, Xtab); //desenha na linha anterior se houver colisão
+                /*
+                 * colisão na 1ª linha não é detectada pela classe colisão ainda
+                 * manda 2ª linha pro game over
+                 */
+                if (colisaoY.Ycoli == 1)
                 {
                     return true;
                 }

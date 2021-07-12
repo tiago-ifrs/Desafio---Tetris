@@ -9,6 +9,7 @@ public class Tabuleiro
     public readonly int nlin = 16;
     public readonly int ncol = 10;
     public RetanguloTabuleiro[][] Matrix { get; set; }
+    private Panel Panel { get; set; }
     private int Menor(int a, int b)
     {
         if (a < b)
@@ -18,11 +19,8 @@ public class Tabuleiro
     }
     private Tabuleiro(Panel t)
     {
-        int l, a, menor;
-        a = t.Height / nlin;
-        l = t.Width / ncol;
-        menor = Menor(l, a);
-        Matrix = RetanguloTabuleiro.Inicializa(t, nlin, ncol, menor, menor);
+        this.Panel = t;
+        
     }
     private static Tabuleiro _instance;
     public static Tabuleiro GetInstance(Panel t)
@@ -33,7 +31,15 @@ public class Tabuleiro
         }
         return _instance;
     }
+    public void Inicia() 
+    {
+        int l, a, menor;
 
+        a = Panel.Height / nlin;
+        l = Panel.Width / ncol;
+        menor = Menor(l, a);
+        Matrix = RetanguloTabuleiro.Inicializa(Panel, nlin, ncol, menor, menor);
+    }
     public void Deleta(int ytab)
     {
         if (ytab > 0) // evita erro de indice ao mover valor da linha anterior

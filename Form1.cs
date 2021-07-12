@@ -87,6 +87,7 @@ namespace Desafio___Tetris
         public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx, Label lbplacar)
         {           
             Tabuleiro tabuleiro = Tabuleiro.GetInstance(janelaTabuleiro);
+            tabuleiro.Inicia();
             
             this.Jogo = new Jogo(tabuleiro, janelaAtual, janelaProx, lbplacar);
 
