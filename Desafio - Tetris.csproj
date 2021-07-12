@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Compile Remove="Eventos.cs" />
-    <Compile Remove="Jogo.cs" />
     <Compile Remove="Linha.cs" />
   </ItemGroup>
 
