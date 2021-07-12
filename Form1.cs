@@ -92,8 +92,10 @@ namespace Desafio___Tetris
             this.Jogo = new Jogo(tabuleiro, janelaAtual, janelaProx, lbplacar);
 
             bool over = false;
+            Jogo.At = new Peca(tabuleiro, janelaAtual);
+            Jogo.Prox = null;
             while (!over)
-            {
+            {    
                 over = Jogo.Percorre();   
             }
             MessageBox.Show("Game Over");

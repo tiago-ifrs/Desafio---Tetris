@@ -39,9 +39,9 @@ public class ColisaoX : AbsColisao
         if (vetl.Contains(1)) // existe uma posição ocupada onde a peça vai cair
         {
             /* PEÇA DEVE ESTAR LIMPA ANTES */
-            for (int ypec = 0; ypec <= ul && Ydest-ypec >=0; ypec++)
+            for (int ypec = 0; ypec <= ul && (Ydest-ypec) >=0; ypec++)
             {
-                for (int xpec = 0; xpec < uc; xpec++)
+                for (int xpec = 0; xpec < uc && (Xdest + xpec) < Tabuleiro.ncol; xpec++)
                 {
                     if ((Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Valor & Peca.Ponto(ul - ypec, xpec)) == 0)
                     {

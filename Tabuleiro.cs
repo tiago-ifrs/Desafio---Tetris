@@ -76,7 +76,7 @@ public class Tabuleiro
         {
             for (; qtdY >= 0; y--, ypec--, qtdY--)
             {
-                for (int xpec = 0; xpec < uc; xpec++)
+                for (int xpec = 0; xpec < uc && (xtab + xpec) < ncol; xpec++)
                 {
                     if (p.Ponto(ypec, xpec) == 1)
                     {
@@ -98,118 +98,6 @@ public class Tabuleiro
         return false;
     }
 
-
-
-    /*
-    public bool ColisaoY(Peca p, int ytab, int xtab)
-    {
-        if (ytab < nlin - 1 && ytab > 0)
-        {
-            int ul = p.QLinhas - 1;
-            int uc = p.QColunas(ul);
-            int yp = 0;
-            int xp = 0;
-            List<int> vetl = new List<int>();
-
-            for (int i = 0; i < Matrix[ytab].Length; i++)
-            {
-                vetl.Add(Matrix[ytab+1][i].Valor);
-            }
-
-            vetl = vetl.GetRange(xtab, uc);
-            if (vetl.Contains(1)) // existe uma posição ocupada onde a peça vai cair
-            {
-                List<int> posicoes = new List<int>();
-                int[,] pvirt = new int[3, uc];
-
-                for (int xa = 0; xa < uc; xa++)
-                {
-                    pvirt[0, xa] = Matrix[ytab + 1][xtab + xa].Valor;
-                    pvirt[1, xa] = Matrix[ytab][xtab + xa].Valor;
-                }
-               
-                for (int xa = 0; xa < uc; xa++)
-                {
-                    pvirt[2, xa] = p.Ponto(ul, xa);
-                }
-
-                for (xp = 0; xp < uc; xp++)
-                {
-                    //if ((pvirt[yp][xp] & pvirt[yp + 1][xp]) == 1)
-                    if ((pvirt[0, xp] & pvirt[1, xp]) == 1)
-                    {
-                        posicoes.Add(xp);
-                    }
-                }
-                //}
-                if (posicoes.Count != uc)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-            return false;
-    }
-    */
-
-    /*
-    public bool ColisaoY(Peca p, int ytab, int xtab)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-        int xpec = 0;
-
-        for (; xpec < uc; xpec++)
-        {
-            //if ((Matrix[ytab][xtab + xpec].Valor & p.Ponto(ul, xpec)) == 1)
-            if ((Matrix[ytab][xtab + xpec].Valor & p.Ponto(ul, xpec)) == 1)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    */
-    /*
-    public bool ColisaoY(Peca p, int ytab, int xtab)
-    {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
-        int cq = 0;
-        int yc = ytab+1;
-        int qtdY = Menor(ytab, ul); //tratamento para evitar IndexOutofRangeException
-
-        if (xtab >= 0)
-        {
-            if (xtab < ncol - 1)
-                for (int ypec = ul; qtdY > 0; qtdY--, ypec--, yc--) //for (int y = 0; qtdY >= 0; qtdY--, y--)
-                {
-
-                    for (int xpec = 0; xpec < uc; xpec++)
-                    {
-
-                        if ((Matrix[yc][xtab + xpec].Valor & p.Ponto(ypec, xpec)) == 1)
-                        {
-                            cq++;
-                            return true;
-                        }
-                    }
-                }
-        }
-        if (cq > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    */
     public void LimpaPeca(Peca p, int ytab, int xtab)
     {
         /*

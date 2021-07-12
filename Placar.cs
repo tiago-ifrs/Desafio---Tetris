@@ -7,15 +7,18 @@ public class Placar
     private Tabuleiro Tabuleiro { get; }
     private Label Label { get; set; }
     private int Pontos { get; set; }
+    public int Tempo { get; set; }
     public Placar(Label label, Tabuleiro tabuleiro)
     {
         this.Tabuleiro = tabuleiro;
         this.Label = label;
         this.Pontos = 0;
+        this.Tempo = 1000;
     }
     public void Atualiza()
     {
         List<int> vetcol;
+        List<int> indices = new List<int>();
         List<List<int>> vetlin = new List<List<int>>();
 
         for (int j = 0; j < Tabuleiro.nlin; j++)
@@ -26,17 +29,23 @@ public class Placar
                 vetcol.Add(Tabuleiro.Matrix[j][i].Valor);
             }
             vetlin.Add(vetcol);
-        }
-
-        for (int j = 0; j < Tabuleiro.nlin; j++)
-        {
             if (!vetlin[j].Contains(0))
             {
-                Tabuleiro.Deleta(j);
-                Pontos += 10;
-                Label.Text = Pontos.ToString();
-                Label.Refresh();
+                indices.Add(j);
             }
+        }
+
+        for (int j = 0; j < indices.Count; j++)
+        {
+            Tabuleiro.Deleta(indices[j]);
+            Pontos += 10;
+            Label.Text = Pontos.ToString();
+            Label.Refresh();
+        }
+
+        if (indices.Count > 0)
+        {
+            Tempo = 1000-Pontos;
         }
     }
 }

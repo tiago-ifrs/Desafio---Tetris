@@ -8,19 +8,18 @@ public class Jogo
     private int Xtab { get; set; }   // coordenada x do tabuleiro
     private Panel JanelaAtual { get; set; }
     private Panel JanelaProx { get; set; }
-    private Peca At { get; set; }
-    private Peca Prox { get; set; }
+    public Peca At { get; set; }
+    public Peca Prox { get; set; }
     private Placar Placar { get; set; }
     private Tabuleiro Tabuleiro { get; set; }
     private int Yoffset { get; set; }
-
     public Jogo(Tabuleiro t, Panel jA, Panel jP, Label lP)
     {
         this.Tabuleiro = t;
         this.JanelaAtual = jA;
         this.JanelaProx = jP;
         this.Placar = new Placar(lP, Tabuleiro);
-
+        
     }
     private void GeraProx()
     {
@@ -104,7 +103,7 @@ public class Jogo
              *  precisa limpar para fazer o teste 
              */
             Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab);
-            Esquerda = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab - 1); //detectar colisão uma linha abaixo
+            Esquerda = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab - 1); //detectar colisão uma linha abaixo?
 
             if (Esquerda.Xcoli == -1)//não houve colisão
             {
@@ -115,14 +114,17 @@ public class Jogo
     }
     public void MoveDireita()
     {
+        int ul = At.QLinhas - 1;
+        int uc = At.QColunas(ul);
+
         ColisaoX Direita;
-        if (Xtab < Tabuleiro.ncol - At.QColunas(At.QLinhas - 1))
+        if (Xtab < Tabuleiro.ncol - uc)
         {
             /* Colisão X não vai limpar a peça 
              *  precisa limpar para fazer o teste 
              */
             Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab);
-            Direita = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab + 1); //detectar colisão uma linha abaixo
+            Direita = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab + uc-1); //detectar colisão uma linha abaixo?
 
             if (Direita.Xcoli == -1)//não houve colisão
             {
@@ -135,12 +137,13 @@ public class Jogo
     {
         //condições iniciais:
         Yoffset = 0;
-        this.At = new Peca(Tabuleiro, JanelaAtual);
-        //this.Prox = null;
+        
+        
         ColisaoY colisaoY;
 
         GeraProx();
         Xtab = (Tabuleiro.ncol - At.QColunas(At.QLinhas - 1)) / 2; // coordenada x inicial da queda de peças
+        Placar.Atualiza();
 
         for (Ytab = 0; (Ytab + Yoffset) < Tabuleiro.nlin; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
         {
@@ -176,8 +179,8 @@ public class Jogo
                 }
                 break;
             }
-            Placar.Atualiza();
-            Wait(1000);
+        
+            Wait(Placar.Tempo);
         }
         return false;
     }
