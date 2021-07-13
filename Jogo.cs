@@ -23,7 +23,10 @@ public class Jogo
     }
     public void RotacionaPeca()
     {
+        int ulAnt = At.QLinhas - 1;
+        int ucAnt = At.QColunas(ulAnt);
         int rotAnt = At.Rot;
+        ColisaoX Esquerda;
         Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
         if (At.Rot < 4)
         {
@@ -37,13 +40,24 @@ public class Jogo
          * DETECTAR COLISÃO HORIZONTAL ANTES DE DESENHAR
          * AS COLISÕES PODEM ACONTECEM NO LADO DIREITO, POIS XTAB É O PONTO DE ORIGEM DO DESENHO DA PEÇA
          */
-        int ul = At.QLinhas - 1;
-        int uc = At.QColunas(ul);
-        if (Xtab + uc > Tabuleiro.ncol)
+        int ulPos = At.QLinhas - 1;
+        int ucPos = At.QColunas(ulPos);
+        if (Xtab + ucPos >= Tabuleiro.ncol)
         {
-            At.Rot = rotAnt;
+            Esquerda = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos-ucAnt); //detectar colisão uma linha abaixo?
+            if (Esquerda.Xcoli == -1)//não houve colisão
+            {
+                //mantém a rotação
+                //move a peça para a esquerda
+                Xtab -= ucPos - ucAnt;
+            }
+            else 
+            {
+                At.Rot = rotAnt; //recupera a rotação anterior, impedindo o movimento
+            }
+            
         }
-
+        /* DESENHA QUALQUER UMA DAS DUAS */
         Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
     }
     public void MoveAbaixo()

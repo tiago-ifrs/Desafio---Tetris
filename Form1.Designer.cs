@@ -41,6 +41,7 @@ namespace Desafio___Tetris
             this.labelKey = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.labelPlacar = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // label1
@@ -156,11 +157,19 @@ namespace Desafio___Tetris
             this.labelPlacar.TabIndex = 12;
             this.labelPlacar.Text = "0";
             // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(758, 531);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(42, 47);
+            this.panel1.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelPlacar);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelKey);
@@ -196,6 +205,7 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label labelKey;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelPlacar;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
