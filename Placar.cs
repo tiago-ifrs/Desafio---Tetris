@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 
 public class Placar
@@ -38,6 +39,7 @@ public class Placar
         for (int j = 0; j < indices.Count; j++)
         {
             Tabuleiro.Deleta(indices[j]);
+            Thread.Sleep(Tempo/2);
             Pontos += 10;
             Label.Text = Pontos.ToString();
             Label.Refresh();

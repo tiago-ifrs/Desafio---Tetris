@@ -12,40 +12,37 @@ namespace Desafio___Tetris
         {
             InitializeComponent();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
-
         private void panelAtual_Paint(object sender, PaintEventArgs e)
         {
 
         }
-
         private void buttonNJ_Click(object sender, EventArgs e)
         {
             this.Pause = false;
             Tetris();
         }
-
         private void buttonPause_Click(object sender, EventArgs e)
         {
             if (Pause == false)
             {
-                labelPause.Text = "PAUSE";
+                //labelPause.Text = "PAUSE";
+                labelPause.Text = Char.ToString((char)0x3b);
                 //labelPause.Visible = true;
                 Pause = true;
             }
             else
             {
                 //labelPause.Visible = false;
-                labelPause.Text = "Tetris";
+                //labelPause.Text = "Tetris";
+                labelPause.Text = Char.ToString((char)0x34);
                 Pause = false;
             }
             labelPause.Refresh();
@@ -83,7 +80,6 @@ namespace Desafio___Tetris
             //return base.ProcessDialogKey(keyData);
             return true;
         }
-
         public void Tetris()
         {           
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);

@@ -63,14 +63,15 @@ namespace Desafio___Tetris
             // 
             // labelPause
             // 
-            this.labelPause.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelPause.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.labelPause.AutoSize = true;
             this.labelPause.BackColor = System.Drawing.Color.White;
+            this.labelPause.Font = new System.Drawing.Font("Webdings", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPause.Location = new System.Drawing.Point(439, 668);
             this.labelPause.Name = "labelPause";
-            this.labelPause.Size = new System.Drawing.Size(52, 25);
+            this.labelPause.Size = new System.Drawing.Size(30, 24);
             this.labelPause.TabIndex = 0;
-            this.labelPause.Text = "Tetris";
+            this.labelPause.Text = "4";
             this.labelPause.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2

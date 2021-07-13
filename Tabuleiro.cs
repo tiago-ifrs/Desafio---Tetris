@@ -63,7 +63,6 @@ public class Tabuleiro
             }
         }
     }
-
     public bool DesenhaY(Peca p, int ytab, int xtab)
     {
         int ul = p.QLinhas - 1;
@@ -97,7 +96,6 @@ public class Tabuleiro
         }
         return false;
     }
-
     public void LimpaPeca(Peca p, int ytab, int xtab)
     {
         /*

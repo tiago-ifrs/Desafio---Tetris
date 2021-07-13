@@ -43,9 +43,9 @@ public class T : Abspeca
                     break;
                 case 3:
                     this.Linhas = new List<int[]>{
-                    new int[]{ 0,0,1 },
-                    new int[]{ 0,1,1 },
-                    new int[]{ 0,0,1 }
+                    new int[]{ 0,1 },
+                    new int[]{ 1,1 },
+                    new int[]{ 0,1 }
                 };
                     break;
             }
