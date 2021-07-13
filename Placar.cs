@@ -47,7 +47,7 @@ public class Placar
 
         if (indices.Count > 0)
         {
-            Tempo = 1000-Pontos;
+            Tempo = 1000- (int)(Pontos/(Math.PI/2));
         }
     }
 }

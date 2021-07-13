@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 public class ColisaoY : AbsColisao
 {
-    public ColisaoY(Tabuleiro tabuleiro, Peca peca, int ydest, int xdest)
+    private int Yorig { get; set; }
+    public ColisaoY(Tabuleiro tabuleiro, Peca peca, int yorig, int ydest, int xdest)
     {
         Peca = peca;
         Tabuleiro = tabuleiro;
+        Yorig = yorig;
         Ydest = ydest;
         Xdest = xdest;
         Ycoli = -1;
@@ -30,11 +33,7 @@ public class ColisaoY : AbsColisao
 
         if (vetl.Contains(1)) // existe uma posição ocupada onde a peça vai cair
         {
-                /*
-                 * CASO DO LOOP FOR:
-                 * PEÇA JÁ ESTÁ DESENHADA NA LINHA ANTERIOR, PODE IR PARA A PRÓXIMA?
-                 */
-                Tabuleiro.LimpaPeca(Peca, Ydest - 1, Xdest); //precisa limpar para fazer o teste
+                
 
                 for (int ypec = 0; ypec <= ul; ypec++)
                 {
@@ -44,17 +43,24 @@ public class ColisaoY : AbsColisao
                         {
                             if (Peca.Ponto(ul - ypec, xpec) == 1)
                             {
-                                //Matrix[ytab][xtab + xpec].Valor = 0;
-                                //Matrix[ytab][xtab + xpec].BackColor = Color.Transparent;
-                                //Matrix[ytab][xtab + xpec].Refresh();
-                            }
+                            /*TESTE*/
+                            //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
+                            //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].BackColor = Color.Transparent;
+                            //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Refresh();
                         }
+                    }
                         else //houve colisão
                         {
-                            /*
-                             * DESENHAR ONDE ESTAVA:
-                             */
-                            Tabuleiro.DesenhaY(Peca, Ydest - 1, Xdest); //desenha na linha anterior se houver colisão
+                        /*
+                         * DESENHAR ONDE ESTAVA:
+                         * Tabuleiro.DesenhaY(Peca, Ydest - 1, Xdest); //desenha na linha anterior se houver colisão
+                         * AGORA NÃO
+                         */
+                        /*TESTE*/
+                        //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
+                        //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].BackColor = Color.Black;
+                        //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Refresh();
+
                             Ycoli = Ydest - ypec;
                             Xcoli = Xdest + xpec;
                             //return this;
@@ -69,9 +75,7 @@ public class ColisaoY : AbsColisao
         //return this;
         colisao = this;
         return;
-
     }
-
     public override AbsColisao colisao { get; set; }
     public override int Ycoli { get; set; }
     public override int Xcoli { get; set; }

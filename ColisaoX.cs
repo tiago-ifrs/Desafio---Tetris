@@ -11,12 +11,14 @@ public class ColisaoX : AbsColisao
         for (int ypec = 0; ypec <= ul && (Ydest - ypec) >= 0; ypec++)
         {
             /* XDEST VAI SER A LINHA DE VERIFICAÇÃO, NÃO ONDE A PEÇA COMEÇA*/
-            for (int xpec = 0; xpec < uc && (Xdest - xpec) < Tabuleiro.ncol; xpec++) 
+            for (int xpec = 0; xpec <= uc-1 && (Xdest - xpec) < Tabuleiro.ncol; xpec++) 
             {
+                /*MOVIMENTO À DIREITA, O ÍNDICE X DA PEÇA DEVE PARTIR DE XDEST E DECREMENTAR*/
+                /*ITERAR AO CONTRÁRIO*/
                 /*no caso de movimento à direita, vai incrementar 1 na origem*/
-                if ((Tabuleiro.Matrix[Ydest - ypec][Xdest - xpec].Valor & Peca.Ponto(ul - ypec, xpec)) == 0)
+                if ((Tabuleiro.Matrix[Ydest - ypec][Xdest - xpec].Valor & Peca.Ponto(ul-ypec, uc-1-xpec)) == 0)
                 {
-                    if (Peca.Ponto(ul - ypec, xpec) == 1)
+                    if (Peca.Ponto(ul-ypec, uc-1-xpec) == 1)
                     {
                         /*TESTE*/
                         //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
@@ -32,7 +34,7 @@ public class ColisaoX : AbsColisao
                      */
                     /*TESTE*/
                     //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
-                    //Tabuleiro.Matrix[Ydest - ypec][Xdest - xpec].BackColor = Color.Black;
+                    //Tabuleiro.Matrix[Ydest - ypec][Xdest -xpec].BackColor = Color.Black;
                     //Tabuleiro.Matrix[Ydest - ypec][Xdest - xpec].Refresh();
 
                     Ycoli = Ydest - ypec;
@@ -44,6 +46,7 @@ public class ColisaoX : AbsColisao
                 }
             }
         }
+    
     }
     private void VerificaEsquerda(int ul, int uc) 
     {
@@ -108,16 +111,16 @@ public class ColisaoX : AbsColisao
         int ul = Peca.QLinhas - 1;
         int uc = Peca.QColunas(ul);
 
-        List<int> vetl = new List<int>();
+        List<int> vetc = new List<int>();
 
         for (int i = 0; i < Tabuleiro.nlin; i++)
         {
-            vetl.Add(Tabuleiro.Matrix[i][Xdest].Valor);
+            vetc.Add(Tabuleiro.Matrix[i][Xdest].Valor);
         }
 
-        //vetl = vetl.GetRange(0, Ydest);
+        //vetc = vetc.GetRange(Ydest-ul, ul+1);
 
-        if (vetl.Contains(1)) // existe uma posição ocupada onde a peça vai cair
+        if (vetc.Contains(1)) // existe uma posição ocupada onde a peça vai cair
         {
             if (Xdest < Xorig)
             {

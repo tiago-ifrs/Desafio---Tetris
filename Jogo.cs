@@ -27,7 +27,7 @@ public class Jogo
         int ucAnt = At.QColunas(ulAnt);
         int rotAnt = At.Rot;
         ColisaoX Esquerda;
-        Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
+        Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
         if (At.Rot < 4)
         {
             At.Rot++;
@@ -44,26 +44,37 @@ public class Jogo
         int ucPos = At.QColunas(ulPos);
         if (Xtab + ucPos >= Tabuleiro.ncol)
         {
-            Esquerda = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos-ucAnt); //detectar colisão uma linha abaixo?
+            Esquerda = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos - ucAnt); //detectar colisão uma linha abaixo?
             if (Esquerda.Xcoli == -1)//não houve colisão
             {
                 //mantém a rotação
                 //move a peça para a esquerda
                 Xtab -= ucPos - ucAnt;
             }
-            else 
+            else
             {
                 At.Rot = rotAnt; //recupera a rotação anterior, impedindo o movimento
             }
-            
         }
         /* DESENHA QUALQUER UMA DAS DUAS */
-        Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
+        Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
     }
     public void MoveAbaixo()
     {
+        ColisaoY baixo;
+        if ((Ytab + Yoffset) < Tabuleiro.nlin - 1)
+        {
+            Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab);
+            baixo = new ColisaoY(Tabuleiro, At, Ytab + Yoffset, Ytab + Yoffset + 1, Xtab); //detectar colisão uma linha abaixo
 
+            if (baixo.Ycoli == -1)//não houve colisão
+            {
+                Yoffset++;               
+            }
+            Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
+        }
 
+        /*
         int ul = At.QLinhas - 1;
         int uc = At.QColunas(ul);
 
@@ -90,21 +101,8 @@ public class Jogo
             }
 
         }
-
-        /*
-        Colisao baixo;
-        if (Ytab < Tabuleiro.nlin-1 && Ytab > At.QLinhas - 1)
-        {
-            baixo = new Colisao(Tabuleiro, At, Ytab, Ytab+1, Xtab, Xtab,'Y'); //detectar colisão uma linha abaixo
-
-            if (baixo.Ycoli == -1)//não houve colisão
-            {
-                Tabuleiro.LimpaPeca(At, Ytab, Xtab);
-                Ytab++;
-                Tabuleiro.DesenhaY(At, Ytab, Xtab);
-            }
-        }
         */
+
     }
     public void MoveEsquerda()
     {
@@ -114,14 +112,14 @@ public class Jogo
             /* Colisão X não vai limpar a peça 
              * precisa limpar para fazer o teste 
              */
-            Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab);
-            Esquerda = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab, Xtab - 1); //detectar colisão uma linha abaixo?
+            Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab);
+            Esquerda = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - 1); //detectar colisão uma linha abaixo?
 
             if (Esquerda.Xcoli == -1)//não houve colisão
             {
                 Xtab--;
             }
-            Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
+            Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
         }
     }
     public void MoveDireita()
@@ -135,21 +133,21 @@ public class Jogo
             /* Colisão X não vai limpar a peça 
              *  precisa limpar para fazer o teste 
              */
-            Tabuleiro.LimpaPeca(At, Ytab+Yoffset, Xtab);
-            Direita = new ColisaoX(Tabuleiro, At, Ytab+Yoffset, Xtab, Xtab + uc); //detectar colisão uma linha abaixo?
+            Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab);
+            Direita = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab + uc); //detectar colisão uma linha abaixo?
 
             if (Direita.Xcoli == -1)//não houve colisão
             {
                 Xtab++;
             }
-            Tabuleiro.DesenhaY(At, Ytab+Yoffset, Xtab);
+            Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
         }
     }
     public bool Percorre()
     {
         //condições iniciais:
         Yoffset = 0;
-                
+
         ColisaoY colisaoY;
 
         Xtab = (Tabuleiro.ncol - At.QColunas(At.QLinhas - 1)) / 2; // Centraliza a peça
@@ -157,12 +155,16 @@ public class Jogo
 
         for (Ytab = 0; (Ytab + Yoffset) < Tabuleiro.nlin; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
         {
-
             /*
              * NO LOOP PRINCIPAL, O PONTO DE COLISÃO É O PRÓPRIO PONTO A SER DESENHADO
              * NO CASO DE SETA ABAIXO, O YTAB FOI INCREMENTADO FORA DO LOOP
              */
-            colisaoY = new ColisaoY(Tabuleiro, At, Ytab + Yoffset, Xtab);
+            /*
+                 * CASO DO LOOP FOR:
+                 * PEÇA JÁ ESTÁ DESENHADA NA LINHA ANTERIOR, PODE IR PARA A ATUAL?
+                 */
+            Tabuleiro.LimpaPeca(At, Ytab - 1 + Yoffset, Xtab); //precisa limpar A ANTERIOR para fazer o teste
+            colisaoY = new ColisaoY(Tabuleiro, At, Ytab + Yoffset, Ytab + Yoffset, Xtab); //destino é a linha atual
 
             if (colisaoY.Ycoli == -1)//não houve colisão
             {
@@ -178,15 +180,17 @@ public class Jogo
                 /*
                  * DETECTOR DE COLISÃO VAI DESENHAR A PEÇA NO PONTO ANTERIOR
                  *
-                 //Tabuleiro.DesenhaY(At, Ytab - 1, Xtab); //desenha na linha anterior se houver colisão
+                 
                  */
+                Tabuleiro.LimpaPeca(At, Ytab + Yoffset - 1, Xtab);
+                Tabuleiro.DesenhaY(At, Ytab + Yoffset - 1, Xtab);
                 if (colisaoY.Ycoli < At.QLinhas)
                 {
-                    return true;
+                    return true; // GAME OVER
                 }
                 break;
             }
-        
+
             Wait(Placar.Tempo);
         }
         return false;
