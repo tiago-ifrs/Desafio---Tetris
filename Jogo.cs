@@ -6,31 +6,19 @@ public class Jogo
 {
     private int Ytab { get; set; }   // coordenada y do tabuleiro
     private int Xtab { get; set; }   // coordenada x do tabuleiro
-    private Panel JanelaAtual { get; set; }
-    private Panel JanelaProx { get; set; }
+    
     public Peca At { get; set; }
     public Peca Prox { get; set; }
     private Placar Placar { get; set; }
     private Tabuleiro Tabuleiro { get; set; }
     private int Yoffset { get; set; }
-    public Jogo(Tabuleiro t, Panel jA, Panel jP, Label lP)
+    public Jogo(Tabuleiro t, Label lP)
     {
         this.Tabuleiro = t;
-        this.JanelaAtual = jA;
-        this.JanelaProx = jP;
         this.Placar = new Placar(lP, Tabuleiro);
         
     }
-    private void GeraProx()
-    {
-        if (this.Prox != null)
-        {
-            this.Prox.ap = JanelaAtual;
-            this.At = this.Prox;
-            At.AtualizaPeca();
-        }
-        this.Prox = new Peca(Tabuleiro, JanelaProx);
-    }
+    
     public void Espera()
     {
         Wait(1000);
@@ -137,11 +125,9 @@ public class Jogo
     {
         //condições iniciais:
         Yoffset = 0;
-        
-        
+                
         ColisaoY colisaoY;
 
-        GeraProx();
         Xtab = (Tabuleiro.ncol - At.QColunas(At.QLinhas - 1)) / 2; // coordenada x inicial da queda de peças
         Placar.Atualiza();
 
@@ -173,7 +159,7 @@ public class Jogo
                  * colisão na 1ª linha não é detectada pela classe colisão ainda
                  * manda 2ª linha pro game over
                  */
-                if (colisaoY.Ycoli == 1)
+                if (colisaoY.Ycoli < At.QLinhas)
                 {
                     return true;
                 }

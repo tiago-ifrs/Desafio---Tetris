@@ -6,8 +6,8 @@ namespace Desafio___Tetris
     public partial class Form1 : Form
     {
         private Jogo Jogo { get; set; }
-        private bool pause { get; set; }
-
+        private bool Pause { get; set; }
+        private Tabuleiro Tabuleiro { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -30,26 +30,26 @@ namespace Desafio___Tetris
 
         private void buttonNJ_Click(object sender, EventArgs e)
         {
-            this.pause = false;
-            Tetris(panelTabuleiro, panelAtual, panelProx, labelPlacar);
+            this.Pause = false;
+            Tetris();
         }
 
         private void buttonPause_Click(object sender, EventArgs e)
         {
-            if (pause == false)
+            if (Pause == false)
             {
                 labelPause.Text = "PAUSE";
                 //labelPause.Visible = true;
-                pause = true;
+                Pause = true;
             }
             else
             {
                 //labelPause.Visible = false;
                 labelPause.Text = "Tetris";
-                pause = false;
+                Pause = false;
             }
             labelPause.Refresh();
-            while (pause) 
+            while (Pause) 
             {
                 Jogo.Espera();
             }
@@ -84,22 +84,33 @@ namespace Desafio___Tetris
             return true;
         }
 
-        public void Tetris(Panel janelaTabuleiro, Panel janelaAtual, Panel janelaProx, Label lbplacar)
+        public void Tetris()
         {           
-            Tabuleiro tabuleiro = Tabuleiro.GetInstance(janelaTabuleiro);
-            tabuleiro.Inicia();
+            this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
+            this.Tabuleiro.Inicia();
             
-            this.Jogo = new Jogo(tabuleiro, janelaAtual, janelaProx, lbplacar);
+            this.Jogo = new Jogo(Tabuleiro, labelPlacar);
 
             bool over = false;
-            Jogo.At = new Peca(tabuleiro, janelaAtual);
+            Jogo.At = new Peca(Tabuleiro, panelAtual);
             Jogo.Prox = null;
             while (!over)
-            {    
+            {
+                GeraProx();
                 over = Jogo.Percorre();   
             }
             MessageBox.Show("Game Over");
-        } 
+        }
+        private void GeraProx()
+        {
+            if (Jogo.Prox != null)
+            {
+                Jogo.Prox.ap = panelAtual;
+                Jogo.At = Jogo.Prox;
+                Jogo.At.AtualizaPeca();
+            }
+            Jogo.Prox = new Peca(Tabuleiro, panelProx);
+        }
     }
 }
 
