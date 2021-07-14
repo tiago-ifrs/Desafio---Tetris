@@ -151,6 +151,7 @@ public class Jogo
 
         Xtab = (Tabuleiro.ncol - At.QColunas(At.QLinhas - 1)) / 2; // Centraliza a peça
         Placar.Atualiza();
+        Placar.QtdPecas++;
 
         for (Ytab = 0; (Ytab + Yoffset) < Tabuleiro.nlin; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
         {

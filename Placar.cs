@@ -6,48 +6,63 @@ using System.Windows.Forms;
 public class Placar
 {
     private Tabuleiro Tabuleiro { get; }
-    public Label LabelScore { get; set; }
-    public Label LabelLevel { get; set; }
-    public Label LabelSpeed { get; set; }
+    private Label LabelScore { get; set; }
+    private Label LabelLevel { get; set; }
+    private Label LabelSpeed { get; set; }
+    private Label LabelQtd { get; set; }
     private int Pontos { get; set; }
-    private double[] Tempo { get; set; }
+    private int[] Tempo { get; set; }
     public int Nivel { get; set; }
     public double Velo { get; set; }
-
-    public Placar(Tabuleiro tabuleiro, Label labelScore, Label labelLevel, Label labelSpeed)
+    private int _QtdPecas { get; set; }
+    public int QtdPecas
+    {
+        get 
+        {
+            return _QtdPecas;
+        }
+        set 
+        {
+            _QtdPecas = value;
+            LabelQtd.Text = value.ToString();
+        }
+    }
+    public Placar(Tabuleiro tabuleiro, Label labelScore, Label labelLevel, Label labelSpeed, Label labelqtd)
     {
         this.Tabuleiro = tabuleiro;
         this.LabelScore = labelScore;
         this.LabelLevel = labelLevel;
         this.LabelSpeed = labelSpeed;
+        this.LabelQtd = labelqtd;
         this.Pontos = 0;
         this.Nivel = 0;
-        this.Tempo = new double[]
-        {       883.333333333333,
-                816.666666666667,
-                750,
-                683.333333333333,
-                616.666666666667,
-                550,
-                466.666666666667,
-                366.666666666667,
-                283.333333333333,
-                183.333333333333,
-                166.666666666667,
-                150,
-                133.333333333333,
-                116.666666666667,
-                100,
-                100,
-                83.3333333333333,
-                83.3333333333333,
-                66.6666666666667,
-                66.6666666666667,
-                50};
+        this.Tempo = new int[]
+        {       854,
+                800,
+                724,
+                680,
+                610,
+                543,
+                500,                //2/s
+                333,                //3/s
+                250,                //4/s
+                200,                //5/s
+                167,                //6/s
+                143,                //7/s
+                125,                //8/s
+                111,                //9/s
+                100,                //10/s
+                91,                 //11/s
+                83,                 //12/s
+                77,                 //13/s
+                71,                 //14/s
+                67,                 //15/s
+                50};                //20/s
         this.Velo = this.Tempo[this.Nivel];
-        LabelSpeed.Text = Math.Round(this.Velo/1000, 2).ToString() + " s/linha"; 
+        LabelSpeed.Text = Math.Round(1000/this.Velo, 2).ToString() + " (linhas/s)"; 
         LabelScore.Text = "0"; //zera a label do placar a cada novo jogo
         LabelLevel.Text = "0";
+        labelqtd.Text = "0";
     }
     public void Atualiza()
     {
@@ -85,7 +100,7 @@ public class Placar
             LabelLevel.Text = (Nivel).ToString();
             LabelLevel.Refresh();
             Velo = Tempo[Nivel];
-            LabelSpeed.Text = Math.Round(Velo/1000, 2).ToString()+" s/linha";
+            LabelSpeed.Text = Math.Round(1000/Velo, 2).ToString()+" (linhas/s)";
             LabelSpeed.Refresh();
         }
 

@@ -29,6 +29,7 @@ namespace Desafio___Tetris
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.panelTabuleiro = new System.Windows.Forms.Panel();
             this.labelPause = new System.Windows.Forms.Label();
@@ -46,6 +47,12 @@ namespace Desafio___Tetris
             this.labelLevel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.labelSpeed = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.labelTimerJogo = new System.Windows.Forms.Label();
+            this.timerJogo = new System.Windows.Forms.Timer(this.components);
+            this.buttonPrint = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.labelQtdPeca = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -75,7 +82,7 @@ namespace Desafio___Tetris
             this.labelPause.Name = "labelPause";
             this.labelPause.Size = new System.Drawing.Size(87, 61);
             this.labelPause.TabIndex = 0;
-            this.labelPause.Text = "4";
+            this.labelPause.Text = "<";
             this.labelPause.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -94,7 +101,7 @@ namespace Desafio___Tetris
             this.panelAtual.Name = "panelAtual";
             this.panelAtual.Size = new System.Drawing.Size(250, 250);
             this.panelAtual.TabIndex = 5;
-            this.panelAtual.Paint += new System.Windows.Forms.PaintEventHandler(this.panelAtual_Paint);
+            this.panelAtual.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelAtual_Paint);
             // 
             // label3
             // 
@@ -121,17 +128,18 @@ namespace Desafio___Tetris
             this.buttonNJ.TabIndex = 8;
             this.buttonNJ.Text = "Novo Jogo";
             this.buttonNJ.UseVisualStyleBackColor = true;
-            this.buttonNJ.Click += new System.EventHandler(this.buttonNJ_Click);
+            this.buttonNJ.Click += new System.EventHandler(this.ButtonNJ_Click);
             // 
             // buttonPause
             // 
+            this.buttonPause.Enabled = false;
             this.buttonPause.Location = new System.Drawing.Point(557, 578);
             this.buttonPause.Name = "buttonPause";
             this.buttonPause.Size = new System.Drawing.Size(112, 34);
             this.buttonPause.TabIndex = 9;
             this.buttonPause.Text = "Pause";
             this.buttonPause.UseVisualStyleBackColor = true;
-            this.buttonPause.Click += new System.EventHandler(this.buttonPause_Click);
+            this.buttonPause.Click += new System.EventHandler(this.ButtonPause_Click);
             // 
             // labelKey
             // 
@@ -207,11 +215,66 @@ namespace Desafio___Tetris
             this.labelSpeed.TabIndex = 17;
             this.labelSpeed.Text = "0";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(532, 632);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(135, 25);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Tempo de Jogo";
+            // 
+            // labelTimerJogo
+            // 
+            this.labelTimerJogo.AutoSize = true;
+            this.labelTimerJogo.Location = new System.Drawing.Point(532, 661);
+            this.labelTimerJogo.Name = "labelTimerJogo";
+            this.labelTimerJogo.Size = new System.Drawing.Size(22, 25);
+            this.labelTimerJogo.TabIndex = 19;
+            this.labelTimerJogo.Text = "0";
+            // 
+            // timerJogo
+            // 
+            this.timerJogo.Tick += new System.EventHandler(this.TimerJogo_Tick);
+            // 
+            // buttonPrint
+            // 
+            this.buttonPrint.Location = new System.Drawing.Point(676, 577);
+            this.buttonPrint.Name = "buttonPrint";
+            this.buttonPrint.Size = new System.Drawing.Size(112, 34);
+            this.buttonPrint.TabIndex = 20;
+            this.buttonPrint.Text = "Print";
+            this.buttonPrint.UseVisualStyleBackColor = true;
+            this.buttonPrint.Click += new System.EventHandler(this.ButtonPrint_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(696, 183);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 25);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Peças";
+            // 
+            // labelQtdPeca
+            // 
+            this.labelQtdPeca.AutoSize = true;
+            this.labelQtdPeca.Location = new System.Drawing.Point(696, 212);
+            this.labelQtdPeca.Name = "labelQtdPeca";
+            this.labelQtdPeca.Size = new System.Drawing.Size(22, 25);
+            this.labelQtdPeca.TabIndex = 22;
+            this.labelQtdPeca.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.labelQtdPeca);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.buttonPrint);
+            this.Controls.Add(this.labelTimerJogo);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.labelSpeed);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.labelLevel);
@@ -257,6 +320,12 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label labelLevel;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label labelSpeed;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label labelTimerJogo;
+        private System.Windows.Forms.Timer timerJogo;
+        private System.Windows.Forms.Button buttonPrint;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label labelQtdPeca;
     }
 }
 
