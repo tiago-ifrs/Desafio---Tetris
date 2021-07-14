@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Desafio___Tetris
@@ -46,7 +47,7 @@ namespace Desafio___Tetris
                 Pause = false;
             }
             labelPause.Refresh();
-            while (Pause) 
+            while (Pause)
             {
                 Jogo.Espera();
             }
@@ -58,12 +59,12 @@ namespace Desafio___Tetris
                 case (Keys.Up):
                     labelKey.Text = Char.ToString((char)0xe1);
                     Jogo.RotacionaPeca();
-                    
+
                     return true;
                 case (Keys.Down):
                     labelKey.Text = Char.ToString((char)0xe2);
                     Jogo.MoveAbaixo();
-                    
+
                     return true;
                 case (Keys.Left):
                     labelKey.Text = Char.ToString((char)0xdf);
@@ -73,7 +74,7 @@ namespace Desafio___Tetris
                 case (Keys.Right):
                     labelKey.Text = Char.ToString((char)0xe0);
                     Jogo.MoveDireita();
-                                        
+
                     return true;
             };
             // return the key to the base class if not used.
@@ -81,10 +82,10 @@ namespace Desafio___Tetris
             return true;
         }
         public void Tetris()
-        {           
+        {
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
-            
+
             this.Jogo = new Jogo(Tabuleiro, labelPlacar);
 
             bool over = false;
@@ -93,7 +94,7 @@ namespace Desafio___Tetris
             while (!over)
             {
                 GeraProx();
-                over = Jogo.Percorre();   
+                over = Jogo.Percorre();
             }
             MessageBox.Show("Game Over");
         }
@@ -106,6 +107,10 @@ namespace Desafio___Tetris
                 Jogo.At.AtualizaPeca();
             }
             Jogo.Prox = new Peca(Tabuleiro, panelProx);
+        }
+        private void ButtonTGD_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("tgdbr@yahoo.com.br", "Tetris 21");
         }
     }
 }

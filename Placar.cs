@@ -8,7 +8,7 @@ public class Placar
     private Tabuleiro Tabuleiro { get; }
     private Label Label { get; set; }
     private int Pontos { get; set; }
-    public int Tempo { get; set; }
+    public double Tempo { get; set; }
     public Placar(Label label, Tabuleiro tabuleiro)
     {
         this.Tabuleiro = tabuleiro;
@@ -39,15 +39,16 @@ public class Placar
         for (int j = 0; j < indices.Count; j++)
         {
             Tabuleiro.Deleta(indices[j]);
-            Thread.Sleep(Tempo/2);
+            Thread.Sleep((int)Tempo/2);
             Pontos += 10;
             Label.Text = Pontos.ToString();
             Label.Refresh();
         }
-
+        
         if (indices.Count > 0)
         {
-            Tempo = 1000- (int)(Pontos/(Math.PI/2));
+            //Tempo = 1000- (int)(Pontos/(Math.PI/2));
         }
+        
     }
 }
