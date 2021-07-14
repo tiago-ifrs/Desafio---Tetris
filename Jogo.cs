@@ -8,14 +8,13 @@ public class Jogo
     private int Xtab { get; set; }   // coordenada x do tabuleiro
     public Peca At { get; set; }
     public Peca Prox { get; set; }
-    private Placar Placar { get; set; }
-    private Tabuleiro Tabuleiro { get; set; }
+    public Placar Placar { get; set; }
+    public Tabuleiro Tabuleiro { get; set; }
     private int Yoffset { get; set; }
-    public Jogo(Tabuleiro t, Label lP)
+    public Jogo(Tabuleiro t, Placar p)
     {
         this.Tabuleiro = t;
-        this.Placar = new Placar(lP, Tabuleiro);
-        lP.Text = "0"; //zera a label do placar a cada novo jogo
+        this.Placar = p;
     }
     public void Espera()
     {
@@ -191,7 +190,7 @@ public class Jogo
                 break;
             }
             
-            Wait((int)Placar.Tempo[Placar.nivel]);
+            Wait((int)Placar.Velo);
         }
         return false;
     }

@@ -42,6 +42,10 @@ namespace Desafio___Tetris
             this.label4 = new System.Windows.Forms.Label();
             this.labelPlacar = new System.Windows.Forms.Label();
             this.buttonTGD = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelLevel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.labelSpeed = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -167,11 +171,51 @@ namespace Desafio___Tetris
             this.buttonTGD.UseVisualStyleBackColor = true;
             this.buttonTGD.Click += new System.EventHandler(this.ButtonTGD_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(696, 71);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 25);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Nível";
+            // 
+            // labelLevel
+            // 
+            this.labelLevel.AutoSize = true;
+            this.labelLevel.Location = new System.Drawing.Point(696, 96);
+            this.labelLevel.Name = "labelLevel";
+            this.labelLevel.Size = new System.Drawing.Size(22, 25);
+            this.labelLevel.TabIndex = 15;
+            this.labelLevel.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(696, 125);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(98, 25);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Velocidade";
+            // 
+            // labelSpeed
+            // 
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Location = new System.Drawing.Point(696, 154);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(22, 25);
+            this.labelSpeed.TabIndex = 17;
+            this.labelSpeed.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.labelSpeed);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.labelLevel);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonTGD);
             this.Controls.Add(this.labelPlacar);
             this.Controls.Add(this.label4);
@@ -209,6 +253,10 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelPlacar;
         private System.Windows.Forms.Button buttonTGD;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelLevel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelSpeed;
     }
 }
 

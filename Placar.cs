@@ -6,17 +6,22 @@ using System.Windows.Forms;
 public class Placar
 {
     private Tabuleiro Tabuleiro { get; }
-    private Label Label { get; set; }
+    public Label LabelScore { get; set; }
+    public Label LabelLevel { get; set; }
+    public Label LabelSpeed { get; set; }
     private int Pontos { get; set; }
-    public double[] Tempo { get; set; }
-    public int nivel { get; set; }
+    private double[] Tempo { get; set; }
+    public int Nivel { get; set; }
+    public double Velo { get; set; }
 
-    public Placar(Label label, Tabuleiro tabuleiro)
+    public Placar(Tabuleiro tabuleiro, Label labelScore, Label labelLevel, Label labelSpeed)
     {
         this.Tabuleiro = tabuleiro;
-        this.Label = label;
+        this.LabelScore = labelScore;
+        this.LabelLevel = labelLevel;
+        this.LabelSpeed = labelSpeed;
         this.Pontos = 0;
-        this.nivel = 0;
+        this.Nivel = 0;
         this.Tempo = new double[]
         {       883.333333333333,
                 816.666666666667,
@@ -39,7 +44,10 @@ public class Placar
                 66.6666666666667,
                 66.6666666666667,
                 50};
-
+        this.Velo = this.Tempo[this.Nivel];
+        LabelSpeed.Text = Math.Round(this.Velo/1000, 2).ToString() + " s/linha"; 
+        LabelScore.Text = "0"; //zera a label do placar a cada novo jogo
+        LabelLevel.Text = "0";
     }
     public void Atualiza()
     {
@@ -64,17 +72,21 @@ public class Placar
         for (int j = 0; j < indices.Count; j++)
         {
             Tabuleiro.Deleta(indices[j]);
-            Thread.Sleep((int)Tempo[nivel]);
-            Pontos++;
-            Label.Text = (Pontos*10).ToString();
-            Label.Refresh();
+
+            Pontos += 10;
+            LabelScore.Text = (Pontos).ToString();
+            LabelScore.Refresh();
+            Thread.Sleep((int)Tempo[Nivel]);
         }
 
         if (indices.Count > 0)
         {
-            
-                nivel = (int) Math.Floor(Pontos/10);
-            
+            Nivel = (int)Pontos / 100;
+            LabelLevel.Text = (Nivel).ToString();
+            LabelLevel.Refresh();
+            Velo = Tempo[Nivel];
+            LabelSpeed.Text = Math.Round(Velo/1000, 2).ToString()+" s/linha";
+            LabelSpeed.Refresh();
         }
 
     }

@@ -86,7 +86,9 @@ namespace Desafio___Tetris
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
-            this.Jogo = new Jogo(Tabuleiro, labelPlacar);
+            Placar p = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed);
+
+            this.Jogo = new Jogo(Tabuleiro, p);
 
             bool over = false;
             Jogo.At = new Peca(Tabuleiro, panelAtual);
