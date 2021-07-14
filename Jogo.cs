@@ -70,7 +70,6 @@ public class Jogo
             if (baixo.Ycoli == -1)//não houve colisão
             {
                 Yoffset++;
-                Placar.Tempo = Placar.Tempo - (1 / Math.PI);
             }
             Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
         }
@@ -191,8 +190,8 @@ public class Jogo
                 }
                 break;
             }
-            Placar.Tempo = Placar.Tempo - (1/Math.PI);
-            Wait((int)Placar.Tempo);
+            
+            Wait((int)Placar.Tempo[Placar.nivel]);
         }
         return false;
     }
