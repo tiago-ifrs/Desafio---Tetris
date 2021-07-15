@@ -99,14 +99,14 @@ namespace Desafio___Tetris
             this.panelAtual.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelAtual.Location = new System.Drawing.Point(439, 41);
             this.panelAtual.Name = "panelAtual";
-            this.panelAtual.Size = new System.Drawing.Size(250, 250);
+            this.panelAtual.Size = new System.Drawing.Size(170, 170);
             this.panelAtual.TabIndex = 5;
             this.panelAtual.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelAtual_Paint);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(439, 294);
+            this.label3.Location = new System.Drawing.Point(439, 214);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 25);
             this.label3.TabIndex = 6;
@@ -115,9 +115,9 @@ namespace Desafio___Tetris
             // panelProx
             // 
             this.panelProx.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelProx.Location = new System.Drawing.Point(439, 322);
+            this.panelProx.Location = new System.Drawing.Point(439, 242);
             this.panelProx.Name = "panelProx";
-            this.panelProx.Size = new System.Drawing.Size(250, 250);
+            this.panelProx.Size = new System.Drawing.Size(170, 170);
             this.panelProx.TabIndex = 7;
             // 
             // buttonNJ
@@ -153,7 +153,7 @@ namespace Desafio___Tetris
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(695, 13);
+            this.label4.Location = new System.Drawing.Point(615, 13);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 25);
             this.label4.TabIndex = 11;
@@ -162,7 +162,7 @@ namespace Desafio___Tetris
             // labelPlacar
             // 
             this.labelPlacar.AutoSize = true;
-            this.labelPlacar.Location = new System.Drawing.Point(696, 42);
+            this.labelPlacar.Location = new System.Drawing.Point(615, 41);
             this.labelPlacar.Name = "labelPlacar";
             this.labelPlacar.Size = new System.Drawing.Size(22, 25);
             this.labelPlacar.TabIndex = 12;
@@ -182,7 +182,7 @@ namespace Desafio___Tetris
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(696, 71);
+            this.label5.Location = new System.Drawing.Point(615, 66);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(51, 25);
             this.label5.TabIndex = 14;
@@ -191,7 +191,7 @@ namespace Desafio___Tetris
             // labelLevel
             // 
             this.labelLevel.AutoSize = true;
-            this.labelLevel.Location = new System.Drawing.Point(696, 96);
+            this.labelLevel.Location = new System.Drawing.Point(615, 91);
             this.labelLevel.Name = "labelLevel";
             this.labelLevel.Size = new System.Drawing.Size(22, 25);
             this.labelLevel.TabIndex = 15;
@@ -200,7 +200,7 @@ namespace Desafio___Tetris
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(696, 125);
+            this.label7.Location = new System.Drawing.Point(615, 116);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(98, 25);
             this.label7.TabIndex = 16;
@@ -209,7 +209,7 @@ namespace Desafio___Tetris
             // labelSpeed
             // 
             this.labelSpeed.AutoSize = true;
-            this.labelSpeed.Location = new System.Drawing.Point(696, 154);
+            this.labelSpeed.Location = new System.Drawing.Point(615, 141);
             this.labelSpeed.Name = "labelSpeed";
             this.labelSpeed.Size = new System.Drawing.Size(22, 25);
             this.labelSpeed.TabIndex = 17;
@@ -250,7 +250,7 @@ namespace Desafio___Tetris
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(696, 183);
+            this.label8.Location = new System.Drawing.Point(615, 166);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(55, 25);
             this.label8.TabIndex = 21;
@@ -259,7 +259,7 @@ namespace Desafio___Tetris
             // labelQtdPeca
             // 
             this.labelQtdPeca.AutoSize = true;
-            this.labelQtdPeca.Location = new System.Drawing.Point(696, 212);
+            this.labelQtdPeca.Location = new System.Drawing.Point(615, 191);
             this.labelQtdPeca.Name = "labelQtdPeca";
             this.labelQtdPeca.Size = new System.Drawing.Size(22, 25);
             this.labelQtdPeca.TabIndex = 22;
@@ -296,6 +296,7 @@ namespace Desafio___Tetris
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Form1";
             this.Text = "Tetris";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

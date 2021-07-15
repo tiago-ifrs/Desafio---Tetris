@@ -10,7 +10,7 @@ public class Placar
     private Label LabelLevel { get; set; }
     private Label LabelSpeed { get; set; }
     private Label LabelQtd { get; set; }
-    private int Pontos { get; set; }
+    public int Score { get; set; }
     private int[] Tempo { get; set; }
     public int Nivel { get; set; }
     public double Velo { get; set; }
@@ -34,7 +34,7 @@ public class Placar
         this.LabelLevel = labelLevel;
         this.LabelSpeed = labelSpeed;
         this.LabelQtd = labelqtd;
-        this.Pontos = 0;
+        this.Score = 0;
         this.Nivel = 0;
         this.Tempo = new int[]
         {       854,
@@ -88,15 +88,15 @@ public class Placar
         {
             Tabuleiro.Deleta(indices[j]);
 
-            Pontos += 10;
-            LabelScore.Text = (Pontos).ToString();
+            Score += 10;
+            LabelScore.Text = (Score).ToString();
             LabelScore.Refresh();
             Thread.Sleep((int)Tempo[Nivel]);
         }
 
         if (indices.Count > 0)
         {
-            Nivel = (int)Pontos / 100;
+            Nivel = (int)Score / 100;
             LabelLevel.Text = (Nivel).ToString();
             LabelLevel.Refresh();
             Velo = Tempo[Nivel];

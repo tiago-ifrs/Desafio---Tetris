@@ -20,7 +20,6 @@ public class Tabuleiro
     private Tabuleiro(Panel t)
     {
         this.Panel = t;
-        
     }
     private static Tabuleiro _instance;
     public static Tabuleiro GetInstance(Panel t)

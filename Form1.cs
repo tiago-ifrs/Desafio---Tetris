@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Data.OleDb;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
@@ -13,13 +15,19 @@ namespace Desafio___Tetris
         private bool Pause { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
         private Stopwatch Sw { get; set; }
+        private OleDbConnection oleDbConnection { get; set; }
         public Form1()
         {
             InitializeComponent();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            //oleDbConnection = Conexao.Abre();
+            if(oleDbConnection != null) 
+            {
+                FormPontuacaoSelect fs = new FormPontuacaoSelect();
+                fs.Show();
+            }
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -112,6 +120,42 @@ namespace Desafio___Tetris
             labelPause.Text = Char.ToString((char)0x3c);
             buttonPause.Enabled = false;
             MessageBox.Show("Game Over");
+            SalvaPontuacao(p);
+        }
+        private void SalvaPontuacao(Placar pl) 
+        {
+            FormPontuacaoInsert fp = new FormPontuacaoInsert();
+
+            oleDbConnection = Conexao.Abre();
+            if (oleDbConnection != null)
+            {
+                double pcW, pcH;
+                Bitmap captureBitmap = new Bitmap(panelTabuleiro.Width, panelTabuleiro.Height);
+                Rectangle captureRectangle = new Rectangle(0, 0, panelTabuleiro.Width, panelTabuleiro.Height);
+                panelTabuleiro.DrawToBitmap(captureBitmap, captureRectangle);
+                pcW = fp.pictureBox.Width / panelTabuleiro.Width;
+                pcH = fp.pictureBox.Height / panelTabuleiro.Height;
+                Bitmap bitmapPictureBoxImage = new Bitmap(fp.pictureBox.Width, fp.pictureBox.Height);
+                Graphics g = Graphics.FromImage(bitmapPictureBoxImage);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(captureBitmap, 0,0,fp.pictureBox.Width, fp.pictureBox.Height);
+                fp.pictureBox.Image = bitmapPictureBoxImage;
+                
+                fp.ShowDialog();
+                if(fp.DialogResult == DialogResult.OK)
+                {
+                    PontuacaoDAO pd = new PontuacaoDAO();
+                    Pontuacao po = new Pontuacao();
+                    po.Nome = fp.nome;
+                    po.Score = pl.Score;
+                    po.Nivel = pl.Nivel;
+                    po.QtdPecas = pl.QtdPecas;
+                    po.TempoJogo = Sw.Elapsed;
+                    po.DataScore = DateTime.Now;
+                    po.Tabuleiro = captureBitmap;
+                    pd.Insert(po);
+                }               
+            }
         }
         private void GeraProx()
         {
@@ -154,7 +198,6 @@ namespace Desafio___Tetris
             ImageFormat formato = ImageFormat.Jpeg;
             Bitmap captureBitmap = new Bitmap(panelTabuleiro.Width, panelTabuleiro.Height);            
             Rectangle captureRectangle = new Rectangle(0, 0, panelTabuleiro.Width, panelTabuleiro.Height);
-            
             panelTabuleiro.DrawToBitmap(captureBitmap, captureRectangle);
 
             sfd.Filter = "Imagens|*.png;*.bmp;*.jpg";
@@ -178,6 +221,11 @@ namespace Desafio___Tetris
                 }
                 captureBitmap.Save(sfd.FileName, formato);
             }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

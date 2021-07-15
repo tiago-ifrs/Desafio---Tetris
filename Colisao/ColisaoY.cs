@@ -21,7 +21,7 @@ public class ColisaoY : AbsColisao
     {
         int ul = Peca.QLinhas - 1;
         int uc = Peca.QColunas(ul);
-
+        /*
         List<int> vetl = new List<int>();
 
         for (int i = 0; i < Tabuleiro.Matrix[Ydest].Length; i++)
@@ -33,9 +33,9 @@ public class ColisaoY : AbsColisao
 
         if (vetl.Contains(1)) // existe uma posição ocupada onde a peça vai cair
         {
-                
+          */      
 
-                for (int ypec = 0; ypec <= ul; ypec++)
+                for (int ypec = 0; ypec <= ul && (Ydest - ypec) >= 0; ypec++)
                 {
                     for (int xpec = 0; xpec < uc; xpec++)
                     {
@@ -70,7 +70,7 @@ public class ColisaoY : AbsColisao
                         }
                     }
                 }
-        }
+        //}
         //não houve colisão
         //return this;
         colisao = this;
