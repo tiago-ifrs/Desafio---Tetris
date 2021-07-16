@@ -1,7 +1,7 @@
 USE [tetris]
 GO
 
-/****** Object:  Table [dbo].[pontuacao]    Script Date: 15/07/2021 11:48:26 ******/
+/****** Object:  Table [dbo].[pontuacao]    Script Date: 16/07/2021 08:28:54 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[pontuacao](
-	[id] [int] NOT NULL,
+	[id] [int] IDENTITY(1,1) NOT NULL,
 	[nome] [nvarchar](50) NOT NULL,
 	[score] [int] NOT NULL,
 	[nivel] [int] NOT NULL,

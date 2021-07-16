@@ -21,56 +21,37 @@ public class ColisaoY : AbsColisao
     {
         int ul = Peca.QLinhas - 1;
         int uc = Peca.QColunas(ul);
-        /*
-        List<int> vetl = new List<int>();
 
-        for (int i = 0; i < Tabuleiro.Matrix[Ydest].Length; i++)
+        for (int ypec = 0; ypec <= ul && (Ydest - ypec) >= 0; ypec++)
         {
-            vetl.Add(Tabuleiro.Matrix[Ydest][i].Valor);
-        }
-
-        vetl = vetl.GetRange(Xdest, uc);
-
-        if (vetl.Contains(1)) // existe uma posição ocupada onde a peça vai cair
-        {
-          */      
-
-                for (int ypec = 0; ypec <= ul && (Ydest - ypec) >= 0; ypec++)
+            for (int xpec = 0; xpec < uc; xpec++)
+            {
+                if ((Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Valor & Peca.Ponto(ul - ypec, xpec)) == 0)
                 {
-                    for (int xpec = 0; xpec < uc; xpec++)
+                    if (Peca.Ponto(ul - ypec, xpec) == 1)
                     {
-                        if ((Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Valor & Peca.Ponto(ul - ypec, xpec)) == 0)
-                        {
-                            if (Peca.Ponto(ul - ypec, xpec) == 1)
-                            {
-                            /*TESTE*/
-                            //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
-                            //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].BackColor = Color.Transparent;
-                            //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Refresh();
-                        }
-                    }
-                        else //houve colisão
-                        {
-                        /*
-                         * DESENHAR ONDE ESTAVA:
-                         * Tabuleiro.DesenhaY(Peca, Ydest - 1, Xdest); //desenha na linha anterior se houver colisão
-                         * AGORA NÃO
-                         */
                         /*TESTE*/
                         //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
-                        //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].BackColor = Color.Black;
+                        //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].BackColor = Color.Transparent;
                         //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Refresh();
-
-                            Ycoli = Ydest - ypec;
-                            Xcoli = Xdest + xpec;
-                            //return this;
-                            colisao = this;
-                            return;
-                            //return true;
-                        }
                     }
                 }
-        //}
+                else //houve colisão
+                {
+                    /*TESTE*/
+                    //Matrix[Ydest - ypec][xtab + xpec].Valor = 0;
+                    //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].BackColor = Color.Black;
+                    //Tabuleiro.Matrix[Ydest - ypec][Xdest + xpec].Refresh();
+
+                    Ycoli = Ydest - ypec;
+                    Xcoli = Xdest + xpec;
+                    //return this;
+                    colisao = this;
+                    return;
+                    //return true;
+                }
+            }
+        }
         //não houve colisão
         //return this;
         colisao = this;

@@ -8,32 +8,6 @@ using System.Text;
 
 public class PontuacaoDAO
 {
-    /*
-     * USE [tetris]
-GO
-
-INSERT INTO [dbo].[pontuacao]
-           ([id]
-           ,[nome]
-           ,[score]
-           ,[nivel]
-           ,[tempo_jogo]
-           ,[qtd_pecas]
-           ,[data_score]
-           ,[tabuleiro])
-     VALUES
-           (<id, int,>
-           ,<nome, nvarchar(50),>
-           ,<score, int,>
-           ,<nivel, int,>
-           ,<tempo_jogo, time(7),>
-           ,<qtd_pecas, int,>
-           ,<data_score, datetime,>
-           ,<tabuleiro, image,>)
-GO
-
-
-     */
     public void Insert(Pontuacao p) 
     {
         object result;
@@ -52,10 +26,8 @@ GO
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
-                //.AppendLine("   GO                              ")
                 .AppendLine("INSERT INTO                        ")
                 .AppendLine("   DBO.PONTUACAO                   ")
-                //.AppendLine("   (ID,                          ")
                 .AppendLine("   (                               ")
                 .AppendLine("   NOME,                           ")
                 .AppendLine("   SCORE,                          ")
@@ -65,7 +37,6 @@ GO
                 .AppendLine("   DATA_SCORE,                     ")
                 .AppendLine("   TABULEIRO)                      ")
                 .AppendLine("   VALUES                          ")
-                //.AppendLine("   (@ID,                           ")
                 .AppendLine("   (?,                             ")
                 .AppendLine("   ?,                              ")
                 .AppendLine("   ?,                              ")
@@ -73,14 +44,7 @@ GO
                 .AppendLine("   ?,                              ")
                 .AppendLine("   ?,                              ")
                 .AppendLine("   ?);                             ");
-                
-
-            /*
-            .AppendLine("WHERE                              ")
-            .AppendLine("   ESTACAO = ?                     ")
-            .AppendLine("   AND LINHA_MONTAGEM = ?          ");
-            */
-            
+                            
             using (OleDbCommand command = connection.CreateCommand())
             {
                 command.CommandText = stringBuilder.ToString();

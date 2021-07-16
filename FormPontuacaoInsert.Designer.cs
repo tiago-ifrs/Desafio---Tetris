@@ -63,7 +63,7 @@ namespace Desafio___Tetris
             this.buttonOK.TabIndex = 2;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            this.buttonOK.Click += new System.EventHandler(this.ButtonOK_Click);
             // 
             // buttonCancela
             // 
@@ -74,7 +74,7 @@ namespace Desafio___Tetris
             this.buttonCancela.TabIndex = 3;
             this.buttonCancela.Text = "Cancela";
             this.buttonCancela.UseVisualStyleBackColor = true;
-            this.buttonCancela.Click += new System.EventHandler(this.buttonCancela_Click);
+            this.buttonCancela.Click += new System.EventHandler(this.ButtonCancela_Click);
             // 
             // pictureBoxTabuleiro
             // 
@@ -112,6 +112,7 @@ namespace Desafio___Tetris
             this.MinimizeBox = false;
             this.Name = "FormPontuacaoInsert";
             this.Text = "Salvar Pontuação";
+            this.Load += new System.EventHandler(this.FormPontuacaoInsert_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTabuleiro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

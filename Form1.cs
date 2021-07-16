@@ -16,6 +16,7 @@ namespace Desafio___Tetris
         private Tabuleiro Tabuleiro { get; set; }
         private Stopwatch Sw { get; set; }
         private OleDbConnection oleDbConnection { get; set; }
+        private Placar Placar { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -104,9 +105,9 @@ namespace Desafio___Tetris
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
-            Placar p = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed, labelQtdPeca);
+            Placar = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed, labelQtdPeca);
 
-            this.Jogo = new Jogo(Tabuleiro, p);
+            this.Jogo = new Jogo(Tabuleiro, Placar);
 
             bool over = false;
             Jogo.At = new Peca(Tabuleiro, panelAtual);
@@ -122,41 +123,16 @@ namespace Desafio___Tetris
             labelPause.Text = Char.ToString((char)0x3c);
             buttonPause.Enabled = false;
             MessageBox.Show("Game Over");
-            SalvaPontuacao(p);
+            SalvaPontuacao();
         }
-        private void SalvaPontuacao(Placar pl) 
+        private void SalvaPontuacao() 
         {
-            FormPontuacaoInsert fp = new FormPontuacaoInsert();
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw);
 
             oleDbConnection = Conexao.Abre();
             if (oleDbConnection != null)
             {
-                double pcW, pcH;
-                Bitmap captureBitmap = new Bitmap(panelTabuleiro.Width, panelTabuleiro.Height);
-                Rectangle captureRectangle = new Rectangle(0, 0, panelTabuleiro.Width, panelTabuleiro.Height);
-                panelTabuleiro.DrawToBitmap(captureBitmap, captureRectangle);
-                pcW = fp.pictureBox.Width / panelTabuleiro.Width;
-                pcH = fp.pictureBox.Height / panelTabuleiro.Height;
-                Bitmap bitmapPictureBoxImage = new Bitmap(fp.pictureBox.Width, fp.pictureBox.Height);
-                Graphics g = Graphics.FromImage(bitmapPictureBoxImage);
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.DrawImage(captureBitmap, 0,0,fp.pictureBox.Width, fp.pictureBox.Height);
-                fp.pictureBox.Image = bitmapPictureBoxImage;
-                
-                fp.ShowDialog();
-                if(fp.DialogResult == DialogResult.OK)
-                {
-                    PontuacaoDAO pd = new PontuacaoDAO();
-                    Pontuacao po = new Pontuacao();
-                    po.Nome = fp.nome;
-                    po.Score = pl.Score;
-                    po.Nivel = pl.Nivel;
-                    po.QtdPecas = pl.QtdPecas;
-                    po.TempoJogo = Sw.Elapsed;
-                    po.DataScore = DateTime.Now;
-                    po.Tabuleiro = captureBitmap;
-                    pd.Insert(po);
-                }               
+                fp.ShowDialog();             
             }
         }
         private void GeraProx()

@@ -9,7 +9,7 @@ public class Tabuleiro
     public readonly int nlin = 16;
     public readonly int ncol = 10;
     public RetanguloTabuleiro[][] Matrix { get; set; }
-    private Panel Panel { get; set; }
+    public static Panel Panel { get; set; }
     private int Menor(int a, int b)
     {
         if (a < b)
@@ -19,7 +19,7 @@ public class Tabuleiro
     }
     private Tabuleiro(Panel t)
     {
-        this.Panel = t;
+        Panel = t;
     }
     private static Tabuleiro _instance;
     public static Tabuleiro GetInstance(Panel t)

@@ -111,6 +111,7 @@ public class ColisaoX : AbsColisao
         int ul = Peca.QLinhas - 1;
         int uc = Peca.QColunas(ul);
 
+        /*
         List<int> vetc = new List<int>();
 
         for (int i = 0; i < Tabuleiro.nlin; i++)
@@ -122,6 +123,7 @@ public class ColisaoX : AbsColisao
 
         if (vetc.Contains(1)) // existe uma posição ocupada onde a peça vai cair
         {
+        */
             if (Xdest < Xorig)
             {
                 VerificaEsquerda(ul, uc);
@@ -130,6 +132,6 @@ public class ColisaoX : AbsColisao
             {
                 VerificaDireita(ul, uc);
             }
-        }
+        //}
     }
 }
