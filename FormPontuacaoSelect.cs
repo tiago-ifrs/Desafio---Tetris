@@ -17,8 +17,11 @@ namespace Desafio___Tetris
 
         private void FormScore_Load(object sender, EventArgs e)
         {
+            List<Pontuacao> lp;
             PontuacaoDAO pd = new PontuacaoDAO();
-            pd.popula();
+            lp = pd.ListaTodos();
+            bSPontuacao.DataSource = lp;
+            dataGridView1.DataSource = bSPontuacao;
         }
     }
 }

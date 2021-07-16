@@ -34,7 +34,7 @@ namespace Desafio___Tetris
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancela = new System.Windows.Forms.Button();
             this.pictureBoxTabuleiro = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelPlacarInsert = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTabuleiro)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,25 +84,19 @@ namespace Desafio___Tetris
             this.pictureBoxTabuleiro.TabIndex = 4;
             this.pictureBoxTabuleiro.TabStop = false;
             // 
-            // tableLayoutPanel1
+            // panelPlacarInsert
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(251, 13);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(300, 150);
-            this.tableLayoutPanel1.TabIndex = 5;
+            this.panelPlacarInsert.Location = new System.Drawing.Point(251, 13);
+            this.panelPlacarInsert.Name = "panelPlacarInsert";
+            this.panelPlacarInsert.Size = new System.Drawing.Size(300, 150);
+            this.panelPlacarInsert.TabIndex = 5;
             // 
             // FormPontuacaoInsert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(569, 450);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.panelPlacarInsert);
             this.Controls.Add(this.pictureBoxTabuleiro);
             this.Controls.Add(this.buttonCancela);
             this.Controls.Add(this.buttonOK);
@@ -126,6 +120,6 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancela;
         private System.Windows.Forms.PictureBox pictureBoxTabuleiro;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panelPlacarInsert;
     }
 }

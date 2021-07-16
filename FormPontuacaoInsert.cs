@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Desafio___Tetris
@@ -15,12 +11,6 @@ namespace Desafio___Tetris
         private Placar Placar { get; set; }
         private Stopwatch Stopwatch { get; set; }
         private Bitmap CaptureBitmap { get; set; }
-        /*
-        public FormPontuacaoInsert()
-        {
-            InitializeComponent();
-        }
-        */
         public FormPontuacaoInsert(Placar placar, Stopwatch stopwatch)
         {
             this.Placar = placar;
@@ -42,14 +32,18 @@ namespace Desafio___Tetris
                 Tabuleiro = CaptureBitmap
             };
             pd.Insert(po);
+            TrocaControles(panelPlacarInsert.Controls, Placar.Panel.Controls);
             this.Close();
         }
         private void ButtonCancela_Click(object sender, EventArgs e)
         {
+            TrocaControles(panelPlacarInsert.Controls, Placar.Panel.Controls);
             this.Close();
         }
         private void FormPontuacaoInsert_Load(object sender, EventArgs e)
         {
+            TrocaControles(Placar.Panel.Controls, panelPlacarInsert.Controls);
+
             Bitmap bitmapPictureBoxImage = new Bitmap(pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
             Rectangle captureRectangle = new Rectangle(0, 0, Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);
             Tabuleiro.Panel.DrawToBitmap(CaptureBitmap, captureRectangle);
@@ -58,6 +52,24 @@ namespace Desafio___Tetris
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.DrawImage(CaptureBitmap, 0, 0, pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
             pictureBoxTabuleiro.Image = bitmapPictureBoxImage;
+        }
+        private void TrocaControles(System.Windows.Forms.Control.ControlCollection org,
+                                    System.Windows.Forms.Control.ControlCollection dst)
+        {
+            dst.Add(org["label4"]);
+            dst.Add(org["labelPlacar"]);
+
+            dst.Add(org["label5"]);
+            dst.Add(org["labelLevel"]);
+
+            dst.Add(org["label7"]);
+            dst.Add(org["labelSpeed"]);
+
+            dst.Add(org["label8"]);
+            dst.Add(org["labelQtdPeca"]);
+
+            dst.Add(org["label6"]);
+            dst.Add(org["labelTimerJogo"]);
         }
     }
 }

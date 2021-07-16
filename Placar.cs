@@ -2,38 +2,35 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
+using static System.Windows.Forms.Control;
 
 public class Placar
 {
     private Tabuleiro Tabuleiro { get; }
-    private Label LabelScore { get; set; }
-    private Label LabelLevel { get; set; }
-    private Label LabelSpeed { get; set; }
-    private Label LabelQtd { get; set; }
-    public int Score { get; set; }
+    private int _qtdPecas { get; set; }
     private int[] Tempo { get; set; }
+    private ControlCollection Controles { get; set; }
+    public int Score { get; set; }
     public int Nivel { get; set; }
     public double Velo { get; set; }
-    private int _QtdPecas { get; set; }
+    public Panel Panel { get; set; }
     public int QtdPecas
     {
         get 
         {
-            return _QtdPecas;
+            return _qtdPecas;
         }
         set 
         {
-            _QtdPecas = value;
-            LabelQtd.Text = value.ToString();
+            _qtdPecas = value;
+            Controles["labelQtdPeca"].Text = value.ToString();
         }
     }
-    public Placar(Tabuleiro tabuleiro, Label labelScore, Label labelLevel, Label labelSpeed, Label labelqtd)
+    public Placar(Tabuleiro tabuleiro, Panel panelPlacar)
     {
         this.Tabuleiro = tabuleiro;
-        this.LabelScore = labelScore;
-        this.LabelLevel = labelLevel;
-        this.LabelSpeed = labelSpeed;
-        this.LabelQtd = labelqtd;
+        this.Panel = panelPlacar;
+        this.Controles = panelPlacar.Controls;
         this.Score = 0;
         this.Nivel = 0;
         this.Tempo = new int[]
@@ -59,10 +56,12 @@ public class Placar
                 67,                 //15/s
                 50};                //20/s
         this.Velo = this.Tempo[this.Nivel];
-        LabelSpeed.Text = Math.Round(1000/this.Velo, 2).ToString() + " (linhas/s)"; 
-        LabelScore.Text = "0"; //zera a label do placar a cada novo jogo
-        LabelLevel.Text = "0";
-        labelqtd.Text = "0";
+                
+        //zera a label do placar a cada novo jogo
+        Controles["labelPlacar"].Text = "0";
+        Controles["labelLevel"].Text = "0";
+        Controles["labelSpeed"].Text = Math.Round(1000 / this.Velo, 2).ToString() + " (linhas/s)"; 
+        Controles["labelQtdPeca"].Text = "0"; 
     }
     public void Atualiza()
     {
@@ -89,20 +88,19 @@ public class Placar
             Tabuleiro.Deleta(indices[j]);
 
             Score += 10;
-            LabelScore.Text = (Score).ToString();
-            LabelScore.Refresh();
+            Controles["labelPlacar"].Text = (Score).ToString();
+            Controles["labelPlacar"].Refresh();
             Thread.Sleep((int)Tempo[Nivel]);
         }
 
         if (indices.Count > 0)
         {
             Nivel = (int)Score / 100;
-            LabelLevel.Text = (Nivel).ToString();
-            LabelLevel.Refresh();
+            Controles["labelLevel"].Text = (Nivel).ToString();
+            Controles["labelLevel"].Refresh();
             Velo = Tempo[Nivel];
-            LabelSpeed.Text = Math.Round(1000/Velo, 2).ToString()+" (linhas/s)";
-            LabelSpeed.Refresh();
+            Controles["labelSpeed"].Text = Math.Round(1000/Velo, 2).ToString()+" (linhas/s)";
+            Controles["labelSpeed"].Refresh();
         }
-
     }
 }

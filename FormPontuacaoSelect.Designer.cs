@@ -29,20 +29,46 @@ namespace Desafio___Tetris
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.bSPontuacao = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bSPontuacao)).BeginInit();
             this.SuspendLayout();
             // 
-            // FormScore
+            // dataGridView1
+            // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.MaximumSize = new System.Drawing.Size(978, 304);
+            this.dataGridView1.MinimumSize = new System.Drawing.Size(978, 304);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 62;
+            this.dataGridView1.RowTemplate.Height = 33;
+            this.dataGridView1.Size = new System.Drawing.Size(978, 304);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // FormPontuacaoSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "FormScore";
+            this.ClientSize = new System.Drawing.Size(1002, 328);
+            this.Controls.Add(this.dataGridView1);
+            this.MaximumSize = new System.Drawing.Size(1024, 384);
+            this.MinimumSize = new System.Drawing.Size(1024, 384);
+            this.Name = "FormPontuacaoSelect";
             this.Text = "Pontuação";
             this.Load += new System.EventHandler(this.FormScore_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bSPontuacao)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.BindingSource bSPontuacao;
     }
 }

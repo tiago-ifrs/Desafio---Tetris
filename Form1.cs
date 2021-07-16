@@ -17,6 +17,7 @@ namespace Desafio___Tetris
         private Stopwatch Sw { get; set; }
         private OleDbConnection oleDbConnection { get; set; }
         private Placar Placar { get; set; }
+        private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -28,8 +29,12 @@ namespace Desafio___Tetris
             {
                 labelSQL.Text = "SQL: "+oleDbConnection.State.ToString();
                 labelSQL.Visible = true;
-                //FormPontuacaoSelect fs = new FormPontuacaoSelect();
-                //fs.Show();
+                buttonPontuacao.Visible = true;
+                FormPontuacaoSelect fs = new FormPontuacaoSelect
+                {
+                    TopMost = true
+                };
+                fs.Show();
             }
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -105,8 +110,9 @@ namespace Desafio___Tetris
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
-            Placar = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed, labelQtdPeca);
+            //Placar = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed, labelQtdPeca);
 
+            Placar = new Placar(Tabuleiro, panelPlacar);
             this.Jogo = new Jogo(Tabuleiro, Placar);
 
             bool over = false;
@@ -204,6 +210,19 @@ namespace Desafio___Tetris
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void buttonPontuacao_Click(object sender, EventArgs e)
+        {
+            if (Fs == null) //não funciona, é sempre null
+            /*https://stackoverflow.com/questions/3087841/how-can-i-make-a-single-instance-form-not-application*/
+            {
+                Fs = new FormPontuacaoSelect
+                {
+                    TopMost = true
+                };
+                Fs.Show();
+            }
         }
     }
 }
