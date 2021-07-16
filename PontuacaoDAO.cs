@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Text;
 
 public class PontuacaoDAO
@@ -34,17 +36,27 @@ GO
      */
     public void Insert(Pontuacao p) 
     {
+        object result;
         OleDbConnection connection = null;
+        MemoryStream ms = new MemoryStream();
+        byte[] photo_aray;
+
+        p.Tabuleiro.Save(ms,ImageFormat.Jpeg);
+        photo_aray = new byte[ms.Length];
+        ms.Position = 0;
+        ms.Read(photo_aray, 0, photo_aray.Length);
         try
         {
             connection = Conexao.Abre();
             Conexao.VerifyDBConnection(ref connection);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
+                .AppendLine("USE TETRIS                         ")
+                //.AppendLine("   GO                              ")
                 .AppendLine("INSERT INTO                        ")
                 .AppendLine("   DBO.PONTUACAO                   ")
-                .AppendLine("   (ID,                            ")
-                //.AppendLine("   (                            ")
+                //.AppendLine("   (ID,                          ")
+                .AppendLine("   (                               ")
                 .AppendLine("   NOME,                           ")
                 .AppendLine("   SCORE,                          ")
                 .AppendLine("   NIVEL,                          ")
@@ -52,38 +64,36 @@ GO
                 .AppendLine("   QTD_PECAS,                      ")
                 .AppendLine("   DATA_SCORE,                     ")
                 .AppendLine("   TABULEIRO)                      ")
-                .AppendLine("   VALUES                             ")
-                .AppendLine("   (@ID,                           ")
-                //.AppendLine("   (                           ")
-                .AppendLine("   @NOME,                          ")
-                .AppendLine("   @SCORE,                         ")
-                .AppendLine("   @NIVEL,                         ")
-                .AppendLine("   @TEMPO_JOGO,                    ")
-                .AppendLine("   @QTD_PECAS,                     ")
-                .AppendLine("   @DATA_SCORE,                    ")
-                .AppendLine("   @TABULEIRO)                  ");
-                //.AppendLine("   GO                              ");
+                .AppendLine("   VALUES                          ")
+                //.AppendLine("   (@ID,                           ")
+                .AppendLine("   (?,                             ")
+                .AppendLine("   ?,                              ")
+                .AppendLine("   ?,                              ")
+                .AppendLine("   ?,                              ")
+                .AppendLine("   ?,                              ")
+                .AppendLine("   ?,                              ")
+                .AppendLine("   ?);                             ");
+                
 
             /*
             .AppendLine("WHERE                              ")
             .AppendLine("   ESTACAO = ?                     ")
             .AppendLine("   AND LINHA_MONTAGEM = ?          ");
             */
-            List<OleDbParameter> st = new List<OleDbParameter>();
+            
             using (OleDbCommand command = connection.CreateCommand())
             {
                 command.CommandText = stringBuilder.ToString();
 
-                st.Add(command.Parameters.AddWithValue("@Id", 0));
-                st.Add(command.Parameters.AddWithValue("@NOME", p.Nome));
-                st.Add(command.Parameters.AddWithValue("@SCORE", p.Score));
-                st.Add(command.Parameters.AddWithValue("@NIVEL", p.Nivel));
-                st.Add(command.Parameters.AddWithValue("@TEMPO_JOGO", p.TempoJogo));
-                st.Add(command.Parameters.AddWithValue("@QTD_PECAS", p.QtdPecas));
-                st.Add(command.Parameters.AddWithValue("@DATA_SCORE", p.DataScore));
-                st.Add(command.Parameters.AddWithValue("@TABULEIRO", p.Tabuleiro));
+                command.Parameters.AddWithValue("@NOME", p.Nome);
+                command.Parameters.AddWithValue("@SCORE", p.Score);
+                command.Parameters.AddWithValue("@NIVEL", p.Nivel);
+                command.Parameters.AddWithValue("@TEMPO_JOGO", p.TempoJogo);
+                command.Parameters.AddWithValue("@QTD_PECAS", p.QtdPecas);
+                command.Parameters.AddWithValue("@DATA_SCORE", p.DataScore);
+                command.Parameters.AddWithValue("@TABULEIRO", photo_aray);
 
-                object result = command.ExecuteReader();
+                result = command.ExecuteReader();
             }
         }
         catch (Exception exception)

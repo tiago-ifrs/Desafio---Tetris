@@ -53,6 +53,7 @@ namespace Desafio___Tetris
             this.buttonPrint = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.labelQtdPeca = new System.Windows.Forms.Label();
+            this.labelSQL = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -265,11 +266,22 @@ namespace Desafio___Tetris
             this.labelQtdPeca.TabIndex = 22;
             this.labelQtdPeca.Text = "0";
             // 
+            // labelSQL
+            // 
+            this.labelSQL.AutoSize = true;
+            this.labelSQL.Location = new System.Drawing.Point(878, 619);
+            this.labelSQL.Name = "labelSQL";
+            this.labelSQL.Size = new System.Drawing.Size(44, 25);
+            this.labelSQL.TabIndex = 23;
+            this.labelSQL.Text = "SQL";
+            this.labelSQL.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.labelSQL);
             this.Controls.Add(this.labelQtdPeca);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.buttonPrint);
@@ -327,6 +339,7 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label labelQtdPeca;
+        private System.Windows.Forms.Label labelSQL;
     }
 }
 

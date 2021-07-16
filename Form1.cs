@@ -22,11 +22,13 @@ namespace Desafio___Tetris
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            //oleDbConnection = Conexao.Abre();
+            oleDbConnection = Conexao.Abre();
             if(oleDbConnection != null) 
             {
-                FormPontuacaoSelect fs = new FormPontuacaoSelect();
-                fs.Show();
+                labelSQL.Text = "SQL: "+oleDbConnection.State.ToString();
+                labelSQL.Visible = true;
+                //FormPontuacaoSelect fs = new FormPontuacaoSelect();
+                //fs.Show();
             }
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
