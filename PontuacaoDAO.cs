@@ -85,6 +85,7 @@ public class PontuacaoDAO
             Conexao.VerifyDBConnection(ref connection);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
+                .AppendLine("USE TETRIS                         ")
                 .AppendLine("SELECT                             ")
                 .AppendLine("   ID,                             ")
                 .AppendLine("   NOME,                           ")

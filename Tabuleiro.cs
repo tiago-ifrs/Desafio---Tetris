@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 public class Tabuleiro
@@ -10,17 +8,11 @@ public class Tabuleiro
     public readonly int ncol = 10;
     public RetanguloTabuleiro[][] Matrix { get; set; }
     public static Panel Panel { get; set; }
-    private int Menor(int a, int b)
-    {
-        if (a < b)
-            return a;
-        else
-            return b;
-    }
     private Tabuleiro(Panel t)
     {
         Panel = t;
     }
+
     private static Tabuleiro _instance;
     public static Tabuleiro GetInstance(Panel t)
     {
@@ -36,7 +28,7 @@ public class Tabuleiro
 
         a = Panel.Height / nlin;
         l = Panel.Width / ncol;
-        menor = Menor(l, a);
+        menor = Math.Min(l, a);
         Matrix = RetanguloTabuleiro.Inicializa(Panel, nlin, ncol, menor, menor);
     }
     public void Deleta(int ytab)
@@ -68,7 +60,7 @@ public class Tabuleiro
         int uc = p.QColunas(ul);
         int ypec = ul;
         int y = ytab;
-        int qtdY = Menor(y, ul); //tratamento para evitar IndexOutofRangeException
+        int qtdY = Math.Min(y, ul); //tratamento para evitar IndexOutofRangeException
 
         if (ytab < nlin) //evita erros de índice
         {

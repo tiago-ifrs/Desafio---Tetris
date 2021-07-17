@@ -9,6 +9,7 @@ public class Placar
     private Tabuleiro Tabuleiro { get; }
     private int _qtdPecas { get; set; }
     private int[] Tempo { get; set; }
+    private int NivelInicial { get; set; }
     private ControlCollection Controles { get; set; }
     public int Score { get; set; }
     public int Nivel { get; set; }
@@ -26,13 +27,13 @@ public class Placar
             Controles["labelQtdPeca"].Text = value.ToString();
         }
     }
-    public Placar(Tabuleiro tabuleiro, Panel panelPlacar)
+    public Placar(Tabuleiro tabuleiro, Panel panelPlacar, int nivelInicial)
     {
         this.Tabuleiro = tabuleiro;
         this.Panel = panelPlacar;
         this.Controles = panelPlacar.Controls;
         this.Score = 0;
-        this.Nivel = 0;
+        this.Nivel = this.NivelInicial = nivelInicial;
         this.Tempo = new int[]
         {       854,
                 800,
@@ -59,8 +60,8 @@ public class Placar
                 
         //zera a label do placar a cada novo jogo
         Controles["labelPlacar"].Text = "0";
-        Controles["labelLevel"].Text = "0";
-        Controles["labelSpeed"].Text = Math.Round(1000 / this.Velo, 2).ToString() + " (linhas/s)"; 
+        Controles["labelLevel"].Text = Nivel.ToString();
+        Controles["labelSpeed"].Text = Math.Round(1000 / this.Velo, 2).ToString() + " (linhas/s)";
         Controles["labelQtdPeca"].Text = "0"; 
     }
     public void Atualiza()
@@ -95,12 +96,16 @@ public class Placar
 
         if (indices.Count > 0)
         {
-            Nivel = (int)Score / 100;
+            //Nivel = (int)Score / 100;
+            Nivel = NivelInicial + ((int)Score / 100);
             Controles["labelLevel"].Text = (Nivel).ToString();
             Controles["labelLevel"].Refresh();
-            Velo = Tempo[Nivel];
-            Controles["labelSpeed"].Text = Math.Round(1000/Velo, 2).ToString()+" (linhas/s)";
-            Controles["labelSpeed"].Refresh();
+            if (Nivel < Tempo.Length)
+            {
+                Velo = Tempo[Nivel];
+                Controles["labelSpeed"].Text = Math.Round(1000 / Velo, 2).ToString() + " (linhas/s)";
+                Controles["labelSpeed"].Refresh();
+            }
         }
     }
 }

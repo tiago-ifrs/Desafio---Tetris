@@ -46,7 +46,6 @@ namespace Desafio___Tetris
         }
         private void ButtonNJ_Click(object sender, EventArgs e)
         {
-            this.Pause = false;
             Tetris();
         }
         private void ButtonPause_Click(object sender, EventArgs e)
@@ -106,13 +105,15 @@ namespace Desafio___Tetris
         {
             labelPause.Text = Char.ToString((char)0x34);
             buttonPause.Enabled = true;
+            this.Pause = false;
+            trackBarNivel.Enabled = false;
             this.Sw = new Stopwatch();
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
             //Placar = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed, labelQtdPeca);
 
-            Placar = new Placar(Tabuleiro, panelPlacar);
+            Placar = new Placar(Tabuleiro, panelPlacar, trackBarNivel.Value);
             this.Jogo = new Jogo(Tabuleiro, Placar);
 
             bool over = false;
@@ -120,6 +121,7 @@ namespace Desafio___Tetris
             Jogo.Prox = null;
 
             AcionaRelogio();
+            
             while (!over)
             {
                 GeraProx();
@@ -127,9 +129,10 @@ namespace Desafio___Tetris
             }
             ParaRelogio();
             labelPause.Text = Char.ToString((char)0x3c);
-            buttonPause.Enabled = false;
             MessageBox.Show("Game Over");
             SalvaPontuacao();
+            buttonPause.Enabled = false;
+            trackBarNivel.Enabled = true;
         }
         private void SalvaPontuacao() 
         {
@@ -212,7 +215,7 @@ namespace Desafio___Tetris
             Application.Exit();
         }
 
-        private void buttonPontuacao_Click(object sender, EventArgs e)
+        private void ButtonPontuacao_Click(object sender, EventArgs e)
         {
             if (Fs == null) //não funciona, é sempre null
             /*https://stackoverflow.com/questions/3087841/how-can-i-make-a-single-instance-form-not-application*/
@@ -223,6 +226,11 @@ namespace Desafio___Tetris
                 };
                 Fs.Show();
             }
+        }
+
+        private void TrackBarNivel_ValueChanged(object sender, EventArgs e)
+        {
+            labelTBNivel.Text = trackBarNivel.Value.ToString();
         }
     }
 }

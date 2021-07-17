@@ -56,7 +56,11 @@ namespace Desafio___Tetris
             this.labelSQL = new System.Windows.Forms.Label();
             this.panelPlacar = new System.Windows.Forms.Panel();
             this.buttonPontuacao = new System.Windows.Forms.Button();
+            this.trackBarNivel = new System.Windows.Forms.TrackBar();
+            this.label9 = new System.Windows.Forms.Label();
+            this.labelTBNivel = new System.Windows.Forms.Label();
             this.panelPlacar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -305,13 +309,43 @@ namespace Desafio___Tetris
             this.buttonPontuacao.Text = "Pontuação";
             this.buttonPontuacao.UseVisualStyleBackColor = true;
             this.buttonPontuacao.Visible = false;
-            this.buttonPontuacao.Click += new System.EventHandler(this.buttonPontuacao_Click);
+            this.buttonPontuacao.Click += new System.EventHandler(this.ButtonPontuacao_Click);
+            // 
+            // trackBarNivel
+            // 
+            this.trackBarNivel.Location = new System.Drawing.Point(439, 418);
+            this.trackBarNivel.Maximum = 20;
+            this.trackBarNivel.Name = "trackBarNivel";
+            this.trackBarNivel.Size = new System.Drawing.Size(551, 69);
+            this.trackBarNivel.TabIndex = 26;
+            this.trackBarNivel.ValueChanged += new System.EventHandler(this.TrackBarNivel_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(440, 494);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(100, 25);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "Nível Inicial";
+            // 
+            // labelTBNivel
+            // 
+            this.labelTBNivel.AutoSize = true;
+            this.labelTBNivel.Location = new System.Drawing.Point(547, 494);
+            this.labelTBNivel.Name = "labelTBNivel";
+            this.labelTBNivel.Size = new System.Drawing.Size(22, 25);
+            this.labelTBNivel.TabIndex = 28;
+            this.labelTBNivel.Text = "0";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.labelTBNivel);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.trackBarNivel);
             this.Controls.Add(this.buttonPontuacao);
             this.Controls.Add(this.panelPlacar);
             this.Controls.Add(this.labelSQL);
@@ -335,6 +369,7 @@ namespace Desafio___Tetris
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelPlacar.ResumeLayout(false);
             this.panelPlacar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,6 +402,9 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label labelSQL;
         private System.Windows.Forms.Panel panelPlacar;
         private System.Windows.Forms.Button buttonPontuacao;
+        private System.Windows.Forms.TrackBar trackBarNivel;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label labelTBNivel;
     }
 }
 

@@ -11,10 +11,6 @@ public class Pontuacao
 	public int QtdPecas { get; set; }
 	public DateTime DataScore { get; set; }
 	public Bitmap Tabuleiro { get; set; }
-
-
-
-
 	public Pontuacao()
 	{
 	}

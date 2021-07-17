@@ -72,36 +72,6 @@ public class Jogo
             }
             Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
         }
-
-        /*
-        int ul = At.QLinhas - 1;
-        int uc = At.QColunas(ul);
-
-        List<int> vetl = new List<int>();
-
-        if ((Ytab + Yoffset) < Tabuleiro.nlin - 1)
-        {
-            for (int i = 0; i < Tabuleiro.Matrix[Ytab + Yoffset + 1].Length; i++)
-            {
-                vetl.Add(Tabuleiro.Matrix[Ytab + Yoffset + 1][i].Valor);
-            }
-            vetl = vetl.GetRange(Xtab, uc);
-            if (!vetl.Contains(1))
-            {
-                Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab);
-
-                Yoffset++;
-
-                Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
-                Wait(100);
-            }
-            else //colisao
-            {
-            }
-
-        }
-        */
-
     }
     public void MoveEsquerda()
     {
@@ -158,39 +128,30 @@ public class Jogo
             /*
              * NO LOOP PRINCIPAL, O PONTO DE COLISÃO É O PRÓPRIO PONTO A SER DESENHADO
              * NO CASO DE SETA ABAIXO, O YTAB FOI INCREMENTADO FORA DO LOOP
+             *
+             * CASO DO LOOP FOR:
+             * PEÇA JÁ ESTÁ DESENHADA NA LINHA ANTERIOR, PODE IR PARA A ATUAL?
              */
-            /*
-                 * CASO DO LOOP FOR:
-                 * PEÇA JÁ ESTÁ DESENHADA NA LINHA ANTERIOR, PODE IR PARA A ATUAL?
-                 */
             Tabuleiro.LimpaPeca(At, Ytab - 1 + Yoffset, Xtab); //precisa limpar A ANTERIOR para fazer o teste
             colisaoY = new ColisaoY(Tabuleiro, At, Ytab + Yoffset, Ytab + Yoffset, Xtab); //destino é a linha atual
 
             if (colisaoY.Ycoli == -1)//não houve colisão
             {
-                /*
-                 * detecção de colisão está limpando a peça somente no caso de colisão
-                 */
                 Tabuleiro.LimpaPeca(At, Ytab + Yoffset - 1, Xtab);
                 Tabuleiro.DesenhaY(At, Ytab + Yoffset, Xtab);
 
-            }//if !colisaoY
+            } //if !colisaoY
             else
             {
-                /*
-                 * DETECTOR DE COLISÃO VAI DESENHAR A PEÇA NO PONTO ANTERIOR
-                 *
-                 
-                 */
                 Tabuleiro.LimpaPeca(At, Ytab + Yoffset - 1, Xtab);
                 Tabuleiro.DesenhaY(At, Ytab + Yoffset - 1, Xtab);
-                if (colisaoY.Ycoli < At.QLinhas)
+                //if (colisaoY.Ycoli < At.QLinhas)
+                if (colisaoY.Ycoli < At.QLinhas-1)
                 {
                     return true; // GAME OVER
                 }
                 break;
             }
-            
             Wait((int)Placar.Velo);
         }
         return false;
