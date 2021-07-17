@@ -25,7 +25,7 @@ public class Jogo
         int ulAnt = At.QLinhas - 1;
         int ucAnt = At.QColunas(ulAnt);
         int rotAnt = At.Rot;
-        ColisaoX Esquerda;
+        ColisaoX Direita;
         Tabuleiro.LimpaPeca(At, Ytab + Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
         if (At.Rot < 4)
         {
@@ -43,8 +43,9 @@ public class Jogo
         int ucPos = At.QColunas(ulPos);
         if (Xtab + ucPos >= Tabuleiro.ncol)
         {
-            Esquerda = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos - ucAnt); //detectar colisão uma linha abaixo?
-            if (Esquerda.Xcoli == -1)//não houve colisão
+            //Direita = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos - ucAnt); //detectar colisão uma linha abaixo?
+            Direita = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos + ucAnt); //detectar colisão uma linha abaixo?
+            if (Direita.Xcoli == -1)//não houve colisão
             {
                 //mantém a rotação
                 //move a peça para a esquerda
