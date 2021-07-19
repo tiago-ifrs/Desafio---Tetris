@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace Desafio___Tetris
+{
+    public partial class FormPontuacaoTLP : Form
+    {
+        private int id { get; set; }
+
+        public FormPontuacaoTLP()
+        {
+            InitializeComponent();
+        }
+
+        private void FormPontuacaoTLP_Load(object sender, EventArgs e)
+        {
+            List<Pontuacao> lp;
+            PontuacaoDAO pd = new PontuacaoDAO();
+            lp = pd.ListaTodosTLP();
+
+            foreach(Pontuacao p in lp) 
+            {
+                tableLayoutPanel1.RowCount++;
+                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                tableLayoutPanel1.Controls.Add(new LabelNome(p.Id) { Text = p.Nome }, 0, tableLayoutPanel1.RowCount);                
+                tableLayoutPanel1.Controls.Add(new Label() { Text = p.Score.ToString() }, 1, tableLayoutPanel1.RowCount);
+                tableLayoutPanel1.Controls.Add(new Label() { Text = p.Nivel.ToString() }, 2, tableLayoutPanel1.RowCount);
+                tableLayoutPanel1.Controls.Add(new Label() { Text = p.TempoJogo.ToString() }, 3, tableLayoutPanel1.RowCount);
+                tableLayoutPanel1.Controls.Add(new Label() { Text = p.QtdPecas.ToString() }, 4, tableLayoutPanel1.RowCount);
+                tableLayoutPanel1.Controls.Add(new Label() { Text = p.DataScore.ToString(), AutoSize=true }, 5, tableLayoutPanel1.RowCount);
+            }
+        }        
+    }
+}

@@ -72,6 +72,85 @@ public class PontuacaoDAO
         }
     }
 
+    public Pontuacao ImagemPorId(int id)
+    {
+        OleDbConnection connection = null;
+        
+        Pontuacao p = null;
+        try
+        {
+            connection = Conexao.Abre();
+            Conexao.VerifyDBConnection(ref connection);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Clear()
+                .AppendLine("USE TETRIS                         ")
+                .AppendLine("SELECT                             ")
+                .AppendLine("   NOME,                           ")
+                .AppendLine("   DATA_SCORE,                     ")
+                /*
+                .AppendLine("   ID,                             ")
+                
+                .AppendLine("   SCORE,                          ")
+                .AppendLine("   NIVEL,                          ")
+                .AppendLine("   TEMPO_JOGO,                     ")
+                .AppendLine("   QTD_PECAS,                      ")
+                
+                */
+                .AppendLine("   TABULEIRO                       ")
+                .AppendLine("FROM                               ")
+                .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
+                .AppendLine("   WHERE                           ")
+                .AppendLine("   ID = ?                          ");
+                
+
+            using (OleDbCommand command = connection.CreateCommand())
+            {
+                command.CommandText = stringBuilder.ToString();
+                command.Parameters.AddWithValue("@ID", id);
+
+                OleDbDataReader result = command.ExecuteReader();
+                result.Read();
+                MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+                p = new Pontuacao
+                {
+                    Id = id,
+                    Nome = result["NOME"].ToString(),
+                    DataScore = (DateTime)result["DATA_SCORE"],
+                    Tabuleiro = new Bitmap(ms)
+                };
+                /*
+                while (result.Read())
+                {
+                    MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+                    
+                    {
+                        Id = (int)result["ID"],
+                        Nome = result["NOME"].ToString(),
+                        Score = (int)result["SCORE"],
+                        Nivel = (int)result["NIVEL"],
+                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
+                        QtdPecas = (int)result["QTD_PECAS"],
+                        DataScore = (DateTime)result["DATA_SCORE"],
+                        //Tabuleiro = new Bitmap(ms)
+                    };
+                }
+                */
+            }
+            return p;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(exception.Message);
+            //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
+            //return new Pontuacao();
+        }
+        finally
+        {
+            Conexao.CloseDBConnection(ref connection);
+        }
+    }
+
+
     public PontuacaoDAO()
     {
     }
@@ -119,6 +198,67 @@ public class PontuacaoDAO
                         QtdPecas = (int)result["QTD_PECAS"],
                         DataScore = (DateTime)result["DATA_SCORE"],
                         Tabuleiro = new Bitmap(ms)
+                    };
+                    lp.Add(p);
+                }
+            }
+            return lp;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(exception.Message);
+            //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
+            //return new Pontuacao();
+        }
+        finally
+        {
+            Conexao.CloseDBConnection(ref connection);
+        }
+    }
+    public List<Pontuacao> ListaTodosTLP()
+    {
+        OleDbConnection connection = null;
+        List<Pontuacao> lp = new List<Pontuacao>();
+        try
+        {
+            connection = Conexao.Abre();
+            Conexao.VerifyDBConnection(ref connection);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Clear()
+                .AppendLine("USE TETRIS                         ")
+                .AppendLine("SELECT                             ")
+                .AppendLine("   ID,                             ")
+                .AppendLine("   NOME,                           ")
+                .AppendLine("   SCORE,                          ")
+                .AppendLine("   NIVEL,                          ")
+                .AppendLine("   TEMPO_JOGO,                     ")
+                .AppendLine("   QTD_PECAS,                      ")
+                .AppendLine("   DATA_SCORE                     ")
+                //.AppendLine("   TABULEIRO                       ")
+                .AppendLine("FROM                               ")
+                .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
+                .AppendLine("   ORDER BY                        ")
+                .AppendLine("   SCORE                           ")
+                .AppendLine("   DESC                            ");
+
+            using (OleDbCommand command = connection.CreateCommand())
+            {
+                command.CommandText = stringBuilder.ToString();
+
+                OleDbDataReader result = command.ExecuteReader();
+                while (result.Read())
+                {
+                    //MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+                    Pontuacao p = new Pontuacao()
+                    {
+                        Id = (int)result["ID"],
+                        Nome = result["NOME"].ToString(),
+                        Score = (int)result["SCORE"],
+                        Nivel = (int)result["NIVEL"],
+                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
+                        QtdPecas = (int)result["QTD_PECAS"],
+                        DataScore = (DateTime)result["DATA_SCORE"],
+                        //Tabuleiro = new Bitmap(ms)
                     };
                     lp.Add(p);
                 }

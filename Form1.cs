@@ -17,7 +17,7 @@ namespace Desafio___Tetris
         private Stopwatch Sw { get; set; }
         private OleDbConnection oleDbConnection { get; set; }
         private Placar Placar { get; set; }
-        private FormPontuacaoSelect Fs { get; set; }
+        //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -25,17 +25,30 @@ namespace Desafio___Tetris
         private void Form1_Load(object sender, EventArgs e)
         {
             oleDbConnection = Conexao.Abre();
+            if (oleDbConnection != null)
+            {
+                labelSQL.Text = "SQL: " + oleDbConnection.State.ToString();
+                labelSQL.Visible = true;
+                buttonPontuacao.Visible = true;
+                FormPontuacaoTLP formPontuacaoTLP = new FormPontuacaoTLP
+                {
+                    TopMost = true
+                };
+                formPontuacaoTLP.Show();
+            }
+            /*
             if(oleDbConnection != null) 
             {
                 labelSQL.Text = "SQL: "+oleDbConnection.State.ToString();
                 labelSQL.Visible = true;
                 buttonPontuacao.Visible = true;
-                FormPontuacaoSelect fs = new FormPontuacaoSelect
+                fs = new FormPontuacaoSelect
                 {
                     TopMost = true
                 };
                 fs.Show();
             }
+            */
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -121,7 +134,7 @@ namespace Desafio___Tetris
             Jogo.Prox = null;
 
             AcionaRelogio();
-            
+
             while (!over)
             {
                 GeraProx();
@@ -134,14 +147,14 @@ namespace Desafio___Tetris
             buttonPause.Enabled = false;
             trackBarNivel.Enabled = true;
         }
-        private void SalvaPontuacao() 
+        private void SalvaPontuacao()
         {
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw);
 
             oleDbConnection = Conexao.Abre();
             if (oleDbConnection != null)
             {
-                fp.ShowDialog();             
+                fp.ShowDialog();
             }
         }
         private void GeraProx()
@@ -156,17 +169,17 @@ namespace Desafio___Tetris
         }
         private void ButtonTGD_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("https://github.com/tiago-ifrs/Desafio---Tetris"+
-                            "\n"+
+            MessageBox.Show("https://github.com/tiago-ifrs/Desafio---Tetris" +
+                            "\n" +
                             "tgdbr@yahoo.com.br",
                             "Tetris 21");
         }
-        private void AcionaRelogio() 
+        private void AcionaRelogio()
         {
             Sw.Start();
             timerJogo.Start();
         }
-        private void ParaRelogio() 
+        private void ParaRelogio()
         {
             Sw.Stop();
             timerJogo.Stop();
@@ -183,14 +196,14 @@ namespace Desafio___Tetris
             string minhasImagens = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             SaveFileDialog sfd = new SaveFileDialog();
             ImageFormat formato = ImageFormat.Jpeg;
-            Bitmap captureBitmap = new Bitmap(panelTabuleiro.Width, panelTabuleiro.Height);            
+            Bitmap captureBitmap = new Bitmap(panelTabuleiro.Width, panelTabuleiro.Height);
             Rectangle captureRectangle = new Rectangle(0, 0, panelTabuleiro.Width, panelTabuleiro.Height);
             panelTabuleiro.DrawToBitmap(captureBitmap, captureRectangle);
 
             sfd.Filter = "Imagens|*.png;*.bmp;*.jpg";
             sfd.InitialDirectory = minhasImagens;
             sfd.DefaultExt = "*.jpg";
-            
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string ext = Path.GetExtension(sfd.FileName).ToLower();
@@ -217,8 +230,13 @@ namespace Desafio___Tetris
 
         private void ButtonPontuacao_Click(object sender, EventArgs e)
         {
-            if (Fs == null) //não funciona, é sempre null
-            /*https://stackoverflow.com/questions/3087841/how-can-i-make-a-single-instance-form-not-application*/
+            FormPontuacaoTLP formPontuacaoTLP = new FormPontuacaoTLP
+            {
+                TopMost = true
+            };
+            formPontuacaoTLP.Show();
+            /*
+            if (Fs == null) 
             {
                 Fs = new FormPontuacaoSelect
                 {
@@ -226,6 +244,7 @@ namespace Desafio___Tetris
                 };
                 Fs.Show();
             }
+            */
         }
 
         private void TrackBarNivel_ValueChanged(object sender, EventArgs e)
