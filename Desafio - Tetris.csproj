@@ -15,9 +15,11 @@
 
   <ItemGroup>
     <PackageReference Include="System.Data.OleDb" Version="5.0.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="bancoSqlite\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

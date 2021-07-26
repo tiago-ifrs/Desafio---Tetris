@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -11,7 +13,7 @@ public class PontuacaoDAO
     public void Insert(Pontuacao p)
     {
         object result;
-        OleDbConnection connection = null;
+        DbConnection connection = null;
         MemoryStream ms = new MemoryStream();
         byte[] photo_aray;
 
@@ -45,8 +47,9 @@ public class PontuacaoDAO
                 .AppendLine("   ?,                              ")
                 .AppendLine("   ?);                             ");
 
-            using (OleDbCommand command = connection.CreateCommand())
+            if (connection is OleDbConnection)
             {
+                using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
                 command.CommandText = stringBuilder.ToString();
 
                 command.Parameters.AddWithValue("@NOME", p.Nome);
@@ -58,6 +61,10 @@ public class PontuacaoDAO
                 command.Parameters.AddWithValue("@TABULEIRO", photo_aray);
 
                 result = command.ExecuteReader();
+            }
+            if(connection is SQLiteConnection)
+            {
+                throw new Exception("SQLITE: "+this.ToString());
             }
         }
         catch (Exception exception)
@@ -74,8 +81,8 @@ public class PontuacaoDAO
 
     public Pontuacao ImagemPorId(int id)
     {
-        OleDbConnection connection = null;
-        
+        DbConnection connection = null;
+
         Pontuacao p = null;
         try
         {
@@ -101,42 +108,32 @@ public class PontuacaoDAO
                 .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
                 .AppendLine("   WHERE                           ")
                 .AppendLine("   ID = ?                          ");
-                
 
-            using (OleDbCommand command = connection.CreateCommand())
+            if (connection is OleDbConnection)
             {
-                command.CommandText = stringBuilder.ToString();
-                command.Parameters.AddWithValue("@ID", id);
+                using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
+                {
+                    command.CommandText = stringBuilder.ToString();
+                    command.Parameters.AddWithValue("@ID", id);
 
-                OleDbDataReader result = command.ExecuteReader();
-                result.Read();
-                MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                p = new Pontuacao
-                {
-                    Id = id,
-                    Nome = result["NOME"].ToString(),
-                    DataScore = (DateTime)result["DATA_SCORE"],
-                    Tabuleiro = new Bitmap(ms)
-                };
-                /*
-                while (result.Read())
-                {
+                    OleDbDataReader result = command.ExecuteReader();
+                    result.Read();
                     MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                    
+                    p = new Pontuacao
                     {
-                        Id = (int)result["ID"],
+                        Id = id,
                         Nome = result["NOME"].ToString(),
-                        Score = (int)result["SCORE"],
-                        Nivel = (int)result["NIVEL"],
-                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
-                        QtdPecas = (int)result["QTD_PECAS"],
                         DataScore = (DateTime)result["DATA_SCORE"],
-                        //Tabuleiro = new Bitmap(ms)
+                        Tabuleiro = new Bitmap(ms)
                     };
+
                 }
-                */
+                return p;
             }
-            return p;
+            if (connection is SQLiteConnection) 
+            {
+                throw new Exception("SQLITE: " + this.ToString());
+            }
         }
         catch (Exception exception)
         {
@@ -148,6 +145,7 @@ public class PontuacaoDAO
         {
             Conexao.CloseDBConnection(ref connection);
         }
+        return null;
     }
 
 
@@ -156,7 +154,7 @@ public class PontuacaoDAO
     }
     public List<Pontuacao> ListaTodos()
     {
-        OleDbConnection connection = null;
+        DbConnection connection = null;
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
@@ -180,29 +178,36 @@ public class PontuacaoDAO
                 .AppendLine("   SCORE                           ")
                 .AppendLine("   DESC                            ");
 
-            using (OleDbCommand command = connection.CreateCommand())
+            if (connection is OleDbConnection)
             {
-                command.CommandText = stringBuilder.ToString();
-                
-                OleDbDataReader result = command.ExecuteReader();
-                while (result.Read())
+                using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
                 {
-                    MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                    Pontuacao p = new Pontuacao()
+                    command.CommandText = stringBuilder.ToString();
+
+                    OleDbDataReader result = command.ExecuteReader();
+                    while (result.Read())
                     {
-                        Id = (int)result["ID"],
-                        Nome = result["NOME"].ToString(),
-                        Score = (int)result["SCORE"],
-                        Nivel = (int)result["NIVEL"],
-                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
-                        QtdPecas = (int)result["QTD_PECAS"],
-                        DataScore = (DateTime)result["DATA_SCORE"],
-                        Tabuleiro = new Bitmap(ms)
-                    };
-                    lp.Add(p);
+                        MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+                        Pontuacao p = new Pontuacao()
+                        {
+                            Id = (int)result["ID"],
+                            Nome = result["NOME"].ToString(),
+                            Score = (int)result["SCORE"],
+                            Nivel = (int)result["NIVEL"],
+                            TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
+                            QtdPecas = (int)result["QTD_PECAS"],
+                            DataScore = (DateTime)result["DATA_SCORE"],
+                            Tabuleiro = new Bitmap(ms)
+                        };
+                        lp.Add(p);
+                    }
                 }
+                return lp;
             }
-            return lp;
+            if(connection is SQLiteConnection)
+            {
+                throw new Exception("SQLITE: " + this.ToString());
+            }
         }
         catch (Exception exception)
         {
@@ -214,10 +219,11 @@ public class PontuacaoDAO
         {
             Conexao.CloseDBConnection(ref connection);
         }
+        return null;
     }
     public List<Pontuacao> ListaTodosTLP()
     {
-        OleDbConnection connection = null;
+        DbConnection connection = null;
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
@@ -241,29 +247,34 @@ public class PontuacaoDAO
                 .AppendLine("   SCORE                           ")
                 .AppendLine("   DESC                            ");
 
-            using (OleDbCommand command = connection.CreateCommand())
+            if (connection is OleDbConnection)
             {
-                command.CommandText = stringBuilder.ToString();
-
-                OleDbDataReader result = command.ExecuteReader();
-                while (result.Read())
+                using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
                 {
-                    //MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                    Pontuacao p = new Pontuacao()
+                    command.CommandText = stringBuilder.ToString();
+
+                    OleDbDataReader result = command.ExecuteReader();
+                    while (result.Read())
                     {
-                        Id = (int)result["ID"],
-                        Nome = result["NOME"].ToString(),
-                        Score = (int)result["SCORE"],
-                        Nivel = (int)result["NIVEL"],
-                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
-                        QtdPecas = (int)result["QTD_PECAS"],
-                        DataScore = (DateTime)result["DATA_SCORE"],
-                        //Tabuleiro = new Bitmap(ms)
-                    };
-                    lp.Add(p);
+                        Pontuacao p = new Pontuacao()
+                        {
+                            Id = (int)result["ID"],
+                            Nome = result["NOME"].ToString(),
+                            Score = (int)result["SCORE"],
+                            Nivel = (int)result["NIVEL"],
+                            TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
+                            QtdPecas = (int)result["QTD_PECAS"],
+                            DataScore = (DateTime)result["DATA_SCORE"],
+                        };
+                        lp.Add(p);
+                    }
                 }
+                return lp;
             }
-            return lp;
+            if(connection is SQLiteConnection) 
+            {
+                throw new Exception("SQLITE: " + this.ToString());
+            }
         }
         catch (Exception exception)
         {
@@ -275,5 +286,6 @@ public class PontuacaoDAO
         {
             Conexao.CloseDBConnection(ref connection);
         }
+        return null;
     }
 }

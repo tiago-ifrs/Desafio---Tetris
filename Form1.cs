@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,7 +16,7 @@ namespace Desafio___Tetris
         private bool Pause { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
         private Stopwatch Sw { get; set; }
-        private OleDbConnection oleDbConnection { get; set; }
+        private DbConnection DbConnection { get; set; }
         private Placar Placar { get; set; }
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
@@ -24,10 +25,10 @@ namespace Desafio___Tetris
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            oleDbConnection = Conexao.Abre();
-            if (oleDbConnection != null)
+            DbConnection = Conexao.Abre();
+            if (DbConnection != null)
             {
-                labelSQL.Text = "SQL: " + oleDbConnection.State.ToString();
+                labelSQL.Text = "SQL: " + DbConnection.State.ToString();
                 labelSQL.Visible = true;
                 buttonPontuacao.Visible = true;
                 FormPontuacaoTLP formPontuacaoTLP = new FormPontuacaoTLP
@@ -151,8 +152,8 @@ namespace Desafio___Tetris
         {
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw);
 
-            oleDbConnection = Conexao.Abre();
-            if (oleDbConnection != null)
+            DbConnection = Conexao.Abre();
+            if (DbConnection != null)
             {
                 fp.ShowDialog();
             }
