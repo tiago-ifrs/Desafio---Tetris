@@ -230,7 +230,10 @@ public class PontuacaoDAO
             connection = Conexao.Abre();
             Conexao.VerifyDBConnection(ref connection);
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Clear()
+            
+            if (connection is OleDbConnection)
+            {
+                stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
                 .AppendLine("SELECT                             ")
                 .AppendLine("   ID,                             ")
@@ -239,16 +242,12 @@ public class PontuacaoDAO
                 .AppendLine("   NIVEL,                          ")
                 .AppendLine("   TEMPO_JOGO,                     ")
                 .AppendLine("   QTD_PECAS,                      ")
-                .AppendLine("   DATA_SCORE                     ")
-                //.AppendLine("   TABULEIRO                       ")
+                .AppendLine("   DATA_SCORE                      ")
                 .AppendLine("FROM                               ")
                 .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
                 .AppendLine("   ORDER BY                        ")
                 .AppendLine("   SCORE                           ")
                 .AppendLine("   DESC                            ");
-
-            if (connection is OleDbConnection)
-            {
                 using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
                 {
                     command.CommandText = stringBuilder.ToString();
@@ -273,7 +272,41 @@ public class PontuacaoDAO
             }
             if(connection is SQLiteConnection) 
             {
-                throw new Exception("SQLITE: " + this.ToString());
+                stringBuilder.Clear()
+                .AppendLine("SELECT                             ")
+                .AppendLine("   ID,                             ")
+                .AppendLine("   NOME,                           ")
+                .AppendLine("   SCORE,                          ")
+                .AppendLine("   NIVEL,                          ")
+                .AppendLine("   TEMPO_JOGO,                     ")
+                .AppendLine("   QTD_PECAS,                      ")
+                .AppendLine("   DATA_SCORE                      ")
+                .AppendLine("FROM                               ")
+                .AppendLine("   PONTUACAO                       ")
+                .AppendLine("   ORDER BY                        ")
+                .AppendLine("   SCORE                           ")
+                .AppendLine("   DESC                            ");
+                using (SQLiteCommand command = (SQLiteCommand)connection.CreateCommand())
+                {
+                    command.CommandText = stringBuilder.ToString();
+
+                    SQLiteDataReader result = command.ExecuteReader();
+                    while (result.Read())
+                    {
+                        Pontuacao p = new Pontuacao()
+                        {
+                            Id = (int)result["ID"],
+                            Nome = result["NOME"].ToString(),
+                            Score = (int)result["SCORE"],
+                            Nivel = (int)result["NIVEL"],
+                            TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
+                            QtdPecas = (int)result["QTD_PECAS"],
+                            DataScore = (DateTime)result["DATA_SCORE"],
+                        };
+                        lp.Add(p);
+                    }
+                }
+                return lp;
             }
         }
         catch (Exception exception)
