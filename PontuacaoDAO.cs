@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Desafio___Tetris;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.OleDb;
@@ -10,10 +11,14 @@ using System.Text;
 
 public class PontuacaoDAO
 {
+    private DbConnection Connection { get; set; }
+    public PontuacaoDAO()
+    {   
+
+    }
     public void Insert(Pontuacao p)
     {
         object result;
-        DbConnection connection = null;
         MemoryStream ms = new MemoryStream();
         byte[] photo_aray;
 
@@ -23,8 +28,8 @@ public class PontuacaoDAO
         ms.Read(photo_aray, 0, photo_aray.Length);
         try
         {
-            connection = Conexao.Abre();
-            Conexao.VerifyDBConnection(ref connection);
+            Connection = Conexao.Abre();
+            Conexao.VerifyDBConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
@@ -47,9 +52,9 @@ public class PontuacaoDAO
                 .AppendLine("   ?,                              ")
                 .AppendLine("   ?);                             ");
 
-            if (connection is OleDbConnection)
+            if (Connection is OleDbConnection)
             {
-                using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+                using OleDbCommand command = (OleDbCommand)Connection.CreateCommand();
                 command.CommandText = stringBuilder.ToString();
 
                 command.Parameters.AddWithValue("@NOME", p.Nome);
@@ -62,20 +67,31 @@ public class PontuacaoDAO
 
                 result = command.ExecuteReader();
             }
-            if(connection is SQLiteConnection)
+            if(Connection is SQLiteConnection)
             {
-                throw new Exception("SQLITE: "+this.ToString());
+                using OleDbCommand command = (OleDbCommand)Connection.CreateCommand();
+                command.CommandText = stringBuilder.ToString();
+
+                command.Parameters.AddWithValue("@NOME", p.Nome);
+                command.Parameters.AddWithValue("@SCORE", p.Score);
+                command.Parameters.AddWithValue("@NIVEL", p.Nivel);
+                command.Parameters.AddWithValue("@TEMPO_JOGO", p.TempoJogo);
+                command.Parameters.AddWithValue("@QTD_PECAS", p.QtdPecas);
+                command.Parameters.AddWithValue("@DATA_SCORE", p.DataScore);
+                command.Parameters.AddWithValue("@TABULEIRO", photo_aray);
+
+                result = command.ExecuteReader();
+                //throw new Exception("SQLITE: "+this.ToString());
             }
         }
         catch (Exception exception)
         {
             throw new Exception(exception.Message);
             //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
-
         }
         finally
         {
-            Conexao.CloseDBConnection(ref connection);
+            Conexao.CloseDBConnection();
         }
     }
 
@@ -87,22 +103,13 @@ public class PontuacaoDAO
         try
         {
             connection = Conexao.Abre();
-            Conexao.VerifyDBConnection(ref connection);
+            Conexao.VerifyDBConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
                 .AppendLine("SELECT                             ")
                 .AppendLine("   NOME,                           ")
                 .AppendLine("   DATA_SCORE,                     ")
-                /*
-                .AppendLine("   ID,                             ")
-                
-                .AppendLine("   SCORE,                          ")
-                .AppendLine("   NIVEL,                          ")
-                .AppendLine("   TEMPO_JOGO,                     ")
-                .AppendLine("   QTD_PECAS,                      ")
-                
-                */
                 .AppendLine("   TABULEIRO                       ")
                 .AppendLine("FROM                               ")
                 .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
@@ -143,14 +150,9 @@ public class PontuacaoDAO
         }
         finally
         {
-            Conexao.CloseDBConnection(ref connection);
+            Conexao.CloseDBConnection();
         }
         return null;
-    }
-
-
-    public PontuacaoDAO()
-    {
     }
     public List<Pontuacao> ListaTodos()
     {
@@ -159,7 +161,7 @@ public class PontuacaoDAO
         try
         {
             connection = Conexao.Abre();
-            Conexao.VerifyDBConnection(ref connection);
+            Conexao.VerifyDBConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
@@ -217,7 +219,7 @@ public class PontuacaoDAO
         }
         finally
         {
-            Conexao.CloseDBConnection(ref connection);
+            Conexao.CloseDBConnection();
         }
         return null;
     }
@@ -228,7 +230,7 @@ public class PontuacaoDAO
         try
         {
             connection = Conexao.Abre();
-            Conexao.VerifyDBConnection(ref connection);
+            Conexao.VerifyDBConnection();
             StringBuilder stringBuilder = new StringBuilder();
             
             if (connection is OleDbConnection)
@@ -317,7 +319,7 @@ public class PontuacaoDAO
         }
         finally
         {
-            Conexao.CloseDBConnection(ref connection);
+            Conexao.CloseDBConnection();
         }
         return null;
     }

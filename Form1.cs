@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -18,6 +19,7 @@ namespace Desafio___Tetris
         private Stopwatch Sw { get; set; }
         private DbConnection DbConnection { get; set; }
         private Placar Placar { get; set; }
+        public readonly static Type TipoBanco = typeof(SQLiteConnection);
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
@@ -37,19 +39,6 @@ namespace Desafio___Tetris
                 };
                 formPontuacaoTLP.Show();
             }
-            /*
-            if(oleDbConnection != null) 
-            {
-                labelSQL.Text = "SQL: "+oleDbConnection.State.ToString();
-                labelSQL.Visible = true;
-                buttonPontuacao.Visible = true;
-                fs = new FormPontuacaoSelect
-                {
-                    TopMost = true
-                };
-                fs.Show();
-            }
-            */
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
