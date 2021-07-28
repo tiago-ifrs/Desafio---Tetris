@@ -4,11 +4,11 @@ using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SQLite;
-public class Conexao /*não deve ser singleton, pois a conexão é fechada após as consultas*/
+public class Conexao
 {
-    private static AbsConexao AbsConexao { get; set; }
-    public static DbConnection dbConnection { get; set; }
-    private Conexao()
+    private AbsConexao AbsConexao { get; set; }
+    public DbConnection dbConnection { get; set; }
+    public Conexao()
     {
         switch (Form1.TipoBanco.Name)
         {
@@ -19,25 +19,15 @@ public class Conexao /*não deve ser singleton, pois a conexão é fechada após
                 AbsConexao = new ConexaoSQLite();
                 break;
         }
+    }
+    
+    public DbConnection Abre()
+    {
         dbConnection = AbsConexao.OpenDBConnection();
-    }
-    private static Conexao _instance;
-    public static Conexao GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new Conexao();
-        }
-        return _instance;
-    }
-    public static DbConnection Abre()
-    {
-        GetInstance();
         return dbConnection;
     }
-    public static void CloseDBConnection()
+    public void CloseDBConnection()
     {
-        GetInstance();
         try
         {
             if (dbConnection != null)
@@ -54,9 +44,8 @@ public class Conexao /*não deve ser singleton, pois a conexão é fechada após
             throw new Exception("CloseDBConnection - " + ex.ToString());
         }
     }
-    public static void VerifyDBConnection()
+    public void VerifyDBConnection()
     {
-        GetInstance();
         if (dbConnection == null)
         {
             throw new Exception(" VerifyDBConnection - is null ");

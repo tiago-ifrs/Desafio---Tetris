@@ -4,7 +4,6 @@ using System.Data.OleDb;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
@@ -17,9 +16,9 @@ namespace Desafio___Tetris
         private bool Pause { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
         private Stopwatch Sw { get; set; }
-        private DbConnection DbConnection { get; set; }
         private Placar Placar { get; set; }
         public readonly static Type TipoBanco = typeof(SQLiteConnection);
+        //public readonly static Type TipoBanco = typeof(OleDbConnection);
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
@@ -27,7 +26,9 @@ namespace Desafio___Tetris
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            DbConnection = Conexao.Abre();
+            Conexao conexao = new Conexao();
+            DbConnection DbConnection = conexao.Abre();
+            conexao.VerifyDBConnection();
             if (DbConnection != null)
             {
                 labelSQL.Text = "SQL: " + DbConnection.State.ToString();
@@ -39,6 +40,7 @@ namespace Desafio___Tetris
                 };
                 formPontuacaoTLP.Show();
             }
+            conexao.CloseDBConnection();
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -140,12 +142,14 @@ namespace Desafio___Tetris
         private void SalvaPontuacao()
         {
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw);
-
-            DbConnection = Conexao.Abre();
+            Conexao conexao = new Conexao();
+            DbConnection DbConnection = conexao.Abre();
+            conexao.VerifyDBConnection();
             if (DbConnection != null)
             {
                 fp.ShowDialog();
             }
+            conexao.CloseDBConnection();
         }
         private void GeraProx()
         {

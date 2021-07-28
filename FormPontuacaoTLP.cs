@@ -20,7 +20,7 @@ namespace Desafio___Tetris
         private void FormPontuacaoTLP_Load(object sender, EventArgs e)
         {
             List<Pontuacao> lp;
-            PontuacaoDAO pd = new PontuacaoDAO();
+            AbsPontuacaoDAO pd = new PontuacaoDAO().AbsPontuacaoDAO;
             lp = pd.ListaTodosTLP();
 
             foreach(Pontuacao p in lp) 

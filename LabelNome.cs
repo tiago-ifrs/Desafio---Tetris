@@ -20,7 +20,7 @@ public class LabelNome : Label
     private void nomePopup(object sender, EventArgs e)
     {
         Pontuacao p;
-        PontuacaoDAO pd = new PontuacaoDAO();
+        AbsPontuacaoDAO pd = new PontuacaoDAO().AbsPontuacaoDAO;
         p = pd.ImagemPorId(Id);
 
         PictureBox pictureBox = new PictureBox

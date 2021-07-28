@@ -20,7 +20,7 @@ namespace Desafio___Tetris
         }
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            PontuacaoDAO pd = new PontuacaoDAO();
+            AbsPontuacaoDAO pd = new PontuacaoDAO().AbsPontuacaoDAO;
             Pontuacao po = new Pontuacao
             {
                 Nome = textBoxNome.Text,
