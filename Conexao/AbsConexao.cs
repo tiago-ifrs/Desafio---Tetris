@@ -4,6 +4,8 @@ using System.IO;
 
 public abstract class AbsConexao
 {
-    public static readonly string pastaBase = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+    public abstract string pastaBase { get; }
+    public abstract string caminho { get;}
+    public abstract string connectionString { get; }
     public abstract DbConnection OpenDBConnection();
 }

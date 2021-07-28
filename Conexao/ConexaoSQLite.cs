@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.SQLite;
+using System.IO;
 
 public class ConexaoSQLite:AbsConexao
 {
-    private const string caminho = "bancoSqlite\\tetris.db";
-    private string connectionString = $"Data Source={pastaBase}{caminho}";
+    public override string pastaBase => Path.GetFullPath(AppContext.BaseDirectory);
+    public override string caminho => "tetris.db";
+    public override string connectionString => $"Data Source={pastaBase}{caminho}";
     public override DbConnection OpenDBConnection()
     {
         SQLiteConnection Connection;

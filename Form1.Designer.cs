@@ -53,7 +53,6 @@ namespace Desafio___Tetris
             this.buttonPrint = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.labelQtdPeca = new System.Windows.Forms.Label();
-            this.labelSQL = new System.Windows.Forms.Label();
             this.panelPlacar = new System.Windows.Forms.Panel();
             this.buttonPontuacao = new System.Windows.Forms.Button();
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
@@ -273,16 +272,6 @@ namespace Desafio___Tetris
             this.labelQtdPeca.TabIndex = 22;
             this.labelQtdPeca.Text = "0";
             // 
-            // labelSQL
-            // 
-            this.labelSQL.AutoSize = true;
-            this.labelSQL.Location = new System.Drawing.Point(878, 619);
-            this.labelSQL.Name = "labelSQL";
-            this.labelSQL.Size = new System.Drawing.Size(44, 25);
-            this.labelSQL.TabIndex = 23;
-            this.labelSQL.Text = "SQL";
-            this.labelSQL.Visible = false;
-            // 
             // panelPlacar
             // 
             this.panelPlacar.Controls.Add(this.label4);
@@ -348,7 +337,6 @@ namespace Desafio___Tetris
             this.Controls.Add(this.trackBarNivel);
             this.Controls.Add(this.buttonPontuacao);
             this.Controls.Add(this.panelPlacar);
-            this.Controls.Add(this.labelSQL);
             this.Controls.Add(this.buttonPrint);
             this.Controls.Add(this.buttonTGD);
             this.Controls.Add(this.labelKey);
@@ -399,7 +387,6 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label labelQtdPeca;
-        private System.Windows.Forms.Label labelSQL;
         private System.Windows.Forms.Panel panelPlacar;
         private System.Windows.Forms.Button buttonPontuacao;
         private System.Windows.Forms.TrackBar trackBarNivel;

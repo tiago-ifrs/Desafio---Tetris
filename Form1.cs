@@ -31,8 +31,6 @@ namespace Desafio___Tetris
             conexao.VerifyDBConnection();
             if (DbConnection != null)
             {
-                labelSQL.Text = "SQL: " + DbConnection.State.ToString();
-                labelSQL.Visible = true;
                 buttonPontuacao.Visible = true;
                 FormPontuacaoTLP formPontuacaoTLP = new FormPontuacaoTLP
                 {

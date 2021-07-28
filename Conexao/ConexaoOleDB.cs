@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.OleDb;
+using System.IO;
 
 public class ConexaoOleDB:AbsConexao
 {
-    private const string caminho = "Conexao\\conexao.udl";
-    private string connectionString = $"File Name={pastaBase}{caminho}";
+    public override string pastaBase => Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+    public override string caminho => "Conexao\\conexao.udl";
+    public override string connectionString => $"File Name={pastaBase}{caminho}";
     public override DbConnection OpenDBConnection()
     {
         OleDbConnection oleDbConnection;
