@@ -27,60 +27,33 @@ public class Peca : Abspeca
         set
         {
             Abspeca.Rot = value;
-            this.Linhas = Abspeca.Linhas;
+            Linhas = Abspeca.Linhas;
         }
     }
     public int Ponto(int y, int x)
     {
         return (int)Linhas[y].GetValue(x);
     }
-    public void PontoSet(int y, int x, int val)
-    {
-        Linhas[y][x] = val;
-    }
     private Abspeca Abspeca { get; set; }
     private RetanguloTabuleiro[][] Matrix { get; set; }
     public Panel ap { get; set; } //ap = atual ou proximo
     private readonly Tabuleiro tabuleiro;
     public char Tpeca { get; }
-    public Peca() { }
     public Peca(Tabuleiro tab, Panel ap)
     {
         char[] TiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
-        int al;
         Random random = new Random();
-        al = random.Next(0, TiposPeca.Length);
-        this.Tpeca = TiposPeca[al];
+        int al = random.Next(0, TiposPeca.Length);
+        Tpeca = TiposPeca[al];
         this.ap = ap;
-        this.tabuleiro = tab;
+        tabuleiro = tab;
 
-        switch (Tpeca)
-        {
-            case 'I':
-                this.Abspeca = new I();
-                break;
-            case 'L':
-                this.Abspeca = new L();
-                break;
-            case 'O':
-                this.Abspeca = new O();
-                break;
-            case 'S':
-                this.Abspeca = new S();
-                break;
-            case 'T':
-                this.Abspeca = new T();
-                break;
-            case 'J':
-                this.Abspeca = new J();
-                break;
-            case 'Z':
-                this.Abspeca = new Z();
-                break;
-        }
+        Type type = Type.GetType(Tpeca.ToString());
+        Abspeca = (Abspeca)Activator.CreateInstance(type);
+
         // devem ser colocados depois da instanciação
-        this.Abspeca.Rot = 0;
-        this.Linhas = Abspeca.Linhas;
+        Abspeca.Rot = 0;
+        Linhas = Abspeca.Linhas;
         //cria os quadradinhos redimensionados conforme o tamanho da peça
         int qc, h, w;
         qc = QColunas(QLinhas - 1);
@@ -89,9 +62,9 @@ public class Peca : Abspeca
         w = tab.Matrix[0][0].Width;
         Matrix = RetanguloTabuleiro.Inicializa(ap, QLinhas, qc, h, w);
         AtualizaPeca();
-    }   
-    public int QLinhas { get { return this.Abspeca.Linhas.Count; } }
-    public int QColunas(int y) { return this.Abspeca.Linhas[y].Length; }
+    }
+    public int QLinhas { get { return Abspeca.Linhas.Count; } }
+    public int QColunas(int y) { return Abspeca.Linhas[y].Length; }
     public void AtualizaPeca()
     {
         RetanguloTabuleiro[][] nova;
@@ -112,9 +85,9 @@ public class Peca : Abspeca
                     Size = tabuleiro.Matrix[0][0].Size, //quadrados iguais, pega o primeiro índice
                     Location = new Point(xform, yform),
                     Valor = Ponto(i, j),
-                    BorderStyle = BorderStyle.FixedSingle
+                    BorderStyle = BorderStyle.FixedSingle,
+                    BackColor = CorPonto(i, j)
                 };
-                nova[i][j].BackColor = CorPonto(i, j);
                 ap.Controls.Add(nova[i][j]);
             }
         }
