@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 public class J : Abspeca
@@ -14,7 +13,7 @@ public class J : Abspeca
     public override List<int[]> Linhas { get; set; }
     public override int Rot
     {
-        get { return _rot; }
+        get => _rot;
         set
         {
             _rot = value;

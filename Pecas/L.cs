@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 public class L:Abspeca
@@ -13,7 +12,7 @@ public class L:Abspeca
 
     public override int Rot
     {
-        get { return _rot; }
+        get => _rot;
         set
         {
             _rot = value;

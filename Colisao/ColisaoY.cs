@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
-public class ColisaoY : AbsColisao
+﻿public sealed class ColisaoY : AbsColisao
 {
-    private int Yorig { get; set; }
     public ColisaoY(Tabuleiro tabuleiro, Peca peca, int yorig, int ydest, int xdest)
     {
         Peca = peca;
         Tabuleiro = tabuleiro;
-        Yorig = yorig;
         Ydest = ydest;
         Xdest = xdest;
         Ycoli = -1;
@@ -46,18 +40,17 @@ public class ColisaoY : AbsColisao
                     Ycoli = Ydest - ypec;
                     Xcoli = Xdest + xpec;
                     //return this;
-                    colisao = this;
+                    Colisao = this;
                     return;
                     //return true;
                 }
             }
         }
         //não houve colisão
-        //return this;
-        colisao = this;
+        Colisao = this;
         return;
     }
-    public override AbsColisao colisao { get; set; }
+    public override AbsColisao Colisao { get; set; }
     public override int Ycoli { get; set; }
     public override int Xcoli { get; set; }
     public override Tabuleiro Tabuleiro { get; set; }

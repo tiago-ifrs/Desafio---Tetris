@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
-public class ColisaoX : AbsColisao
+﻿public sealed class ColisaoX : AbsColisao
 {
     private int Xorig { get; set; }
     private void VerificaDireita(int ul, int uc)
@@ -11,7 +7,7 @@ public class ColisaoX : AbsColisao
         for (int ypec = 0; ypec <= ul && (Ydest - ypec) >= 0; ypec++)
         {
             /* XDEST VAI SER A LINHA DE VERIFICAÇÃO, NÃO ONDE A PEÇA COMEÇA*/
-            for (int xpec = 0; xpec <= uc - 1 && (Xdest - xpec) < Tabuleiro.ncol; xpec++)
+            for (int xpec = 0; xpec <= uc - 1 && (Xdest - xpec) < Tabuleiro.Ncol; xpec++)
             {
                 /*MOVIMENTO À DIREITA, O ÍNDICE X DA PEÇA DEVE PARTIR DE XDEST E DECREMENTAR*/
                 /*ITERAR AO CONTRÁRIO*/
@@ -38,7 +34,7 @@ public class ColisaoX : AbsColisao
 
                     Ycoli = Ydest - ypec;
                     Xcoli = Xdest + xpec;
-                    colisao = this;
+                    Colisao = this;
                     return;
                     //return true;
                 }
@@ -69,14 +65,14 @@ public class ColisaoX : AbsColisao
                      */
                     Ycoli = Ydest - ypec;
                     Xcoli = Xdest + xpec;
-                    colisao = this;
+                    Colisao = this;
                     return;
                     //return true;
                 }
             }
         }
         //não houve colisão
-        colisao = this;
+        Colisao = this;
         return;
     }
     public ColisaoX(Tabuleiro tabuleiro, Peca peca, int ydest, int xorig, int xdest)
@@ -91,7 +87,7 @@ public class ColisaoX : AbsColisao
 
         this.Detecta();
     }
-    public override AbsColisao colisao { get; set; }
+    public override AbsColisao Colisao { get; set; }
     public override int Ycoli { get; set; }
     public override int Xcoli { get; set; }
     public override Tabuleiro Tabuleiro { get; set; }

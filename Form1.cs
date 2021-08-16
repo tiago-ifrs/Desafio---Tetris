@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.OleDb;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -17,8 +16,8 @@ namespace Desafio___Tetris
         private Tabuleiro Tabuleiro { get; set; }
         private Stopwatch Sw { get; set; }
         private Placar Placar { get; set; }
-        public readonly static Type TipoBanco = typeof(SQLiteConnection);
-        //public readonly static Type TipoBanco = typeof(OleDbConnection);
+        //public readonly static Type TipoBanco = typeof(SQLiteConnection);
+        public static readonly Type TipoBanco = typeof(OleDbConnection);
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
@@ -27,18 +26,18 @@ namespace Desafio___Tetris
         private void Form1_Load(object sender, EventArgs e)
         {
             Conexao conexao = new Conexao();
-            DbConnection DbConnection = conexao.Abre();
-            conexao.VerifyDBConnection();
-            if (DbConnection != null)
+            DbConnection dbConnection = conexao.Abre();
+            conexao.VerifyDbConnection();
+            if (dbConnection != null)
             {
                 buttonPontuacao.Visible = true;
-                FormPontuacaoTLP formPontuacaoTLP = new FormPontuacaoTLP
+                FormPontuacaoTlp formPontuacaoTlp = new FormPontuacaoTlp
                 {
                     TopMost = true
                 };
-                formPontuacaoTLP.Show();
+                formPontuacaoTlp.Show();
             }
-            conexao.CloseDBConnection();
+            conexao.CloseDbConnection();
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -56,17 +55,13 @@ namespace Desafio___Tetris
             if (Pause == false)
             {
                 ParaRelogio();
-                //labelPause.Text = "PAUSE";
-                labelPause.Text = Char.ToString((char)0x3b);
-                //labelPause.Visible = true;
+                labelPause.Text = char.ToString((char)0x3b);
                 Pause = true;
             }
             else
             {
                 AcionaRelogio();
-                //labelPause.Visible = false;
-                //labelPause.Text = "Tetris";
-                labelPause.Text = Char.ToString((char)0x34);
+                labelPause.Text = char.ToString((char)0x34);
                 Pause = false;
             }
             labelPause.Refresh();
@@ -80,25 +75,21 @@ namespace Desafio___Tetris
             switch (keyData)
             {
                 case (Keys.Up):
-                    labelKey.Text = Char.ToString((char)0xe1);
+                    labelKey.Text = char.ToString((char)0xe1);
                     Jogo.RotacionaPeca();
-
-                    return true;
+                    break;
                 case (Keys.Down):
-                    labelKey.Text = Char.ToString((char)0xe2);
+                    labelKey.Text = char.ToString((char)0xe2);
                     Jogo.MoveAbaixo();
-
-                    return true;
+                    break;
                 case (Keys.Left):
-                    labelKey.Text = Char.ToString((char)0xdf);
+                    labelKey.Text = char.ToString((char)0xdf);
                     Jogo.MoveEsquerda();
-
-                    return true;
+                    break;
                 case (Keys.Right):
-                    labelKey.Text = Char.ToString((char)0xe0);
+                    labelKey.Text = char.ToString((char)0xe0);
                     Jogo.MoveDireita();
-
-                    return true;
+                    break;
             };
             // return the key to the base class if not used.
             //return base.ProcessDialogKey(keyData);
@@ -106,15 +97,13 @@ namespace Desafio___Tetris
         }
         public void Tetris()
         {
-            labelPause.Text = Char.ToString((char)0x34);
+            labelPause.Text = char.ToString((char)0x34);
             buttonPause.Enabled = true;
             this.Pause = false;
             trackBarNivel.Enabled = false;
             this.Sw = new Stopwatch();
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
-
-            //Placar = new Placar(Tabuleiro, labelPlacar, labelLevel, labelSpeed, labelQtdPeca);
 
             Placar = new Placar(Tabuleiro, panelPlacar, trackBarNivel.Value);
             this.Jogo = new Jogo(Tabuleiro, Placar);
@@ -131,7 +120,7 @@ namespace Desafio___Tetris
                 over = Jogo.Percorre();
             }
             ParaRelogio();
-            labelPause.Text = Char.ToString((char)0x3c);
+            labelPause.Text = char.ToString((char)0x3c);
             MessageBox.Show("Game Over");
             SalvaPontuacao();
             buttonPause.Enabled = false;
@@ -141,19 +130,19 @@ namespace Desafio___Tetris
         {
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw);
             Conexao conexao = new Conexao();
-            DbConnection DbConnection = conexao.Abre();
-            conexao.VerifyDBConnection();
-            if (DbConnection != null)
+            DbConnection dbConnection = conexao.Abre();
+            conexao.VerifyDbConnection();
+            if (dbConnection != null)
             {
                 fp.ShowDialog();
             }
-            conexao.CloseDBConnection();
+            conexao.CloseDbConnection();
         }
         private void GeraProx()
         {
             if (Jogo.Prox != null)
             {
-                Jogo.Prox.ap = panelAtual;
+                Jogo.Prox.Ap = panelAtual;
                 Jogo.At = Jogo.Prox;
                 Jogo.At.AtualizaPeca();
             }
@@ -180,7 +169,7 @@ namespace Desafio___Tetris
         private void TimerJogo_Tick(object sender, EventArgs e)
         {
             TimeSpan timeSpan = Sw.Elapsed;
-            labelTimerJogo.Text = String.Format("{0:00}:{1:00}:{2:00}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+            labelTimerJogo.Text = string.Format("{0:00}:{1:00}:{2:00}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
         }
 
         private void ButtonPrint_Click(object sender, EventArgs e)
@@ -196,49 +185,35 @@ namespace Desafio___Tetris
             sfd.InitialDirectory = minhasImagens;
             sfd.DefaultExt = "*.jpg";
 
-            if (sfd.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+            string ext = Path.GetExtension(sfd.FileName)?.ToLower();
+            switch (ext)
             {
-                string ext = Path.GetExtension(sfd.FileName).ToLower();
-                switch (ext)
-                {
-                    case ".jpg":
-                        formato = ImageFormat.Jpeg;
-                        break;
-                    case ".bmp":
-                        formato = ImageFormat.Bmp;
-                        break;
-                    case ".png":
-                        formato = ImageFormat.Png;
-                        break;
-                }
-                captureBitmap.Save(sfd.FileName, formato);
+                case ".jpg":
+                    formato = ImageFormat.Jpeg;
+                    break;
+                case ".bmp":
+                    formato = ImageFormat.Bmp;
+                    break;
+                case ".png":
+                    formato = ImageFormat.Png;
+                    break;
             }
+            captureBitmap.Save(sfd.FileName ?? throw new InvalidOperationException(), formato);
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
-
         private void ButtonPontuacao_Click(object sender, EventArgs e)
         {
-            FormPontuacaoTLP formPontuacaoTLP = new FormPontuacaoTLP
+            FormPontuacaoTlp formPontuacaoTlp = new FormPontuacaoTlp
             {
                 TopMost = true
             };
-            formPontuacaoTLP.Show();
-            /*
-            if (Fs == null) 
-            {
-                Fs = new FormPontuacaoSelect
-                {
-                    TopMost = true
-                };
-                Fs.Show();
-            }
-            */
+            formPontuacaoTlp.Show();
         }
-
         private void TrackBarNivel_ValueChanged(object sender, EventArgs e)
         {
             labelTBNivel.Text = trackBarNivel.Value.ToString();

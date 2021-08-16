@@ -6,10 +6,8 @@ using System.Windows.Forms;
 public class Peca : Abspeca
 {
     public override List<int[]> Linhas { get; set; }
-    public override Color Cor
-    {
-        get { return Abspeca.Cor; }
-    }
+    public override Color Cor => Abspeca.Cor;
+
     public Color CorPonto(int y, int x)
     {
         if (Ponto(y, x) == 0)
@@ -23,7 +21,7 @@ public class Peca : Abspeca
     }
     public override int Rot
     {
-        get { return Abspeca.Rot; }
+        get => Abspeca.Rot;
         set
         {
             Abspeca.Rot = value;
@@ -36,17 +34,17 @@ public class Peca : Abspeca
     }
     private Abspeca Abspeca { get; set; }
     private RetanguloTabuleiro[][] Matrix { get; set; }
-    public Panel ap { get; set; } //ap = atual ou proximo
-    private readonly Tabuleiro tabuleiro;
+    public Panel Ap { get; set; } //ap = atual ou proximo
+    private readonly Tabuleiro _tabuleiro;
     public char Tpeca { get; }
     public Peca(Tabuleiro tab, Panel ap)
     {
-        char[] TiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
+        char[] tiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
         Random random = new Random();
-        int al = random.Next(0, TiposPeca.Length);
-        Tpeca = TiposPeca[al];
-        this.ap = ap;
-        tabuleiro = tab;
+        int al = random.Next(0, tiposPeca.Length);
+        Tpeca = tiposPeca[al];
+        this.Ap = ap;
+        _tabuleiro = tab;
 
         Type type = Type.GetType(Tpeca.ToString());
         Abspeca = (Abspeca)Activator.CreateInstance(type);
@@ -63,14 +61,14 @@ public class Peca : Abspeca
         Matrix = RetanguloTabuleiro.Inicializa(ap, QLinhas, qc, h, w);
         AtualizaPeca();
     }
-    public int QLinhas { get { return Abspeca.Linhas.Count; } }
+    public int QLinhas => Abspeca.Linhas.Count;
     public int QColunas(int y) { return Abspeca.Linhas[y].Length; }
     public void AtualizaPeca()
     {
         RetanguloTabuleiro[][] nova;
         int xform, yform;
 
-        ap.Controls.Clear();
+        Ap.Controls.Clear();
 
         nova = new RetanguloTabuleiro[QLinhas][];
         for (int i = 0; i < QLinhas; i++)
@@ -78,20 +76,20 @@ public class Peca : Abspeca
             nova[i] = new RetanguloTabuleiro[QColunas(QLinhas - 1)];
             for (int j = 0; j < QColunas(QLinhas - 1); j++)
             {
-                xform = j * tabuleiro.Matrix[0][0].Width; //larg;
-                yform = i * tabuleiro.Matrix[0][0].Height; //alt;
+                xform = j * _tabuleiro.Matrix[0][0].Width; //larg;
+                yform = i * _tabuleiro.Matrix[0][0].Height; //alt;
                 nova[i][j] = new RetanguloTabuleiro
                 {
-                    Size = tabuleiro.Matrix[0][0].Size, //quadrados iguais, pega o primeiro índice
+                    Size = _tabuleiro.Matrix[0][0].Size, //quadrados iguais, pega o primeiro índice
                     Location = new Point(xform, yform),
                     Valor = Ponto(i, j),
                     BorderStyle = BorderStyle.FixedSingle,
                     BackColor = CorPonto(i, j)
                 };
-                ap.Controls.Add(nova[i][j]);
+                Ap.Controls.Add(nova[i][j]);
             }
         }
-        ap.Size = new Size(ap.Controls[0].Width * QColunas(QLinhas - 1), ap.Controls[0].Height * QLinhas);
+        Ap.Size = new Size(Ap.Controls[0].Width * QColunas(QLinhas - 1), Ap.Controls[0].Height * QLinhas);
         Matrix = nova;
     }
 }

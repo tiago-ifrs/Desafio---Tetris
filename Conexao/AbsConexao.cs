@@ -1,11 +1,9 @@
-﻿using System;
-using System.Data.Common;
-using System.IO;
+﻿using System.Data.Common;
 
 public abstract class AbsConexao
 {
-    public abstract string pastaBase { get; }
-    public abstract string caminho { get;}
-    public abstract string connectionString { get; }
-    public abstract DbConnection OpenDBConnection();
+    public abstract string PastaBase { get; }
+    public abstract string Caminho { get;}
+    public abstract string ConnectionString { get; }
+    public abstract DbConnection OpenDbConnection();
 }

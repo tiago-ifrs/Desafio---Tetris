@@ -3,24 +3,24 @@ using System.Data.Common;
 using System.Data.SQLite;
 using System.IO;
 
-public class ConexaoSQLite:AbsConexao
+public class ConexaoSqLite:AbsConexao
 {
-    public override string pastaBase => Path.GetFullPath(AppContext.BaseDirectory);
-    public override string caminho => "tetris.db";
-    public override string connectionString => $"Data Source={pastaBase}{caminho}";
-    public override DbConnection OpenDBConnection()
+    public override string PastaBase => Path.GetFullPath(AppContext.BaseDirectory);
+    public override string Caminho => "tetris.db";
+    public override string ConnectionString => $"Data Source={PastaBase}{Caminho}";
+    public override DbConnection OpenDbConnection()
     {
-        SQLiteConnection Connection;
+        SQLiteConnection connection;
         try
         {
-            Connection = new SQLiteConnection(connectionString);
-            Connection.Open();
+            connection = new SQLiteConnection(ConnectionString);
+            connection.Open();
         }
         catch (Exception ex)
         {
             throw new Exception("SQLiteConnection - " + ex.ToString());
         }
-        return Connection;
+        return connection;
     }
-    public ConexaoSQLite() { }
+    public ConexaoSqLite() { }
 }

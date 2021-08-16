@@ -2,18 +2,18 @@
 using System.Data.OleDb;
 using System.Data.SQLite;
 
-public class PontuacaoDAO
+public class PontuacaoDao
 {
-    public AbsPontuacaoDAO AbsPontuacaoDAO { get; set; }
-    public PontuacaoDAO()
+    public AbsPontuacaoDao AbsPontuacaoDao { get; set; }
+    public PontuacaoDao()
     {
         switch (Form1.TipoBanco.Name) 
         {
             case nameof(OleDbConnection):
-                AbsPontuacaoDAO = new PontuacaoDAOOleDb();
+                AbsPontuacaoDao = new PontuacaoDaoOleDb();
                 break;
             case nameof(SQLiteConnection):
-                AbsPontuacaoDAO = new PontuacaoDAOSQLite();
+                AbsPontuacaoDao = new PontuacaoDaosqLite();
                 break;
         }
     }

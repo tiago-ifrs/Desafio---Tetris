@@ -7,36 +7,36 @@ using System.Data.SQLite;
 public class Conexao
 {
     private AbsConexao AbsConexao { get; set; }
-    public DbConnection dbConnection { get; set; }
+    public DbConnection DbConnection { get; set; }
     public Conexao()
     {
         switch (Form1.TipoBanco.Name)
         {
             case nameof(OleDbConnection):
-                AbsConexao = new ConexaoOleDB();
+                AbsConexao = new ConexaoOleDb();
                 break;
             case nameof(SQLiteConnection):
-                AbsConexao = new ConexaoSQLite();
+                AbsConexao = new ConexaoSqLite();
                 break;
         }
     }
     
     public DbConnection Abre()
     {
-        dbConnection = AbsConexao.OpenDBConnection();
-        return dbConnection;
+        DbConnection = AbsConexao.OpenDbConnection();
+        return DbConnection;
     }
-    public void CloseDBConnection()
+    public void CloseDbConnection()
     {
         try
         {
-            if (dbConnection != null)
+            if (DbConnection != null)
             {
-                if (dbConnection.State != ConnectionState.Closed)
+                if (DbConnection.State != ConnectionState.Closed)
                 {
-                    dbConnection.Close();
+                    DbConnection.Close();
                 }
-                dbConnection.Dispose();
+                DbConnection.Dispose();
             }
         }
         catch (Exception ex)
@@ -44,15 +44,15 @@ public class Conexao
             throw new Exception("CloseDBConnection - " + ex.ToString());
         }
     }
-    public void VerifyDBConnection()
+    public void VerifyDbConnection()
     {
-        if (dbConnection == null)
+        if (DbConnection == null)
         {
             throw new Exception(" VerifyDBConnection - is null ");
         }
-        if (dbConnection.State != ConnectionState.Open)
+        if (DbConnection.State != ConnectionState.Open)
         {
-            throw new Exception(" VerifyDBConnection - connection state is " + dbConnection.State.ToString());
+            throw new Exception(" VerifyDBConnection - connection state is " + DbConnection.State.ToString());
         }
     }
 }

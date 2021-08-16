@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-public abstract class AbsPontuacaoDAO
+public abstract class AbsPontuacaoDao
 {
-	public AbsPontuacaoDAO()
+	public AbsPontuacaoDao()
 	{
 	}
 	public abstract void Insert(Pontuacao p);
 	public abstract Pontuacao ImagemPorId(int id);
 	public abstract List<Pontuacao> ListaTodos();
-	public abstract List<Pontuacao> ListaTodosTLP();
+	public abstract List<Pontuacao> ListaTodosTlp();
 }

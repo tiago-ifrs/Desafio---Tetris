@@ -17,10 +17,7 @@ public class Placar
     public Panel Panel { get; set; }
     public int QtdPecas
     {
-        get 
-        {
-            return _qtdPecas;
-        }
+        get => _qtdPecas;
         set 
         {
             _qtdPecas = value;
@@ -66,14 +63,13 @@ public class Placar
     }
     public void Atualiza()
     {
-        List<int> vetcol;
         List<int> indices = new List<int>();
         List<List<int>> vetlin = new List<List<int>>();
 
-        for (int j = 0; j < Tabuleiro.nlin; j++)
+        for (int j = 0; j < Tabuleiro.Nlin; j++)
         {
-            vetcol = new List<int>();
-            for (int i = 0; i < Tabuleiro.ncol; i++)
+            List<int> vetcol = new List<int>();
+            for (int i = 0; i < Tabuleiro.Ncol; i++)
             {
                 vetcol.Add(Tabuleiro.Matrix[j][i].Valor);
             }
@@ -84,9 +80,9 @@ public class Placar
             }
         }
 
-        for (int j = 0; j < indices.Count; j++)
+        foreach (int t in indices)
         {
-            Tabuleiro.Deleta(indices[j]);
+            Tabuleiro.Deleta(t);
 
             Score += 10;
             Controles["labelPlacar"].Text = (Score).ToString();
@@ -96,7 +92,6 @@ public class Placar
 
         if (indices.Count > 0)
         {
-            //Nivel = (int)Score / 100;
             Nivel = NivelInicial + ((int)Score / 100);
             Controles["labelLevel"].Text = (Nivel).ToString();
             Controles["labelLevel"].Refresh();

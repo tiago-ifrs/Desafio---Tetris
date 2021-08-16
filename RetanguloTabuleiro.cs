@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 public class RetanguloTabuleiro:Panel
@@ -8,20 +7,17 @@ public class RetanguloTabuleiro:Panel
     public RetanguloTabuleiro() { }
     public static RetanguloTabuleiro[][] Inicializa(Panel pai, int qy, int qx, int alt, int larg)
     {
-        RetanguloTabuleiro[][] rt;
-        int xform, yform;
+        RetanguloTabuleiro[][] rt = new RetanguloTabuleiro[qy][];
         pai.Controls.Clear();
-
-        rt = new RetanguloTabuleiro[qy][];
-
+        
         for (int i = 0; i < qy; i++)
         {
             rt[i] = new RetanguloTabuleiro[qx];
             for (int j = 0; j < qx; j++)
             {
                 rt[i][j] = new RetanguloTabuleiro();
-                xform = j * larg;
-                yform = i * alt;
+                int xform = j * larg;
+                int yform = i * alt;
 
                 rt[i][j].Valor = 0;
                 rt[i][j].BackColor = Color.White;

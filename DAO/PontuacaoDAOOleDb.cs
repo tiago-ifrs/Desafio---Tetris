@@ -7,26 +7,25 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
-public class PontuacaoDAOOleDb:AbsPontuacaoDAO
+public class PontuacaoDaoOleDb:AbsPontuacaoDao
 {
-    public PontuacaoDAOOleDb()
+    public PontuacaoDaoOleDb()
     {
     }
     public override void Insert(Pontuacao p)
     {
-        object result;
         MemoryStream ms = new MemoryStream();
-        byte[] photo_aray;
+        byte[] photoAray = new byte[ms.Length]; 
         Conexao conexao = new Conexao();
 
         p.Tabuleiro.Save(ms, ImageFormat.Jpeg);
-        photo_aray = new byte[ms.Length];
         ms.Position = 0;
-        ms.Read(photo_aray, 0, photo_aray.Length);
+        ms.Read(photoAray, 0, photoAray.Length);
         try
         {
-            DbConnection Connection = conexao.Abre();
-            conexao.VerifyDBConnection();
+            OleDbDataReader result;
+            DbConnection connection = conexao.Abre();
+            conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
@@ -49,7 +48,7 @@ public class PontuacaoDAOOleDb:AbsPontuacaoDAO
                 .AppendLine("   ?,                              ")
                 .AppendLine("   ?);                             ");
 
-                using OleDbCommand command = (OleDbCommand)Connection.CreateCommand();
+                using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
                 command.CommandText = stringBuilder.ToString();
 
                 command.Parameters.AddWithValue("@NOME", p.Nome);
@@ -58,29 +57,26 @@ public class PontuacaoDAOOleDb:AbsPontuacaoDAO
                 command.Parameters.AddWithValue("@TEMPO_JOGO", p.TempoJogo);
                 command.Parameters.AddWithValue("@QTD_PECAS", p.QtdPecas);
                 command.Parameters.AddWithValue("@DATA_SCORE", p.DataScore);
-                command.Parameters.AddWithValue("@TABULEIRO", photo_aray);
+                command.Parameters.AddWithValue("@TABULEIRO", photoAray);
 
                 result = command.ExecuteReader();
         }
         catch (Exception exception)
         {
             throw new Exception(exception.Message);
-            //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
         }
         finally
         {
-            conexao.CloseDBConnection();
+            conexao.CloseDbConnection();
         }
     }
     public override Pontuacao ImagemPorId(int id)
     {
-        DbConnection connection = null;
         Conexao conexao = new Conexao();
-        Pontuacao p = null;
         try
         {
-            connection = conexao.Abre();
-            conexao.VerifyDBConnection();
+            DbConnection connection = conexao.Abre();
+            conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
@@ -93,43 +89,39 @@ public class PontuacaoDAOOleDb:AbsPontuacaoDAO
                 .AppendLine("   WHERE                           ")
                 .AppendLine("   ID = ?                          ");
 
-                using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
-                {
-                    command.CommandText = stringBuilder.ToString();
-                    command.Parameters.AddWithValue("@ID", id);
+            using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+            command.CommandText = stringBuilder.ToString();
+            command.Parameters.AddWithValue("@ID", id);
 
-                    OleDbDataReader result = command.ExecuteReader();
-                    result.Read();
-                    MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                    p = new Pontuacao
-                    {
-                        Id = id,
-                        Nome = result["NOME"].ToString(),
-                        DataScore = (DateTime)result["DATA_SCORE"],
-                        Tabuleiro = new Bitmap(ms)
-                    };
-                }
-                return p;
+            OleDbDataReader result = command.ExecuteReader();
+            result.Read();
+            MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+            Pontuacao p = new Pontuacao
+            {
+                Id = id,
+                Nome = result["NOME"].ToString(),
+                DataScore = (DateTime)result["DATA_SCORE"],
+                Tabuleiro = new Bitmap(ms)
+            };
+            return p;
         }
         catch (Exception exception)
         {
             throw new Exception(exception.Message);
-            //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
         }
         finally
         {
-            conexao.CloseDBConnection();
+            conexao.CloseDbConnection();
         }
     }
     public override List<Pontuacao> ListaTodos()
     {
-        DbConnection connection = null;
         Conexao conexao = new Conexao();
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
-            connection = conexao.Abre();
-            conexao.VerifyDBConnection();
+            DbConnection connection = conexao.Abre();
+            conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
                 .AppendLine("USE TETRIS                         ")
@@ -148,50 +140,47 @@ public class PontuacaoDAOOleDb:AbsPontuacaoDAO
                 .AppendLine("   SCORE                           ")
                 .AppendLine("   DESC                            ");
 
-            
-                using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
-                {
-                    command.CommandText = stringBuilder.ToString();
 
-                    OleDbDataReader result = command.ExecuteReader();
-                    while (result.Read())
-                    {
-                        MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                        Pontuacao p = new Pontuacao()
-                        {
-                            Id = (int)result["ID"],
-                            Nome = result["NOME"].ToString(),
-                            Score = (int)result["SCORE"],
-                            Nivel = (int)result["NIVEL"],
-                            TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
-                            QtdPecas = (int)result["QTD_PECAS"],
-                            DataScore = (DateTime)result["DATA_SCORE"],
-                            Tabuleiro = new Bitmap(ms)
-                        };
-                        lp.Add(p);
-                    }
-                }
-                return lp;
+            using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+            command.CommandText = stringBuilder.ToString();
+
+            OleDbDataReader result = command.ExecuteReader();
+            while (result.Read())
+            {
+                MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+                Pontuacao p = new Pontuacao()
+                {
+                    Id = (int)result["ID"],
+                    Nome = result["NOME"].ToString(),
+                    Score = (int)result["SCORE"],
+                    Nivel = (int)result["NIVEL"],
+                    TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString() ?? throw new InvalidOperationException()),
+                    QtdPecas = (int)result["QTD_PECAS"],
+                    DataScore = (DateTime)result["DATA_SCORE"],
+                    Tabuleiro = new Bitmap(ms)
+                };
+                lp.Add(p);
+            }
+
+            return lp;
         }
         catch (Exception exception)
         {
             throw new Exception(exception.Message);
-            //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
         }
         finally
         {
-            conexao.CloseDBConnection();
+            conexao.CloseDbConnection();
         }
     }
-    public override List<Pontuacao> ListaTodosTLP()
+    public override List<Pontuacao> ListaTodosTlp()
     {
-        DbConnection connection;
         Conexao conexao = new Conexao();
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
-            connection = conexao.Abre();
-            conexao.VerifyDBConnection();
+            DbConnection connection = conexao.Abre();
+            conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.Clear()
@@ -209,36 +198,34 @@ public class PontuacaoDAOOleDb:AbsPontuacaoDAO
             .AppendLine("   ORDER BY                        ")
             .AppendLine("   SCORE                           ")
             .AppendLine("   DESC                            ");
-            using (OleDbCommand command = (OleDbCommand)connection.CreateCommand())
-            {
-                command.CommandText = stringBuilder.ToString();
+            using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+            command.CommandText = stringBuilder.ToString();
 
-                OleDbDataReader result = command.ExecuteReader();
-                while (result.Read())
+            OleDbDataReader result = command.ExecuteReader();
+            while (result.Read())
+            {
+                Pontuacao p = new Pontuacao()
                 {
-                    Pontuacao p = new Pontuacao()
-                    {
-                        Id = (int)result["ID"],
-                        Nome = result["NOME"].ToString(),
-                        Score = (int)result["SCORE"],
-                        Nivel = (int)result["NIVEL"],
-                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString()),
-                        QtdPecas = (int)result["QTD_PECAS"],
-                        DataScore = (DateTime)result["DATA_SCORE"],
-                    };
-                    lp.Add(p);
-                }
+                    Id = (int)result["ID"],
+                    Nome = result["NOME"].ToString(),
+                    Score = (int)result["SCORE"],
+                    Nivel = (int)result["NIVEL"],
+                    TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString() ?? throw new InvalidOperationException()),
+                    QtdPecas = (int)result["QTD_PECAS"],
+                    DataScore = (DateTime)result["DATA_SCORE"],
+                };
+                lp.Add(p);
             }
+
             return lp;
         }
         catch (Exception exception)
         {
             throw new Exception(exception.Message);
-            //userControlRastreabilidade.SetDisplayTela("Falha ao retornar WorkCenter", exception.Message, sqoAlarmes.Prioridade.Alarme, true);
         }
         finally
         {
-            conexao.CloseDBConnection();
+            conexao.CloseDbConnection();
         }
     }
 }

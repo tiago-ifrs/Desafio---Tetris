@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
-public class LabelNome : Label
+public sealed class LabelNome : Label
 {
     public int Id { get; set; }
     public LabelNome(int id)
@@ -10,17 +11,17 @@ public class LabelNome : Label
         this.Id = id;
         this.ForeColor = Color.Blue;
         Font = new Font(this.Font, FontStyle.Underline);
-        Click += new EventHandler(nomePopup);
-        MouseHover += new EventHandler(cursor);
+        Click += new EventHandler(NomePopup);
+        MouseHover += new EventHandler(CursorEvento);
     }
-    private void cursor(object sender, EventArgs e)
+    private void CursorEvento(object sender, EventArgs e)
     {
-        this.Cursor = Cursors.Hand;
+        ((Control) this).Cursor = Cursors.Hand;
     }
-    private void nomePopup(object sender, EventArgs e)
+    private void NomePopup(object sender, EventArgs e)
     {
         Pontuacao p;
-        AbsPontuacaoDAO pd = new PontuacaoDAO().AbsPontuacaoDAO;
+        AbsPontuacaoDao pd = new PontuacaoDao().AbsPontuacaoDao;
         p = pd.ImagemPorId(Id);
 
         PictureBox pictureBox = new PictureBox
@@ -31,7 +32,7 @@ public class LabelNome : Label
         Form form = new Form
         {
             AutoSize = true,
-            Text = p.Nome + " em " + p.DataScore.ToString(),
+            Text = p.Nome + " em " + p.DataScore.ToString(CultureInfo.CurrentCulture),
             TopMost = true
         };
         form.Controls.Add(pictureBox);

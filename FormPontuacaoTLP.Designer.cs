@@ -1,7 +1,7 @@
 ﻿
 namespace Desafio___Tetris
 {
-    partial class FormPontuacaoTLP
+    partial class FormPontuacaoTlp
     {
         /// <summary>
         /// Required designer variable.
@@ -123,7 +123,7 @@ namespace Desafio___Tetris
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "FormPontuacaoTLP";
+            this.Name = "FormPontuacaoTlp";
             this.Text = "Pontuação";
             this.Load += new System.EventHandler(this.FormPontuacaoTLP_Load);
             this.tableLayoutPanel1.ResumeLayout(false);

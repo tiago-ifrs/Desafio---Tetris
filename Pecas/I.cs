@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
-public class I : Abspeca
+public sealed class I : Abspeca
 {
     private int _rot;
     
@@ -16,7 +15,7 @@ public class I : Abspeca
 
     public override int Rot
     {
-        get { return _rot; }
+        get => _rot;
         set
         {
             _rot = value;

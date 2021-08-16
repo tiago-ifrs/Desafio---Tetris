@@ -4,8 +4,8 @@ using System.Windows.Forms;
 
 public class Tabuleiro
 {
-    public readonly int nlin = 16;
-    public readonly int ncol = 10;
+    public readonly int Nlin = 16;
+    public readonly int Ncol = 10;
     public RetanguloTabuleiro[][] Matrix { get; set; }
     public static Panel Panel { get; set; }
     private Tabuleiro(Panel t)
@@ -24,12 +24,10 @@ public class Tabuleiro
     }
     public void Inicia() 
     {
-        int l, a, menor;
-
-        a = Panel.Height / nlin;
-        l = Panel.Width / ncol;
-        menor = Math.Min(l, a);
-        Matrix = RetanguloTabuleiro.Inicializa(Panel, nlin, ncol, menor, menor);
+        int a = Panel.Height / Nlin;
+        int l = Panel.Width / Ncol;
+        int menor = Math.Min(l, a);
+        Matrix = RetanguloTabuleiro.Inicializa(Panel, Nlin, Ncol, menor, menor);
     }
     public void Deleta(int ytab)
     {
@@ -38,7 +36,7 @@ public class Tabuleiro
             for (int i = 0; ytab - i > 0; i++) // de baixo pra cima
                                                // precisa mover até a linha 1 e não somente até o tamanho da peça  
             {
-                for (int j = 0; j < ncol; j++)
+                for (int j = 0; j < Ncol; j++)
                 {
                     Matrix[ytab - i][j].Valor = Matrix[ytab - i - 1][j].Valor;
                     Matrix[ytab - i][j].BackColor = Matrix[ytab - i - 1][j].BackColor;
@@ -46,7 +44,7 @@ public class Tabuleiro
                 }
             }
 
-            for (int j = 0; j < ncol; j++)
+            for (int j = 0; j < Ncol; j++)
             {
                 Matrix[0][j].Valor = 0;
                 Matrix[0][j].BackColor = Color.White;
@@ -62,11 +60,11 @@ public class Tabuleiro
         int y = ytab;
         int qtdY = Math.Min(y, ul); //tratamento para evitar IndexOutofRangeException
 
-        if (ytab < nlin) //evita erros de índice
+        if (ytab < Nlin) //evita erros de índice
         {
             for (; qtdY >= 0; y--, ypec--, qtdY--)
             {
-                for (int xpec = 0; xpec < uc && (xtab + xpec) < ncol; xpec++)
+                for (int xpec = 0; xpec < uc && (xtab + xpec) < Ncol; xpec++)
                 {
                     if (p.Ponto(ypec, xpec) == 1)
                     {
