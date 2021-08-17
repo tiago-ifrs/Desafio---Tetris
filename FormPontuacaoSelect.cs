@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Desafio___Tetris.Model;
 
 namespace Desafio___Tetris
 {

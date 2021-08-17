@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Desafio___Tetris.View;
 
 namespace Desafio___Tetris
 {
@@ -16,6 +17,7 @@ namespace Desafio___Tetris
         private Tabuleiro Tabuleiro { get; set; }
         private Stopwatch Sw { get; set; }
         private Placar Placar { get; set; }
+        
         //public readonly static Type TipoBanco = typeof(SQLiteConnection);
         public static readonly Type TipoBanco = typeof(OleDbConnection);
         //private FormPontuacaoSelect Fs { get; set; }
@@ -25,6 +27,7 @@ namespace Desafio___Tetris
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.Abre();
             conexao.VerifyDbConnection();
@@ -97,6 +100,8 @@ namespace Desafio___Tetris
         }
         public void Tetris()
         {
+            ScoreView scoreView = new ScoreView(ref labelPlacar, ref labelLevel, ref labelSpeed, ref labelQtdPeca);
+
             labelPause.Text = char.ToString((char)0x34);
             buttonPause.Enabled = true;
             this.Pause = false;
@@ -105,7 +110,7 @@ namespace Desafio___Tetris
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
-            Placar = new Placar(Tabuleiro, panelPlacar, trackBarNivel.Value);
+            Placar = new Placar(Tabuleiro, scoreView, trackBarNivel.Value);
             this.Jogo = new Jogo(Tabuleiro, Placar);
 
             bool over = false;

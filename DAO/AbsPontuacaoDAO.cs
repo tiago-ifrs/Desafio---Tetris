@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Desafio___Tetris.Model;
 
 public abstract class AbsPontuacaoDao
 {

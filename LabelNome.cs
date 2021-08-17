@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using Desafio___Tetris.Model;
 
 public sealed class LabelNome : Label
 {
