@@ -3,24 +3,27 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.IO;
 
-public class ConexaoOleDb:AbsConexao
+namespace Desafio___Tetris.Conexoes
 {
-    public override string PastaBase => Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
-    public override string Caminho => "Conexao\\conexao.udl";
-    public override string ConnectionString => $"File Name={PastaBase}{Caminho}";
-    public override DbConnection OpenDbConnection()
+    public class ConexaoOleDb:AbsConexao
     {
-        OleDbConnection oleDbConnection;
-        try
+        public override string PastaBase => Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+        public override string Caminho => "Conexao\\conexao.udl";
+        public override string ConnectionString => $"File Name={PastaBase}{Caminho}";
+        public override DbConnection OpenDbConnection()
         {
-            oleDbConnection = new OleDbConnection(ConnectionString);
-            oleDbConnection.Open();
+            OleDbConnection oleDbConnection;
+            try
+            {
+                oleDbConnection = new OleDbConnection(ConnectionString);
+                oleDbConnection.Open();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("OleDBConnection - " + ex.ToString());
+            }
+            return oleDbConnection;
         }
-        catch (Exception ex)
-        {
-            throw new Exception("OleDBConnection - " + ex.ToString());
-        }
-        return oleDbConnection;
+        public ConexaoOleDb() { }
     }
-    public ConexaoOleDb() { }
 }

@@ -6,7 +6,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Desafio___Tetris.Conexoes;
-using Desafio___Tetris.View;
 
 namespace Desafio___Tetris
 {
@@ -18,8 +17,6 @@ namespace Desafio___Tetris
         private Stopwatch Sw { get; set; }
         private Placar Placar { get; set; }
         
-        //public readonly static Type TipoBanco = typeof(SQLiteConnection);
-        //public static readonly Type TipoBanco = typeof(OleDbConnection);
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
@@ -100,8 +97,6 @@ namespace Desafio___Tetris
         }
         public void Tetris()
         {
-            ScoreView scoreView = new ScoreView(ref scoreLabel, ref levelLabel, ref speedLabel, ref pieceCounterLabel);
-
             labelPause.Text = char.ToString((char)0x34);
             buttonPause.Enabled = true;
             this.Pause = false;
@@ -110,7 +105,7 @@ namespace Desafio___Tetris
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
-            Placar = new Placar(Tabuleiro, scoreView, trackBarNivel.Value);
+            Placar = new Placar(Tabuleiro, trackBarNivel.Value);
             this.Jogo = new Jogo(Tabuleiro, Placar);
 
             bool over = false;
@@ -133,18 +128,7 @@ namespace Desafio___Tetris
         }
         private void SalvaPontuacao()
         {
-            FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar,
-                Sw,
-                ref scoreCaptionLabel,
-                ref levelCaptionLabel,
-                ref speedCaptionLabel,
-                ref pieceCounterCaptionLabel,
-                ref gameTimerCaptionLabel,
-                ref scoreLabel,
-                ref levelLabel, 
-                ref speedLabel,
-                ref pieceCounterLabel,
-                ref gameTimerLabel);
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw, panelPlacar.Controls);
             
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.Abre();

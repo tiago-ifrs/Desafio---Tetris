@@ -12,45 +12,29 @@ namespace Desafio___Tetris
 {
     public partial class FormPontuacaoInsert : Form
     {
-        private Placar Placar { get; set; }
-        private Stopwatch Stopwatch { get; set; }
-        private Bitmap CaptureBitmap { get; set; }
-        private Label ScoreCaptionLabel { get; set;}
-        private Label SpeedCaptionLabel { get; set; }
-        private Label LevelCaptionLabel { get; set; }
-        private Label PieceCounterCaptionLabel { get; set; }
-        private Label GameTimerCaptionLabel { get; set; }
-        private Label ScoreLabel { get; set; }
-        private Label LevelLabel { get; set; }
-        private Label SpeedLabel { get; set; }
-        private Label PieceCounterLabel { get; set; }
-        private Label GameTimerLabel { get; set; }
+        private Placar Placar { get; }
+        private Stopwatch Stopwatch { get; }
+        private Bitmap CaptureBitmap { get; }
+        private Label ScoreCaptionLabel { get; }
+        private Label SpeedCaptionLabel { get; }
+        private Label LevelCaptionLabel { get; }
+        private Label PieceCounterCaptionLabel { get; }
+        private Label GameTimerCaptionLabel { get; }
+        private Label ScoreLabel { get; }
+        private Label LevelLabel { get; }
+        private Label SpeedLabel { get; }
+        private Label PieceCounterLabel { get; }
+        private Label GameTimerLabel { get; }
+        private Control.ControlCollection Collection { get; set; }
+
         public FormPontuacaoInsert(Placar placar,
             Stopwatch stopwatch,
-            ref Label scoreCaptionLabel,
-            ref Label levelCaptionLabel,
-            ref Label speedCaptionLabel,
-            ref Label pieceCounterCaptionLabel,
-            ref Label gameTimerCaptionLabel,
-            ref Label scoreLabel,
-            ref Label levelLabel,
-            ref Label speedLabel,
-            ref Label pieceCounterLabel,
-            ref Label gameTimerLabel
-            )
+            Control.ControlCollection collection
+        )
         {
             this.Placar = placar;
             this.Stopwatch = stopwatch;
-            this.ScoreCaptionLabel = scoreCaptionLabel;
-            this.LevelCaptionLabel = levelCaptionLabel;
-            this.SpeedCaptionLabel = speedCaptionLabel;
-            this.PieceCounterCaptionLabel = pieceCounterCaptionLabel;
-            this.GameTimerCaptionLabel = gameTimerCaptionLabel;
-            this.ScoreLabel = scoreLabel;
-            this.LevelLabel = levelLabel;
-            this.SpeedLabel = speedLabel;
-            this.PieceCounterLabel = pieceCounterLabel;
-            this.GameTimerLabel = gameTimerLabel;
+            this.Collection = collection;
             this.CaptureBitmap = new Bitmap(Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);
             InitializeComponent();
         }
@@ -88,13 +72,12 @@ namespace Desafio___Tetris
         }
         private void ButtonCancela_Click(object sender, EventArgs e)
         {
-            //TrocaControles(panelPlacarInsert.Controls, Placar.Panel.Controls);
+            TrocaControles(panelPlacarInsert.Controls, Collection);
             this.Close();
         }
         private void FormPontuacaoInsert_Load(object sender, EventArgs e)
         {
-            //TrocaControles(Placar.Panel.Controls, panelPlacarInsert.Controls);
-            TrocaControles();
+            TrocaControles(Collection, panelPlacarInsert.Controls);
 
             Bitmap bitmapPictureBoxImage = new Bitmap(pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
             Rectangle captureRectangle = new Rectangle(0, 0, Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);
@@ -123,20 +106,6 @@ namespace Desafio___Tetris
 
             dst.Add(org["gameTimerCaptionLabel"]);
             dst.Add(org["gameTimerLabel"]);
-        }
-        
-        private void TrocaControles()
-        {
-            this.Controls.Add(ScoreCaptionLabel);
-            this.Controls.Add(ScoreLabel);
-            this.Controls.Add(LevelCaptionLabel);
-            this.Controls.Add(LevelLabel);
-            this.Controls.Add(SpeedCaptionLabel);
-            this.Controls.Add(SpeedLabel);
-            this.Controls.Add(PieceCounterCaptionLabel);
-            this.Controls.Add(PieceCounterLabel);
-            this.Controls.Add(GameTimerCaptionLabel);
-            this.Controls.Add(GameTimerLabel);
         }
     }
 }

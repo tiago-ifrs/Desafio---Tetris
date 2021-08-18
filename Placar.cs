@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Forms;
 using Desafio___Tetris.View;
-using static System.Windows.Forms.Control;
 
 namespace Desafio___Tetris
 {
     public class Placar
     {
         private Tabuleiro Tabuleiro { get; }
-        public ScoreView ScoreView { get; set; }
+        private ScoreView ScoreView { get; set; }
         private int _qtdPecas { get; set; }
         private int NivelInicial { get; set; }
         public int Score { get; set; }
@@ -22,23 +19,23 @@ namespace Desafio___Tetris
             set 
             {
                 _qtdPecas = value;
-                ScoreView.Speed = value;
+                ScoreView.PieceCounter = value;
             }
         }
-        public Placar(Tabuleiro tabuleiro, ScoreView scoreView, int nivelInicial)
+        public Placar(Tabuleiro tabuleiro, int nivelInicial)
         {
             this.Tabuleiro = tabuleiro;
-            this.ScoreView = scoreView;
             this.Score = 0;
             this.Nivel = this.NivelInicial = nivelInicial;
             this.Velo = ScoreView.Times[this.Nivel];
-
-            //zera a label do placar a cada novo jogo
-            //Initializes score labels each new game
-            ScoreView.Score = 0;
-            ScoreView.Level = Nivel;
-            ScoreView.Speed = 1000 / this.Velo;
-            ScoreView.PieceCounter = 0;
+            ScoreView = new ScoreView
+            {
+                //Initializes score labels each new game
+                Score = 0,
+                Level = Nivel,
+                Speed = Velo,
+                PieceCounter = 0
+            };
         }
         public void Atualiza()
         {
@@ -76,7 +73,7 @@ namespace Desafio___Tetris
                 if (Nivel < ScoreView.Times.Length)
                 {
                     Velo = ScoreView.Times[Nivel];
-                    ScoreView.Speed = 1000 / this.Velo;
+                    ScoreView.Speed = Velo;
                 }
             }
         }

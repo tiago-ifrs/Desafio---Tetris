@@ -3,24 +3,27 @@ using System.Data.Common;
 using System.Data.SQLite;
 using System.IO;
 
-public class ConexaoSqLite:AbsConexao
+namespace Desafio___Tetris.Conexoes
 {
-    public override string PastaBase => Path.GetFullPath(AppContext.BaseDirectory);
-    public override string Caminho => "tetris.db";
-    public override string ConnectionString => $"Data Source={PastaBase}{Caminho}";
-    public override DbConnection OpenDbConnection()
+    public class ConexaoSqLite:AbsConexao
     {
-        SQLiteConnection connection;
-        try
+        public override string PastaBase => Path.GetFullPath(AppContext.BaseDirectory);
+        public override string Caminho => "tetris.db";
+        public override string ConnectionString => $"Data Source={PastaBase}{Caminho}";
+        public override DbConnection OpenDbConnection()
         {
-            connection = new SQLiteConnection(ConnectionString);
-            connection.Open();
+            SQLiteConnection connection;
+            try
+            {
+                connection = new SQLiteConnection(ConnectionString);
+                connection.Open();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SQLiteConnection - " + ex.ToString());
+            }
+            return connection;
         }
-        catch (Exception ex)
-        {
-            throw new Exception("SQLiteConnection - " + ex.ToString());
-        }
-        return connection;
+        public ConexaoSqLite() { }
     }
-    public ConexaoSqLite() { }
 }

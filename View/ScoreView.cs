@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 
 namespace Desafio___Tetris.View
 {
@@ -31,21 +30,6 @@ namespace Desafio___Tetris.View
             50 //20/s
         };
         #endregion
-        private Label ScoreLabel { get; set; }
-        private Label LevelLabel { get; set; }
-        private Label SpeedLabel { get; set; }
-        private Label PieceCounterLabel { get; set; }
-        private int _score { get; set; }
-        public int Score
-        {
-            get => _score;
-            set
-            {
-                _score = value;
-                ScoreLabel.Text = value.ToString();
-                ScoreLabel.Refresh();
-            }
-        }
         private int _level { get; set; }
         public int Level
         {
@@ -53,19 +37,19 @@ namespace Desafio___Tetris.View
             set
             {
                 _level = value;
-                LevelLabel.Text = value.ToString();
-                LevelLabel.Refresh();
+                Form1.levelLabel.Text = value.ToString();
+                Form1.levelLabel.Refresh();
             }
         }
-        private double _speed { get; set; }
-        public double Speed
+        private int _score { get; set; }
+        public int Score
         {
-            get => _speed;
+            get => _score;
             set
             {
-                _speed = value;
-                SpeedLabel.Text = $"{Math.Round(1000 / value, 2)} (linhas/s)";
-                SpeedLabel.Refresh();
+                _score = value;
+                Form1.scoreLabel.Text = value.ToString();
+                Form1.scoreLabel.Refresh();
             }
         }
         private int _pieceCounter { get; set; }
@@ -75,16 +59,23 @@ namespace Desafio___Tetris.View
             set
             {
                 _pieceCounter = value;
-                PieceCounterLabel.Text = value.ToString();
-                PieceCounterLabel.Refresh();
+                Form1.pieceCounterLabel.Text = value.ToString();
+                Form1.pieceCounterLabel.Refresh();
             }
         }
-        public ScoreView(ref Label scoreLabel, ref Label levelLabel, ref Label speedLabel, ref Label pieceCounterLabel)
+        private double _speed { get; set; }
+        public double Speed
         {
-            this.ScoreLabel = scoreLabel;
-            this.LevelLabel = levelLabel;
-            this.SpeedLabel = speedLabel;
-            this.PieceCounterLabel = pieceCounterLabel;
+            get => _speed;
+            set
+            {
+                _speed = value;
+                Form1.speedLabel.Text = string.Format(strings.ScoreView_Speed__0___lines_s_, Math.Round(1000 / value, 2));
+                Form1.speedLabel.Refresh();
+            }
+        }
+        public ScoreView()
+        {
         }
     }
 }

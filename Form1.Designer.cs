@@ -41,18 +41,18 @@ namespace Desafio___Tetris
             this.buttonPause = new System.Windows.Forms.Button();
             this.labelKey = new System.Windows.Forms.Label();
             this.scoreCaptionLabel = new System.Windows.Forms.Label();
-            this.scoreLabel = new System.Windows.Forms.Label();
+            
             this.buttonTGD = new System.Windows.Forms.Button();
             this.levelCaptionLabel = new System.Windows.Forms.Label();
-            this.levelLabel = new System.Windows.Forms.Label();
+            
             this.speedCaptionLabel = new System.Windows.Forms.Label();
-            this.speedLabel = new System.Windows.Forms.Label();
+            
             this.gameTimerCaptionLabel = new System.Windows.Forms.Label();
             this.gameTimerLabel = new System.Windows.Forms.Label();
             this.timerJogo = new System.Windows.Forms.Timer(this.components);
             this.buttonPrint = new System.Windows.Forms.Button();
             this.pieceCounterCaptionLabel = new System.Windows.Forms.Label();
-            this.pieceCounterLabel = new System.Windows.Forms.Label();
+            
             this.panelPlacar = new System.Windows.Forms.Panel();
             this.buttonPontuacao = new System.Windows.Forms.Button();
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
@@ -157,24 +157,6 @@ namespace Desafio___Tetris
             this.labelKey.Size = new System.Drawing.Size(0, 20);
             this.labelKey.TabIndex = 10;
             // 
-            // scoreCaptionLabel
-            // 
-            this.scoreCaptionLabel.AutoSize = true;
-            this.scoreCaptionLabel.Location = new System.Drawing.Point(3, 0);
-            this.scoreCaptionLabel.Name = "scoreCaptionLabel";
-            this.scoreCaptionLabel.Size = new System.Drawing.Size(56, 25);
-            this.scoreCaptionLabel.TabIndex = 11;
-            this.scoreCaptionLabel.Text = "Score";
-            // 
-            // scoreLabel
-            // 
-            this.scoreLabel.AutoSize = true;
-            this.scoreLabel.Location = new System.Drawing.Point(65, 0);
-            this.scoreLabel.Name = "scoreLabel";
-            this.scoreLabel.Size = new System.Drawing.Size(22, 25);
-            this.scoreLabel.TabIndex = 12;
-            this.scoreLabel.Text = "0";
-            // 
             // buttonTGD
             // 
             this.buttonTGD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -185,60 +167,6 @@ namespace Desafio___Tetris
             this.buttonTGD.Text = "TGD 2021";
             this.buttonTGD.UseVisualStyleBackColor = true;
             this.buttonTGD.Click += new System.EventHandler(this.ButtonTGD_Click);
-            // 
-            // levelCaptionLabel
-            // 
-            this.levelCaptionLabel.AutoSize = true;
-            this.levelCaptionLabel.Location = new System.Drawing.Point(4, 25);
-            this.levelCaptionLabel.Name = "levelCaptionLabel";
-            this.levelCaptionLabel.Size = new System.Drawing.Size(51, 25);
-            this.levelCaptionLabel.TabIndex = 14;
-            this.levelCaptionLabel.Text = "Nível";
-            // 
-            // levelLabel
-            // 
-            this.levelLabel.AutoSize = true;
-            this.levelLabel.Location = new System.Drawing.Point(61, 25);
-            this.levelLabel.Name = "levelLabel";
-            this.levelLabel.Size = new System.Drawing.Size(22, 25);
-            this.levelLabel.TabIndex = 15;
-            this.levelLabel.Text = "0";
-            // 
-            // speedCaptionLabel
-            // 
-            this.speedCaptionLabel.AutoSize = true;
-            this.speedCaptionLabel.Location = new System.Drawing.Point(4, 50);
-            this.speedCaptionLabel.Name = "speedCaptionLabel";
-            this.speedCaptionLabel.Size = new System.Drawing.Size(98, 25);
-            this.speedCaptionLabel.TabIndex = 16;
-            this.speedCaptionLabel.Text = "Velocidade";
-            // 
-            // speedLabel
-            // 
-            this.speedLabel.AutoSize = true;
-            this.speedLabel.Location = new System.Drawing.Point(108, 50);
-            this.speedLabel.Name = "speedLabel";
-            this.speedLabel.Size = new System.Drawing.Size(22, 25);
-            this.speedLabel.TabIndex = 17;
-            this.speedLabel.Text = "0";
-            // 
-            // gameTimerCaptionLabel
-            // 
-            this.gameTimerCaptionLabel.AutoSize = true;
-            this.gameTimerCaptionLabel.Location = new System.Drawing.Point(4, 100);
-            this.gameTimerCaptionLabel.Name = "gameTimerCaptionLabel";
-            this.gameTimerCaptionLabel.Size = new System.Drawing.Size(135, 25);
-            this.gameTimerCaptionLabel.TabIndex = 18;
-            this.gameTimerCaptionLabel.Text = "Tempo de Jogo";
-            // 
-            // gameTimerLabel
-            // 
-            this.gameTimerLabel.AutoSize = true;
-            this.gameTimerLabel.Location = new System.Drawing.Point(145, 100);
-            this.gameTimerLabel.Name = "gameTimerLabel";
-            this.gameTimerLabel.Size = new System.Drawing.Size(22, 25);
-            this.gameTimerLabel.TabIndex = 19;
-            this.gameTimerLabel.Text = "0";
             // 
             // timerJogo
             // 
@@ -253,41 +181,6 @@ namespace Desafio___Tetris
             this.buttonPrint.Text = "Print";
             this.buttonPrint.UseVisualStyleBackColor = true;
             this.buttonPrint.Click += new System.EventHandler(this.ButtonPrint_Click);
-            // 
-            // pieceCounterCaptionLabel
-            // 
-            this.pieceCounterCaptionLabel.AutoSize = true;
-            this.pieceCounterCaptionLabel.Location = new System.Drawing.Point(4, 75);
-            this.pieceCounterCaptionLabel.Name = "pieceCounterLabel";
-            this.pieceCounterCaptionLabel.Size = new System.Drawing.Size(55, 25);
-            this.pieceCounterCaptionLabel.TabIndex = 21;
-            this.pieceCounterCaptionLabel.Text = "Peças";
-            // 
-            // pieceCounterLabel
-            // 
-            this.pieceCounterLabel.AutoSize = true;
-            this.pieceCounterLabel.Location = new System.Drawing.Point(65, 75);
-            this.pieceCounterLabel.Name = "pieceCounterLabel";
-            this.pieceCounterLabel.Size = new System.Drawing.Size(22, 25);
-            this.pieceCounterLabel.TabIndex = 22;
-            this.pieceCounterLabel.Text = "0";
-            // 
-            // panelPlacar
-            // 
-            this.panelPlacar.Controls.Add(this.scoreCaptionLabel);
-            this.panelPlacar.Controls.Add(this.scoreLabel);
-            this.panelPlacar.Controls.Add(this.pieceCounterLabel);
-            this.panelPlacar.Controls.Add(this.gameTimerLabel);
-            this.panelPlacar.Controls.Add(this.levelCaptionLabel);
-            this.panelPlacar.Controls.Add(this.gameTimerCaptionLabel);
-            this.panelPlacar.Controls.Add(this.pieceCounterLabel);
-            this.panelPlacar.Controls.Add(this.levelLabel);
-            this.panelPlacar.Controls.Add(this.speedCaptionLabel);
-            this.panelPlacar.Controls.Add(this.speedLabel);
-            this.panelPlacar.Location = new System.Drawing.Point(748, 13);
-            this.panelPlacar.Name = "panelPlacar";
-            this.panelPlacar.Size = new System.Drawing.Size(242, 198);
-            this.panelPlacar.TabIndex = 24;
             // 
             // buttonPontuacao
             // 
@@ -374,19 +267,19 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label labelPause;
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Label labelKey;
-        private System.Windows.Forms.Label scoreCaptionLabel;
-        private System.Windows.Forms.Label scoreLabel;
+        
+        
         private System.Windows.Forms.Button buttonTGD;
         private System.Windows.Forms.Label levelCaptionLabel;
-        private System.Windows.Forms.Label levelLabel;
+        
         private System.Windows.Forms.Label speedCaptionLabel;
-        private System.Windows.Forms.Label speedLabel;
-        private System.Windows.Forms.Label gameTimerCaptionLabel;
+        
+        
         private System.Windows.Forms.Label gameTimerLabel;
         private System.Windows.Forms.Timer timerJogo;
         private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.Label pieceCounterCaptionLabel;
-        private System.Windows.Forms.Label pieceCounterLabel;
+        
         private System.Windows.Forms.Panel panelPlacar;
         private System.Windows.Forms.Button buttonPontuacao;
         private System.Windows.Forms.TrackBar trackBarNivel;

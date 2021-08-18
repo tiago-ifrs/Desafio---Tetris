@@ -8,6 +8,6 @@ public class PontuacaoDao
     {
         string dbt = this.GetType().ToString()+
             ConfigurationManager.AppSettings.Get("DbType");
-        AbsPontuacaoDao = Activator.CreateInstance(Type.GetType(dbt)) as AbsPontuacaoDao;
+        AbsPontuacaoDao = Activator.CreateInstance(Type.GetType(dbt) ?? throw new InvalidOperationException()) as AbsPontuacaoDao;
     }
 }

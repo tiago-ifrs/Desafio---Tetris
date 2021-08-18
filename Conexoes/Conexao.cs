@@ -12,30 +12,10 @@ namespace Desafio___Tetris.Conexoes
         public Conexao()
         {
             string dbt = this.GetType().ToString() +
-                    ConfigurationManager.AppSettings.Get("DbType");
+                         ConfigurationManager.AppSettings.Get("DbType");
 
             Type type = Type.GetType(dbt);
-            AbsConexao = (AbsConexao)Activator.CreateInstance(type);
-            //var a = AppDomain.CurrentDomain.GetAssemblies();
-            /*
-            foreach (var a in AppDomain.CurrentDomain.GetAssemblies()) 
-            {
-                tp = Type.GetType(dbt);
-                if(tp != null)
-                {
-                    break;
-                }
-            }
-            */
-            try
-            {
-
-                AbsConexao = Activator.CreateInstance(type) as AbsConexao;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            AbsConexao = (AbsConexao)Activator.CreateInstance(type ?? throw new InvalidOperationException());
         }
 
         public DbConnection Abre()
@@ -47,14 +27,12 @@ namespace Desafio___Tetris.Conexoes
         {
             try
             {
-                if (DbConnection != null)
+                if (DbConnection == null) return;
+                if (DbConnection.State != ConnectionState.Closed)
                 {
-                    if (DbConnection.State != ConnectionState.Closed)
-                    {
-                        DbConnection.Close();
-                    }
-                    DbConnection.Dispose();
+                    DbConnection.Close();
                 }
+                DbConnection.Dispose();
             }
             catch (Exception ex)
             {
