@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using Desafio___Tetris.Model;
+using Desafio___Tetris.Conexoes;
 
 public class PontuacaoDaoOleDb:AbsPontuacaoDao
 {

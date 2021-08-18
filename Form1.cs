@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data.Common;
-using System.Data.OleDb;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Desafio___Tetris.Conexoes;
 using Desafio___Tetris.View;
 
 namespace Desafio___Tetris
@@ -19,7 +19,7 @@ namespace Desafio___Tetris
         private Placar Placar { get; set; }
         
         //public readonly static Type TipoBanco = typeof(SQLiteConnection);
-        public static readonly Type TipoBanco = typeof(OleDbConnection);
+        //public static readonly Type TipoBanco = typeof(OleDbConnection);
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {

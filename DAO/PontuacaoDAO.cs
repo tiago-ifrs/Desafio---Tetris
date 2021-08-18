@@ -1,20 +1,13 @@
-﻿using Desafio___Tetris;
-using System.Data.OleDb;
-using System.Data.SQLite;
+﻿using System;
+using System.Configuration;
 
 public class PontuacaoDao
 {
     public AbsPontuacaoDao AbsPontuacaoDao { get; set; }
     public PontuacaoDao()
     {
-        switch (Form1.TipoBanco.Name) 
-        {
-            case nameof(OleDbConnection):
-                AbsPontuacaoDao = new PontuacaoDaoOleDb();
-                break;
-            case nameof(SQLiteConnection):
-                AbsPontuacaoDao = new PontuacaoDaosqLite();
-                break;
-        }
+        string dbt = this.GetType().ToString()+
+            ConfigurationManager.AppSettings.Get("DbType");
+        AbsPontuacaoDao = Activator.CreateInstance(Type.GetType(dbt)) as AbsPontuacaoDao;
     }
 }
