@@ -5,6 +5,7 @@ namespace Desafio___Tetris.View
 {
     public class ScoreView
     {
+        #region TimesRegion
         public static readonly int[] Times =
         {
             854,
@@ -29,6 +30,7 @@ namespace Desafio___Tetris.View
             67, //15/s
             50 //20/s
         };
+        #endregion
         private Label ScoreLabel { get; set; }
         private Label LevelLabel { get; set; }
         private Label SpeedLabel { get; set; }

@@ -100,7 +100,7 @@ namespace Desafio___Tetris
         }
         public void Tetris()
         {
-            ScoreView scoreView = new ScoreView(ref labelPlacar, ref labelLevel, ref labelSpeed, ref labelQtdPeca);
+            ScoreView scoreView = new ScoreView(ref scoreLabel, ref levelLabel, ref speedLabel, ref pieceCounterLabel);
 
             labelPause.Text = char.ToString((char)0x34);
             buttonPause.Enabled = true;
@@ -133,7 +133,19 @@ namespace Desafio___Tetris
         }
         private void SalvaPontuacao()
         {
-            FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw);
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar,
+                Sw,
+                ref scoreCaptionLabel,
+                ref levelCaptionLabel,
+                ref speedCaptionLabel,
+                ref pieceCounterCaptionLabel,
+                ref gameTimerCaptionLabel,
+                ref scoreLabel,
+                ref levelLabel, 
+                ref speedLabel,
+                ref pieceCounterLabel,
+                ref gameTimerLabel);
+            
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.Abre();
             conexao.VerifyDbConnection();
@@ -174,7 +186,7 @@ namespace Desafio___Tetris
         private void TimerJogo_Tick(object sender, EventArgs e)
         {
             TimeSpan timeSpan = Sw.Elapsed;
-            labelTimerJogo.Text = string.Format("{0:00}:{1:00}:{2:00}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+            gameTimerLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
         }
 
         private void ButtonPrint_Click(object sender, EventArgs e)
