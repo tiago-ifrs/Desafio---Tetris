@@ -1,11 +1,12 @@
 ﻿using System;
+using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris.View
 {
-    public class ScoreView
+    class ScoreView
     {
         #region TimesRegion
-        public static readonly int[] Times =
+        protected static readonly int[] Times =
         {
             854,
             800,
@@ -30,52 +31,65 @@ namespace Desafio___Tetris.View
             50 //20/s
         };
         #endregion
+
+        private FormPanels FormPanels{ get; set; }
+        private TimeSpan _timeSpan { get; set; }
+        protected TimeSpan TimeSpan
+        {
+            get => _timeSpan;
+            set
+            {
+                _timeSpan = value;
+
+            }
+        }
         private int _level { get; set; }
-        public int Level
+        protected int Level
         {
             get => _level;
             set
             {
                 _level = value;
-                Form1.levelLabel.Text = value.ToString();
-                Form1.levelLabel.Refresh();
+                FormPanels.levelLabel.Text = value.ToString();
+                FormPanels.levelLabel.Refresh();
             }
         }
         private int _score { get; set; }
-        public int Score
+        protected int Score
         {
             get => _score;
             set
             {
                 _score = value;
-                Form1.scoreLabel.Text = value.ToString();
-                Form1.scoreLabel.Refresh();
+                FormPanels.scoreLabel.Text = value.ToString();
+                FormPanels.scoreLabel.Refresh();
             }
         }
         private int _pieceCounter { get; set; }
-        public int PieceCounter
+        protected int PieceCounter
         {
             get => _pieceCounter;
             set
             {
                 _pieceCounter = value;
-                Form1.pieceCounterLabel.Text = value.ToString();
-                Form1.pieceCounterLabel.Refresh();
+                FormPanels.pieceCounterLabel.Text = value.ToString();
+                FormPanels.pieceCounterLabel.Refresh();
             }
         }
         private double _speed { get; set; }
-        public double Speed
+        protected double Speed
         {
             get => _speed;
             set
             {
                 _speed = value;
-                Form1.speedLabel.Text = string.Format(strings.ScoreView_Speed__0___lines_s_, Math.Round(1000 / value, 2));
-                Form1.speedLabel.Refresh();
+                FormPanels.speedLabel.Text = string.Format(strings.ScoreView_Speed__0___lines_s_, Math.Round(1000 / value, 2));
+                FormPanels.speedLabel.Refresh();
             }
         }
-        public ScoreView()
+        protected ScoreView()
         {
+            FormPanels = new FormPanels();
         }
     }
 }

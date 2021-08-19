@@ -264,7 +264,6 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Button buttonTGD;
         private System.Windows.Forms.Timer timerJogo;
         private System.Windows.Forms.Button buttonPrint;
-        
         private System.Windows.Forms.Button buttonPontuacao;
         private System.Windows.Forms.TrackBar trackBarNivel;
         private System.Windows.Forms.Label label9;

@@ -4,19 +4,19 @@ namespace Desafio___Tetris.Labels
 {
     class FormLabels
     {
-        public Label gameTimerCaptionLabel { get; set; }
-        public Label gameTimerLabel { get; set; }
-        public Label levelCaptionLabel { get; set; }
-        public Label levelLabel { get; set; }
-        public Label pieceCounterCaptionLabel { get; set; }
-        public Label pieceCounterLabel { get; set; }
-        public Label scoreCaptionLabel { get; set; }
-        public Label scoreLabel { get; set; }
-        public Label speedCaptionLabel { get; set; }
-        public Label speedLabel { get; set; }
-        
-        
-        public FormLabels()
+        protected Label gameTimerCaptionLabel { get; set; }
+        protected Label gameTimerLabel { get; set; }
+        protected Label levelCaptionLabel { get; set; }
+        protected Label levelLabel { get; set; }
+        protected Label pieceCounterCaptionLabel { get; set; }
+        protected Label pieceCounterLabel { get; set; }
+        protected Label scoreCaptionLabel { get; set; }
+        protected Label scoreLabel { get; set; }
+        protected Label speedCaptionLabel { get; set; }
+        protected Label speedLabel { get; set; }
+
+
+        protected FormLabels()
         {
             this.gameTimerCaptionLabel = new Label
             {

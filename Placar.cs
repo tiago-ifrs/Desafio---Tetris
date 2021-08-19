@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Desafio___Tetris.View;
 
@@ -8,11 +9,11 @@ namespace Desafio___Tetris
     {
         private Tabuleiro Tabuleiro { get; }
         private ScoreView ScoreView { get; set; }
-        private int _qtdPecas { get; set; }
         private int NivelInicial { get; set; }
         public int Score { get; set; }
         public int Nivel { get; set; }
         public double Velo { get; set; }
+        private int _qtdPecas { get; set; }
         public int QtdPecas
         {
             get => _qtdPecas;
@@ -22,6 +23,18 @@ namespace Desafio___Tetris
                 ScoreView.PieceCounter = value;
             }
         }
+
+        private TimeSpan _timeSpan { get; set; }
+        public TimeSpan TimeSpan
+        {
+            get => _timeSpan;
+            set
+            {
+                _timeSpan = value;
+                ScoreView
+            }
+        }
+
         public Placar(Tabuleiro tabuleiro, int nivelInicial)
         {
             this.Tabuleiro = tabuleiro;

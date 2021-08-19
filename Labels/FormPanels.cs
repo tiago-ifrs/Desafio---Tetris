@@ -2,7 +2,7 @@
 
 namespace Desafio___Tetris.Labels
 {
-    class FormPanels
+    public class FormPanels
     {
         public Panel panelPlacar { get; set; }
         FormPanels()
