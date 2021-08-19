@@ -41,7 +41,6 @@ namespace Desafio___Tetris
             this.buttonPause = new System.Windows.Forms.Button();
             this.labelKey = new System.Windows.Forms.Label();
             this.buttonTGD = new System.Windows.Forms.Button();
-            this.timerJogo = new System.Windows.Forms.Timer(this.components);
             this.buttonPrint = new System.Windows.Forms.Button();
             this.buttonPontuacao = new System.Windows.Forms.Button();
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
@@ -157,10 +156,6 @@ namespace Desafio___Tetris
             this.buttonTGD.UseVisualStyleBackColor = true;
             this.buttonTGD.Click += new System.EventHandler(this.ButtonTGD_Click);
             // 
-            // timerJogo
-            // 
-            this.timerJogo.Tick += new System.EventHandler(this.TimerJogo_Tick);
-            // 
             // buttonPrint
             // 
             this.buttonPrint.Location = new System.Drawing.Point(676, 577);
@@ -262,7 +257,6 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Label labelKey;
         private System.Windows.Forms.Button buttonTGD;
-        private System.Windows.Forms.Timer timerJogo;
         private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.Button buttonPontuacao;
         private System.Windows.Forms.TrackBar trackBarNivel;

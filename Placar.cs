@@ -23,7 +23,6 @@ namespace Desafio___Tetris
                 ScoreView.PieceCounter = value;
             }
         }
-
         private TimeSpan _timeSpan { get; set; }
         public TimeSpan TimeSpan
         {
@@ -31,10 +30,9 @@ namespace Desafio___Tetris
             set
             {
                 _timeSpan = value;
-                ScoreView
+                ScoreView.TimeSpan = value;
             }
         }
-
         public Placar(Tabuleiro tabuleiro, int nivelInicial)
         {
             this.Tabuleiro = tabuleiro;

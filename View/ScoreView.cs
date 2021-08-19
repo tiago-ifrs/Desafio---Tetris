@@ -6,7 +6,7 @@ namespace Desafio___Tetris.View
     class ScoreView
     {
         #region TimesRegion
-        protected static readonly int[] Times =
+        public static readonly int[] Times =
         {
             854,
             800,
@@ -31,20 +31,20 @@ namespace Desafio___Tetris.View
             50 //20/s
         };
         #endregion
-
         private FormPanels FormPanels{ get; set; }
         private TimeSpan _timeSpan { get; set; }
-        protected TimeSpan TimeSpan
+        public TimeSpan TimeSpan
         {
             get => _timeSpan;
             set
             {
                 _timeSpan = value;
-
+                FormPanels.gameTimerLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", value.Hours, value.Minutes, value.Seconds);
+                FormPanels.gameTimerLabel.Refresh();
             }
         }
         private int _level { get; set; }
-        protected int Level
+        public int Level
         {
             get => _level;
             set
@@ -54,19 +54,8 @@ namespace Desafio___Tetris.View
                 FormPanels.levelLabel.Refresh();
             }
         }
-        private int _score { get; set; }
-        protected int Score
-        {
-            get => _score;
-            set
-            {
-                _score = value;
-                FormPanels.scoreLabel.Text = value.ToString();
-                FormPanels.scoreLabel.Refresh();
-            }
-        }
         private int _pieceCounter { get; set; }
-        protected int PieceCounter
+        public int PieceCounter
         {
             get => _pieceCounter;
             set
@@ -76,8 +65,19 @@ namespace Desafio___Tetris.View
                 FormPanels.pieceCounterLabel.Refresh();
             }
         }
+        private int _score { get; set; }
+        public int Score
+        {
+            get => _score;
+            set
+            {
+                _score = value;
+                FormPanels.scoreLabel.Text = value.ToString();
+                FormPanels.scoreLabel.Refresh();
+            }
+        }
         private double _speed { get; set; }
-        protected double Speed
+        public double Speed
         {
             get => _speed;
             set
@@ -87,7 +87,7 @@ namespace Desafio___Tetris.View
                 FormPanels.speedLabel.Refresh();
             }
         }
-        protected ScoreView()
+        public ScoreView()
         {
             FormPanels = new FormPanels();
         }

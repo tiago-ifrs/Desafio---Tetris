@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Desafio___Tetris;
 
@@ -9,10 +10,34 @@ public class Jogo
     public Peca At { get; set; }
     public Peca Prox { get; set; }
     public Placar Placar { get; set; }
+    public Stopwatch Sw { get; set; }
     public Tabuleiro Tabuleiro { get; set; }
     private int Yoffset { get; set; }
+    private Timer timerJogo { get; set; }
+    public void AcionaRelogio()
+    {
+        Sw.Start();
+        timerJogo.Start();
+    }
+    public void ParaRelogio()
+    {
+        Sw.Stop();
+        timerJogo.Stop();
+    }
+    internal void TimerJogo_Tick(object sender, EventArgs e)
+    {
+        Placar.TimeSpan = Sw.Elapsed;
+    }
     public Jogo(Tabuleiro t, Placar p)
     {
+        this.Sw = new Stopwatch();
+        this.timerJogo = new Timer();
+        //this.timerJogo = new System.Windows.Forms.Timer(this.components);
+        // 
+        // timerJogo
+        // 
+        this.timerJogo.Tick += new System.EventHandler(this.TimerJogo_Tick);
+        //this.GameTimer = new GameTimer();        
         this.Tabuleiro = t;
         this.Placar = p;
     }

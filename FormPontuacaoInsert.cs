@@ -27,14 +27,11 @@ namespace Desafio___Tetris
         private Label GameTimerLabel { get; }
         private Control.ControlCollection Collection { get; set; }
 
-        public FormPontuacaoInsert(Placar placar,
-            Stopwatch stopwatch,
-            Control.ControlCollection collection
-        )
+        public FormPontuacaoInsert(Jogo jogo)
         {
-            this.Placar = placar;
-            this.Stopwatch = stopwatch;
-            this.Collection = collection;
+            this.Placar = jogo.Placar;
+            this.Stopwatch = jogo.Sw;
+            //this.Collection = collection;
             this.CaptureBitmap = new Bitmap(Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);
             InitializeComponent();
         }

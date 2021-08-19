@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Desafio___Tetris.Conexoes;
+using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris
 {
@@ -14,7 +15,7 @@ namespace Desafio___Tetris
         private Jogo Jogo { get; set; }
         private bool Pause { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
-        private Stopwatch Sw { get; set; }
+        
         private Placar Placar { get; set; }
         
         //private FormPontuacaoSelect Fs { get; set; }
@@ -54,13 +55,13 @@ namespace Desafio___Tetris
         {
             if (Pause == false)
             {
-                ParaRelogio();
+                Jogo.ParaRelogio();
                 labelPause.Text = char.ToString((char)0x3b);
                 Pause = true;
             }
             else
             {
-                AcionaRelogio();
+                Jogo.AcionaRelogio();
                 labelPause.Text = char.ToString((char)0x34);
                 Pause = false;
             }
@@ -101,7 +102,7 @@ namespace Desafio___Tetris
             buttonPause.Enabled = true;
             this.Pause = false;
             trackBarNivel.Enabled = false;
-            this.Sw = new Stopwatch();
+            
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
@@ -112,14 +113,14 @@ namespace Desafio___Tetris
             Jogo.At = new Peca(Tabuleiro, panelAtual);
             Jogo.Prox = null;
 
-            AcionaRelogio();
+            Jogo.AcionaRelogio();
 
             while (!over)
             {
                 GeraProx();
                 over = Jogo.Percorre();
             }
-            ParaRelogio();
+            Jogo.ParaRelogio();
             labelPause.Text = char.ToString((char)0x3c);
             MessageBox.Show("Game Over");
             SalvaPontuacao();
@@ -128,8 +129,7 @@ namespace Desafio___Tetris
         }
         private void SalvaPontuacao()
         {
-            this.Controls.Add(this.panelPlacar);
-            FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw, panelPlacar.Controls);
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(Jogo);
             
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.Abre();
@@ -157,23 +157,7 @@ namespace Desafio___Tetris
                             "tgdbr@yahoo.com.br",
                             "Tetris 21");
         }
-        private void AcionaRelogio()
-        {
-            Sw.Start();
-            timerJogo.Start();
-        }
-        private void ParaRelogio()
-        {
-            Sw.Stop();
-            timerJogo.Stop();
-        }
-
-        private void TimerJogo_Tick(object sender, EventArgs e)
-        {
-            TimeSpan timeSpan = Sw.Elapsed;
-            gameTimerLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
-        }
-
+        
         private void ButtonPrint_Click(object sender, EventArgs e)
         {
             string minhasImagens = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
