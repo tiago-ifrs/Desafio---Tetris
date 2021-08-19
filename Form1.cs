@@ -128,6 +128,7 @@ namespace Desafio___Tetris
         }
         private void SalvaPontuacao()
         {
+            this.Controls.Add(this.panelPlacar);
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Placar, Sw, panelPlacar.Controls);
             
             Conexao conexao = new Conexao();

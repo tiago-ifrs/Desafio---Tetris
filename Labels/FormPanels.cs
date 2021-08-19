@@ -1,14 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Windows.Forms;
 
 namespace Desafio___Tetris.Labels
 {
     class FormPanels
     {
+        public Panel panelPlacar { get; set; }
         FormPanels()
         {
             FormLabels labels = new FormLabels();
+            // 
+            // Form1
+            // 
+            this.panelPlacar.ResumeLayout(false);
+            this.panelPlacar.PerformLayout();
+
+
+            this.panelPlacar = new Panel();
+
             // 
             // panelPlacar
             // 
@@ -26,6 +34,7 @@ namespace Desafio___Tetris.Labels
             this.panelPlacar.Name = "panelPlacar";
             this.panelPlacar.Size = new System.Drawing.Size(242, 198);
             this.panelPlacar.TabIndex = 24;
+            this.panelPlacar.SuspendLayout();
         }
     }
 }

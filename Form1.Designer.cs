@@ -40,25 +40,14 @@ namespace Desafio___Tetris
             this.buttonNJ = new System.Windows.Forms.Button();
             this.buttonPause = new System.Windows.Forms.Button();
             this.labelKey = new System.Windows.Forms.Label();
-            this.scoreCaptionLabel = new System.Windows.Forms.Label();
-            
             this.buttonTGD = new System.Windows.Forms.Button();
-            this.levelCaptionLabel = new System.Windows.Forms.Label();
-            
-            this.speedCaptionLabel = new System.Windows.Forms.Label();
-            
-            this.gameTimerCaptionLabel = new System.Windows.Forms.Label();
-            this.gameTimerLabel = new System.Windows.Forms.Label();
             this.timerJogo = new System.Windows.Forms.Timer(this.components);
             this.buttonPrint = new System.Windows.Forms.Button();
-            this.pieceCounterCaptionLabel = new System.Windows.Forms.Label();
-            
-            this.panelPlacar = new System.Windows.Forms.Panel();
             this.buttonPontuacao = new System.Windows.Forms.Button();
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.labelTBNivel = new System.Windows.Forms.Label();
-            this.panelPlacar.SuspendLayout();
+            this.scorePlaceHolderPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -220,16 +209,23 @@ namespace Desafio___Tetris
             this.labelTBNivel.TabIndex = 28;
             this.labelTBNivel.Text = "0";
             // 
+            // scorePlaceHolderPanel
+            // 
+            this.scorePlaceHolderPanel.Location = new System.Drawing.Point(616, 13);
+            this.scorePlaceHolderPanel.Name = "scorePlaceHolderPanel";
+            this.scorePlaceHolderPanel.Size = new System.Drawing.Size(300, 150);
+            this.scorePlaceHolderPanel.TabIndex = 29;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
+            this.Controls.Add(this.scorePlaceHolderPanel);
             this.Controls.Add(this.labelTBNivel);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.trackBarNivel);
             this.Controls.Add(this.buttonPontuacao);
-            this.Controls.Add(this.panelPlacar);
             this.Controls.Add(this.buttonPrint);
             this.Controls.Add(this.buttonTGD);
             this.Controls.Add(this.labelKey);
@@ -248,8 +244,6 @@ namespace Desafio___Tetris
             this.Text = "Tetris";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.panelPlacar.ResumeLayout(false);
-            this.panelPlacar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -267,24 +261,15 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label labelPause;
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Label labelKey;
-        
-        
         private System.Windows.Forms.Button buttonTGD;
-        private System.Windows.Forms.Label levelCaptionLabel;
-        
-        private System.Windows.Forms.Label speedCaptionLabel;
-        
-        
-        private System.Windows.Forms.Label gameTimerLabel;
         private System.Windows.Forms.Timer timerJogo;
         private System.Windows.Forms.Button buttonPrint;
-        private System.Windows.Forms.Label pieceCounterCaptionLabel;
         
-        private System.Windows.Forms.Panel panelPlacar;
         private System.Windows.Forms.Button buttonPontuacao;
         private System.Windows.Forms.TrackBar trackBarNivel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labelTBNivel;
+        private System.Windows.Forms.Panel scorePlaceHolderPanel;
     }
 }
 
