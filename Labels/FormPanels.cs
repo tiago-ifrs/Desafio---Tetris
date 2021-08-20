@@ -8,12 +8,13 @@ namespace Desafio___Tetris.Labels
         public Panel panelPlacar { get; set; }
         public FormPanels() : base()
         {
+            this.panelPlacar = new Panel();
             // 
             // Form1
             // 
             this.panelPlacar.ResumeLayout(false);
             this.panelPlacar.PerformLayout();
-            this.panelPlacar = new Panel();
+            
             // 
             // panelPlacar
             // 

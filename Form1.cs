@@ -27,7 +27,7 @@ namespace Desafio___Tetris
         {
             
             Conexao conexao = new Conexao();
-            DbConnection dbConnection = conexao.Abre();
+            DbConnection dbConnection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             if (dbConnection != null)
             {
@@ -38,7 +38,7 @@ namespace Desafio___Tetris
                 };
                 formPontuacaoTlp.Show();
             }
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
         private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -132,13 +132,13 @@ namespace Desafio___Tetris
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Jogo);
             
             Conexao conexao = new Conexao();
-            DbConnection dbConnection = conexao.Abre();
+            DbConnection dbConnection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             if (dbConnection != null)
             {
                 fp.ShowDialog();
             }
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
         private void GeraProx()
         {

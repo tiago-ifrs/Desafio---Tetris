@@ -13,32 +13,16 @@ namespace Desafio___Tetris.Conexoes
         {
             string dbt = this.GetType().ToString() +
                          ConfigurationManager.AppSettings.Get("DbType");
-
-            Type type = Type.GetType(dbt);
-            AbsConexao = (AbsConexao)Activator.CreateInstance(type ?? throw new InvalidOperationException());
+            AbsConexao = (AbsConexao)Activator.CreateInstance(Type.GetType(dbt) ?? throw new InvalidOperationException());
+            DbConnection = AbsConexao.DbConnection;
         }
-
+        /*
         public DbConnection Abre()
         {
-            DbConnection = AbsConexao.OpenDbConnection();
+            DbConnection = OpenDbConnection();
             return DbConnection;
         }
-        public void CloseDbConnection()
-        {
-            try
-            {
-                if (DbConnection == null) return;
-                if (DbConnection.State != ConnectionState.Closed)
-                {
-                    DbConnection.Close();
-                }
-                DbConnection.Dispose();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CloseDBConnection - " + ex.ToString());
-            }
-        }
+        */       
         public void VerifyDbConnection()
         {
             if (DbConnection == null)

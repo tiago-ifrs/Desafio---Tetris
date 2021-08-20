@@ -68,5 +68,24 @@ namespace Desafio___Tetris {
                 return ResourceManager.GetString("ScoreView_Speed__0___lines_s_", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE IF NOT EXISTS &quot;pontuacao&quot; (
+        ///	&quot;id&quot;	INTEGER NOT NULL,
+        ///	&quot;nome&quot;	TEXT NOT NULL,
+        ///	&quot;score&quot;	INTEGER NOT NULL,
+        ///	&quot;nivel&quot;	INTEGER NOT NULL,
+        ///	&quot;tempo_jogo&quot;	TEXT NOT NULL,
+        ///	&quot;qtd_pecas&quot;	INTEGER NOT NULL,
+        ///	&quot;data_score&quot;	TEXT NOT NULL,
+        ///	&quot;tabuleiro&quot;	BLOB NOT NULL,
+        ///	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT)
+        ///);.
+        /// </summary>
+        internal static string SQLite_Create {
+            get {
+                return ResourceManager.GetString("SQLite_Create", resourceCulture);
+            }
+        }
     }
 }

@@ -9,9 +9,9 @@ using System.Text;
 using Desafio___Tetris.Conexoes;
 using Desafio___Tetris.Model;
 
-public class PontuacaoDaosqLite:AbsPontuacaoDao
+public class PontuacaoDaoSqLite:AbsPontuacaoDao
 {
-    public PontuacaoDaosqLite()
+    public PontuacaoDaoSqLite()
     {
     }
     public override void Insert(Pontuacao p)
@@ -25,7 +25,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         ms.Read(photoAray, 0, photoAray.Length);
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
@@ -67,7 +67,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
     public override Pontuacao ImagemPorId(int id)
@@ -75,7 +75,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         Conexao conexao = new Conexao();
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
@@ -110,7 +110,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
     public override List<Pontuacao> ListaTodos()
@@ -119,7 +119,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
@@ -167,7 +167,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
     public override List<Pontuacao> ListaTodosTlp()
@@ -176,7 +176,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -220,7 +220,7 @@ public class PontuacaoDaosqLite:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
 }

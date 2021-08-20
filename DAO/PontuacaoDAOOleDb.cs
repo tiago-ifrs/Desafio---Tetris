@@ -26,7 +26,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         try
         {
             OleDbDataReader result;
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
@@ -69,7 +69,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
     public override Pontuacao ImagemPorId(int id)
@@ -77,7 +77,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         Conexao conexao = new Conexao();
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
@@ -113,7 +113,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
     public override List<Pontuacao> ListaTodos()
@@ -122,7 +122,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Clear()
@@ -172,7 +172,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
     public override List<Pontuacao> ListaTodosTlp()
@@ -181,7 +181,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         List<Pontuacao> lp = new List<Pontuacao>();
         try
         {
-            DbConnection connection = conexao.Abre();
+            DbConnection connection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -227,7 +227,7 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
         }
         finally
         {
-            conexao.CloseDbConnection();
+            conexao.DbConnection.Close();
         }
     }
 }
