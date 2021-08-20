@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris.View
@@ -39,7 +40,7 @@ namespace Desafio___Tetris.View
             set
             {
                 _timeSpan = value;
-                FormPanels.gameTimerLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", value.Hours, value.Minutes, value.Seconds);
+                FormPanels.gameTimerLabel.Text = $@"{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
                 FormPanels.gameTimerLabel.Refresh();
             }
         }
@@ -90,6 +91,10 @@ namespace Desafio___Tetris.View
         public ScoreView()
         {
             FormPanels = new FormPanels();
+            foreach (Control variable in FormPanels)
+            {
+                Form1.scorePlaceHolderPanel.Controls.Add(variable);
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Desafio___Tetris
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.labelTBNivel = new System.Windows.Forms.Label();
-            this.scorePlaceHolderPanel = new System.Windows.Forms.Panel();
+            Form1.scorePlaceHolderPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -206,17 +206,17 @@ namespace Desafio___Tetris
             // 
             // scorePlaceHolderPanel
             // 
-            this.scorePlaceHolderPanel.Location = new System.Drawing.Point(616, 13);
-            this.scorePlaceHolderPanel.Name = "scorePlaceHolderPanel";
-            this.scorePlaceHolderPanel.Size = new System.Drawing.Size(300, 150);
-            this.scorePlaceHolderPanel.TabIndex = 29;
+            Form1.scorePlaceHolderPanel.Location = new System.Drawing.Point(616, 13);
+            Form1.scorePlaceHolderPanel.Name = "scorePlaceHolderPanel";
+            Form1.scorePlaceHolderPanel.Size = new System.Drawing.Size(300, 150);
+            Form1.scorePlaceHolderPanel.TabIndex = 29;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
-            this.Controls.Add(this.scorePlaceHolderPanel);
+            this.Controls.Add(Form1.scorePlaceHolderPanel);
             this.Controls.Add(this.labelTBNivel);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.trackBarNivel);
@@ -262,7 +262,7 @@ namespace Desafio___Tetris
         private System.Windows.Forms.TrackBar trackBarNivel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labelTBNivel;
-        private System.Windows.Forms.Panel scorePlaceHolderPanel;
+        public static System.Windows.Forms.Panel scorePlaceHolderPanel;
     }
 }
 
