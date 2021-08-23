@@ -13,16 +13,16 @@ public class Jogo
     public Stopwatch Sw { get; set; }
     public Tabuleiro Tabuleiro { get; set; }
     private int Yoffset { get; set; }
-    private Timer timerJogo { get; set; }
+    private Timer TimerJogo { get; }
     public void AcionaRelogio()
     {
         Sw.Start();
-        timerJogo.Start();
+        TimerJogo.Start();
     }
     public void ParaRelogio()
     {
         Sw.Stop();
-        timerJogo.Stop();
+        TimerJogo.Stop();
     }
     internal void TimerJogo_Tick(object sender, EventArgs e)
     {
@@ -31,13 +31,9 @@ public class Jogo
     public Jogo(Tabuleiro t, Placar p)
     {
         this.Sw = new Stopwatch();
-        this.timerJogo = new Timer();
-        //this.timerJogo = new System.Windows.Forms.Timer(this.components);
-        // 
-        // timerJogo
-        // 
-        this.timerJogo.Tick += new System.EventHandler(this.TimerJogo_Tick);
-        //this.GameTimer = new GameTimer();        
+        this.TimerJogo = new Timer();
+        this.TimerJogo.Tick += this.TimerJogo_Tick;
+
         this.Tabuleiro = t;
         this.Placar = p;
     }

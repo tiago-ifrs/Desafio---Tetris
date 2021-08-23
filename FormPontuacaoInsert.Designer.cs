@@ -74,7 +74,6 @@ namespace Desafio___Tetris
             this.buttonCancela.TabIndex = 3;
             this.buttonCancela.Text = "Cancela";
             this.buttonCancela.UseVisualStyleBackColor = true;
-            this.buttonCancela.Click += new System.EventHandler(this.ButtonCancela_Click);
             // 
             // pictureBoxTabuleiro
             // 

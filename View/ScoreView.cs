@@ -43,7 +43,7 @@ namespace Desafio___Tetris.View
                 int c = collection.Count;
                 for (int i = 0; i < c; i++)
                 {
-                    //must be the 1st index as Controls are being deleted from array while added to placeholder
+                    //must be the 1st index as Controls are being deleted from collection while added to placeholder
                     value.Controls.Add(collection[0]);
                 }
                 _output = value;

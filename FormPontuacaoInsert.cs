@@ -53,10 +53,6 @@ namespace Desafio___Tetris
                 this.Close();
             }
         }
-        private void ButtonCancela_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         private void FormPontuacaoInsert_Load(object sender, EventArgs e)
         {
             Placar.Output = panelPlacarInsert;
