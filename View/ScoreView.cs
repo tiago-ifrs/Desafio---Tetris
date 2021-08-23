@@ -4,7 +4,7 @@ using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris.View
 {
-    class ScoreView
+    internal class ScoreView
     {
         #region TimesRegion
         public static readonly int[] Times =
@@ -32,7 +32,23 @@ namespace Desafio___Tetris.View
             50 //20/s
         };
         #endregion
-        private FormPanels FormPanels{ get; set; }
+        private FormPanels FormPanels{ get; }
+        private Panel _output { get; set; }
+        public Panel Output
+        {
+            get => _output;
+            set
+            {
+                Control.ControlCollection collection = _output == null ? FormPanels.panelPlacar.Controls : _output.Controls;
+                int c = collection.Count;
+                for (int i = 0; i < c; i++)
+                {
+                    //must be the 1st index as Controls are being deleted from array while added to placeholder
+                    value.Controls.Add(collection[0]);
+                }
+                _output = value;
+            }
+        }
         private TimeSpan _timeSpan { get; set; }
         public TimeSpan TimeSpan
         {
@@ -91,10 +107,6 @@ namespace Desafio___Tetris.View
         public ScoreView()
         {
             FormPanels = new FormPanels();
-            foreach (Control variable in FormPanels)
-            {
-                Form1.scorePlaceHolderPanel.Controls.Add(variable);
-            }
         }
     }
 }

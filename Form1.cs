@@ -106,7 +106,7 @@ namespace Desafio___Tetris
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
-            Placar = new Placar(Tabuleiro, trackBarNivel.Value);
+            Placar = new Placar(Tabuleiro, trackBarNivel.Value, scorePlaceHolderPanel);
             this.Jogo = new Jogo(Tabuleiro, Placar);
 
             bool over = false;
@@ -137,6 +137,7 @@ namespace Desafio___Tetris
             if (dbConnection != null)
             {
                 fp.ShowDialog();
+                Placar.Output = scorePlaceHolderPanel;
             }
             conexao.DbConnection.Close();
         }

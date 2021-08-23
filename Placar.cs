@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows.Forms;
 using Desafio___Tetris.View;
 
 namespace Desafio___Tetris
@@ -8,32 +9,27 @@ namespace Desafio___Tetris
     public class Placar
     {
         private Tabuleiro Tabuleiro { get; }
-        private ScoreView ScoreView { get; set; }
-        private int NivelInicial { get; set; }
+        private ScoreView ScoreView { get; }
+        private int NivelInicial { get; }
         public int Score { get; set; }
         public int Nivel { get; set; }
         public double Velo { get; set; }
-        private int _qtdPecas { get; set; }
         public int QtdPecas
         {
-            get => _qtdPecas;
-            set 
-            {
-                _qtdPecas = value;
-                ScoreView.PieceCounter = value;
-            }
+            get => ScoreView.PieceCounter;
+            set => ScoreView.PieceCounter = value;
         }
-        private TimeSpan _timeSpan { get; set; }
         public TimeSpan TimeSpan
         {
-            get => _timeSpan;
-            set
-            {
-                _timeSpan = value;
-                ScoreView.TimeSpan = value;
-            }
+            get => ScoreView.TimeSpan;
+            set => ScoreView.TimeSpan = value;
         }
-        public Placar(Tabuleiro tabuleiro, int nivelInicial)
+        public Panel Output
+        {
+            get => ScoreView.Output;
+            set => ScoreView.Output = value;
+        }
+        public Placar(Tabuleiro tabuleiro, int nivelInicial, Panel scorePlaceHolderPanel)
         {
             this.Tabuleiro = tabuleiro;
             this.Score = 0;
@@ -42,10 +38,11 @@ namespace Desafio___Tetris
             ScoreView = new ScoreView
             {
                 //Initializes score labels each new game
-                Score = 0,
                 Level = Nivel,
+                PieceCounter = 0,
+                Score = 0,
                 Speed = Velo,
-                PieceCounter = 0
+                Output = scorePlaceHolderPanel
             };
         }
         public void Atualiza()

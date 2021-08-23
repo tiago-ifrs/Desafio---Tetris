@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Desafio___Tetris.Labels
 {
-    public class FormPanels : FormLabels, IEnumerable
+    public class FormPanels : FormLabels
     {
         public Panel panelPlacar { get; set; }
         public FormPanels() : base()
@@ -34,11 +32,6 @@ namespace Desafio___Tetris.Labels
             this.panelPlacar.Size = new Size(242, 198);
             this.panelPlacar.TabIndex = 24;
             this.panelPlacar.SuspendLayout();
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return panelPlacar.Controls.GetEnumerator() ?? throw new InvalidOperationException();
         }
     }
 }
