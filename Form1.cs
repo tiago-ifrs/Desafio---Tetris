@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Data.Common;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Desafio___Tetris.Conexoes;
-using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris
 {
     public partial class Form1 : Form
     {
         private Jogo Jogo { get; set; }
-        private bool Pause { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
-        
         private Placar Placar { get; set; }
-        
+
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
         {
@@ -25,7 +21,6 @@ namespace Desafio___Tetris
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.DbConnection;
             conexao.VerifyDbConnection();
@@ -40,36 +35,13 @@ namespace Desafio___Tetris
             }
             conexao.DbConnection.Close();
         }
-        private void LayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void PanelAtual_Paint(object sender, PaintEventArgs e)
-        {
-        }
         private void ButtonNJ_Click(object sender, EventArgs e)
         {
             Tetris();
         }
         private void ButtonPause_Click(object sender, EventArgs e)
         {
-            if (Pause == false)
-            {
-                Jogo.ParaRelogio();
-                labelPause.Text = char.ToString((char)0x3b);
-                Pause = true;
-            }
-            else
-            {
-                Jogo.AcionaRelogio();
-                labelPause.Text = char.ToString((char)0x34);
-                Pause = false;
-            }
-            labelPause.Refresh();
-            while (Pause)
-            {
-                Jogo.Espera();
-            }
+            Jogo.Pause();
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
@@ -100,7 +72,7 @@ namespace Desafio___Tetris
         {
             labelPause.Text = char.ToString((char)0x34);
             buttonPause.Enabled = true;
-            this.Pause = false;
+            
             trackBarNivel.Enabled = false;
             
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);

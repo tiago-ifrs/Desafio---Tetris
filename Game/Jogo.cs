@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using Desafio___Tetris;
+using Desafio___Tetris.Presenter;
 
 public class Jogo
 {
@@ -10,36 +11,46 @@ public class Jogo
     public Peca At { get; set; }
     public Peca Prox { get; set; }
     public Placar Placar { get; set; }
-    public Stopwatch Sw { get; set; }
     public Tabuleiro Tabuleiro { get; set; }
     private int Yoffset { get; set; }
     private Timer TimerJogo { get; }
+    private PausePresenter PausePresenter { get; set; }
     public void AcionaRelogio()
     {
-        Sw.Start();
+        PausePresenter.Stopwatch.Start();
         TimerJogo.Start();
     }
     public void ParaRelogio()
     {
-        Sw.Stop();
+        PausePresenter.Stopwatch.Stop();
         TimerJogo.Stop();
     }
     internal void TimerJogo_Tick(object sender, EventArgs e)
     {
-        Placar.TimeSpan = Sw.Elapsed;
+        Placar.TimeSpan = PausePresenter.Stopwatch.Elapsed;
+    }
+    public void Pause()
+    {
+        if (PausePresenter.Paused == false)
+        {
+            ParaRelogio();
+            PausePresenter.Paused = true;
+        }
+        else
+        {
+            AcionaRelogio();
+            PausePresenter.Paused = false;
+        }
     }
     public Jogo(Tabuleiro t, Placar p)
     {
-        this.Sw = new Stopwatch();
+        this.PausePresenter = new PausePresenter();
+        
         this.TimerJogo = new Timer();
         this.TimerJogo.Tick += this.TimerJogo_Tick;
 
         this.Tabuleiro = t;
         this.Placar = p;
-    }
-    public void Espera()
-    {
-        Wait(1000);
     }
     public void RotacionaPeca()
     {
@@ -167,14 +178,8 @@ public class Jogo
                 }
                 break;
             }
-            Wait((int)Placar.Velo);
+            PausePresenter.Wait((int)Placar.Velo);
         }
         return false;
-    }
-    private void Wait(int ms)
-    {
-        DateTime start = DateTime.Now;
-        while ((DateTime.Now - start).TotalMilliseconds < ms)
-            Application.DoEvents();
     }
 }

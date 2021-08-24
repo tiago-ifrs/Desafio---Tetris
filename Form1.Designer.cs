@@ -29,7 +29,6 @@ namespace Desafio___Tetris
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.panelTabuleiro = new System.Windows.Forms.Panel();
             this.labelPause = new System.Windows.Forms.Label();
@@ -46,7 +45,6 @@ namespace Desafio___Tetris
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.labelTBNivel = new System.Windows.Forms.Label();
-            Form1.scorePlaceHolderPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,7 +63,6 @@ namespace Desafio___Tetris
             this.panelTabuleiro.Name = "panelTabuleiro";
             this.panelTabuleiro.Size = new System.Drawing.Size(420, 680);
             this.panelTabuleiro.TabIndex = 3;
-            this.panelTabuleiro.Paint += new System.Windows.Forms.PaintEventHandler(this.LayoutPanel1_Paint);
             // 
             // labelPause
             // 
@@ -96,7 +93,6 @@ namespace Desafio___Tetris
             this.panelAtual.Name = "panelAtual";
             this.panelAtual.Size = new System.Drawing.Size(170, 170);
             this.panelAtual.TabIndex = 5;
-            this.panelAtual.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelAtual_Paint);
             // 
             // label3
             // 
@@ -204,19 +200,11 @@ namespace Desafio___Tetris
             this.labelTBNivel.TabIndex = 28;
             this.labelTBNivel.Text = "0";
             // 
-            // scorePlaceHolderPanel
-            // 
-            Form1.scorePlaceHolderPanel.Location = new System.Drawing.Point(616, 13);
-            Form1.scorePlaceHolderPanel.Name = "scorePlaceHolderPanel";
-            Form1.scorePlaceHolderPanel.Size = new System.Drawing.Size(300, 150);
-            Form1.scorePlaceHolderPanel.TabIndex = 29;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 712);
-            this.Controls.Add(Form1.scorePlaceHolderPanel);
             this.Controls.Add(this.labelTBNivel);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.trackBarNivel);
@@ -253,7 +241,7 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelProx;
         private System.Windows.Forms.Button buttonNJ;
-        private System.Windows.Forms.Label labelPause;
+        internal static System.Windows.Forms.Label labelPause;
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Label labelKey;
         private System.Windows.Forms.Button buttonTGD;
