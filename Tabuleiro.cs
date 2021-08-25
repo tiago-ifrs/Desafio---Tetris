@@ -52,7 +52,7 @@ public class Tabuleiro
             }
         }
     }
-    public bool DesenhaY(Peca p, int ytab, int xtab)
+    public bool DesenhaY(Piece p, int ytab, int xtab)
     {
         int ul = p.QLinhas - 1;
         int uc = p.QColunas(ul);
@@ -85,7 +85,7 @@ public class Tabuleiro
         }
         return false;
     }
-    public void LimpaPeca(Peca p, int ytab, int xtab)
+    public void LimpaPeca(Piece p, int ytab, int xtab)
     {
         /*
          NÃO PRECISA DETECTAR COLISÃO

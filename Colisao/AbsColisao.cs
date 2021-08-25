@@ -4,7 +4,7 @@
     public abstract int Ycoli { get; set; }
     public abstract int Xcoli { get; set; }
     public abstract Tabuleiro Tabuleiro { get; set; }
-    public abstract Peca Peca { get; set; }
+    public abstract Piece Peca { get; set; }
     public abstract int Ydest { get; set; }
     public abstract int Xdest { get; set; }
     public abstract void Detecta();

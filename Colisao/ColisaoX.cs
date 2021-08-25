@@ -75,7 +75,7 @@
         Colisao = this;
         return;
     }
-    public ColisaoX(Tabuleiro tabuleiro, Peca peca, int ydest, int xorig, int xdest)
+    public ColisaoX(Tabuleiro tabuleiro, Piece peca, int ydest, int xorig, int xdest)
     {
         Peca = peca;
         Tabuleiro = tabuleiro;
@@ -91,7 +91,7 @@
     public override int Ycoli { get; set; }
     public override int Xcoli { get; set; }
     public override Tabuleiro Tabuleiro { get; set; }
-    public override Peca Peca { get; set; }
+    public override Piece Peca { get; set; }
     public override int Ydest { get; set; }
     public override int Xdest { get; set; }
 

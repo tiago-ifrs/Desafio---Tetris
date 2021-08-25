@@ -39,7 +39,7 @@ namespace Desafio___Tetris.View
             get => _output;
             set
             {
-                Control.ControlCollection collection = _output == null ? FormPanels.panelPlacar.Controls : _output.Controls;
+                Control.ControlCollection collection = _output == null ? FormPanels.ScorePanel.Controls : _output.Controls;
                 int c = collection.Count;
                 for (int i = 0; i < c; i++)
                 {

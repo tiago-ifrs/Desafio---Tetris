@@ -1,4 +1,6 @@
 ﻿
+using System.Drawing;
+
 namespace Desafio___Tetris
 {
     partial class Form1
@@ -48,13 +50,15 @@ namespace Desafio___Tetris
             pausePlaceHolderPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).BeginInit();
             this.SuspendLayout();
+            /*TGD*/
             //
             // pausePlaceHolderPanel 
             //
             pausePlaceHolderPanel.Location = new System.Drawing.Point(439, 618);
             pausePlaceHolderPanel.Name = "pausePlaceHolderPanel";
-            pausePlaceHolderPanel.Size = new System.Drawing.Size(111, 78);
+            pausePlaceHolderPanel.Size = new System.Drawing.Size(87, 61);
             pausePlaceHolderPanel.TabIndex = 29;
+            
             // 
             // scorePlaceHolderPanel
             // 
@@ -62,6 +66,7 @@ namespace Desafio___Tetris
             scorePlaceHolderPanel.Name = "scorePlaceHolderPanel";
             scorePlaceHolderPanel.Size = new System.Drawing.Size(300, 150);
             scorePlaceHolderPanel.TabIndex = 29;
+            /*TGD*/
             // 
             // label1
             // 
@@ -251,8 +256,8 @@ namespace Desafio___Tetris
         private System.Windows.Forms.TrackBar trackBarNivel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labelTBNivel;
-        public static System.Windows.Forms.Panel pausePlaceHolderPanel { get; set; }
-        public static System.Windows.Forms.Panel scorePlaceHolderPanel { get; set; }
+        public System.Windows.Forms.Panel pausePlaceHolderPanel { get; set; }
+        public System.Windows.Forms.Panel scorePlaceHolderPanel { get; set; }
     }
 }
 

@@ -13,7 +13,7 @@ namespace Desafio___Tetris
     {
         private Placar Placar { get; }
         private Bitmap CaptureBitmap { get; }
-        public FormPontuacaoInsert(Jogo jogo)
+        public FormPontuacaoInsert(Game jogo)
         {
             this.Placar = jogo.Placar;
             this.CaptureBitmap = new Bitmap(Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);

@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Desafio___Tetris.Conexoes;
+using Desafio___Tetris.Labels;
+using System;
 using System.Data.Common;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using Desafio___Tetris.Conexoes;
 
 namespace Desafio___Tetris
 {
     public partial class Form1 : Form
     {
-        private Jogo Jogo { get; set; }
+        private Game Game { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
         private Placar Placar { get; set; }
 
@@ -18,6 +19,7 @@ namespace Desafio___Tetris
         public Form1()
         {
             InitializeComponent();
+            pausePlaceHolderPanel.Controls.Add(new LabelPause());
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -41,7 +43,7 @@ namespace Desafio___Tetris
         }
         private void ButtonPause_Click(object sender, EventArgs e)
         {
-            Jogo.Pause();
+            Game.Pause();
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
@@ -49,19 +51,19 @@ namespace Desafio___Tetris
             {
                 case (Keys.Up):
                     labelKey.Text = char.ToString((char)0xe1);
-                    Jogo.RotacionaPeca();
+                    Game.RotacionaPeca();
                     break;
                 case (Keys.Down):
                     labelKey.Text = char.ToString((char)0xe2);
-                    Jogo.MoveAbaixo();
+                    Game.MoveAbaixo();
                     break;
                 case (Keys.Left):
                     labelKey.Text = char.ToString((char)0xdf);
-                    Jogo.MoveEsquerda();
+                    Game.MoveEsquerda();
                     break;
                 case (Keys.Right):
                     labelKey.Text = char.ToString((char)0xe0);
-                    Jogo.MoveDireita();
+                    Game.MoveDireita();
                     break;
             };
             // return the key to the base class if not used.
@@ -70,38 +72,33 @@ namespace Desafio___Tetris
         }
         public void Tetris()
         {
-            
             buttonPause.Enabled = true;
-            
             trackBarNivel.Enabled = false;
             
             this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
             this.Tabuleiro.Inicia();
 
             Placar = new Placar(Tabuleiro, trackBarNivel.Value, scorePlaceHolderPanel);
-            this.Jogo = new Jogo(Tabuleiro, Placar);
+            this.Game = new Game(Tabuleiro, Placar, pausePlaceHolderPanel);
 
-            bool over = false;
-            Jogo.At = new Peca(Tabuleiro, panelAtual);
-            Jogo.Prox = null;
+            Game.CurrentPiece = new Piece(Tabuleiro, panelAtual);
+            Game.NextPiece = null;
 
-            Jogo.AcionaRelogio();
-
-            while (!over)
+            Game.AcionaRelogio();
+            while (!Game.Over)
             {
                 GeraProx();
-                over = Jogo.Percorre();
+                Game.Percorre();
             }
-            Jogo.ParaRelogio();
             
-            MessageBox.Show("Game Over");
+            MessageBox.Show(strings.Form1_Tetris_Game_Over);
             SalvaPontuacao();
             buttonPause.Enabled = false;
             trackBarNivel.Enabled = true;
         }
         private void SalvaPontuacao()
         {
-            FormPontuacaoInsert fp = new FormPontuacaoInsert(Jogo);
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(Game);
             
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.DbConnection;
@@ -115,13 +112,13 @@ namespace Desafio___Tetris
         }
         private void GeraProx()
         {
-            if (Jogo.Prox != null)
+            if (Game.NextPiece != null)
             {
-                Jogo.Prox.Ap = panelAtual;
-                Jogo.At = Jogo.Prox;
-                Jogo.At.AtualizaPeca();
+                Game.NextPiece.Ap = panelAtual;
+                Game.CurrentPiece = Game.NextPiece;
+                Game.CurrentPiece.AtualizaPeca();
             }
-            Jogo.Prox = new Peca(Tabuleiro, panelProx);
+            Game.NextPiece = new Piece(Tabuleiro, panelProx);
         }
         private void ButtonTGD_Click(object sender, EventArgs e)
         {
@@ -179,9 +176,3 @@ namespace Desafio___Tetris
         }
     }
 }
-
-
-
-
-
-

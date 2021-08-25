@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
 using Desafio___Tetris.View;
 
 namespace Desafio___Tetris.Presenter
 {
-    class PausePresenter
+    internal class PausePresenter
     {
-        private PauseView PauseView { get; set; }
+        private PauseView PauseView { get; }
         private bool _paused { get; set; }
         public bool Paused
         {
@@ -18,7 +16,7 @@ namespace Desafio___Tetris.Presenter
             {
                 _paused = value;
                 PauseView.Pause(value);
-                while (value)
+                while (_paused)
                 {
                     Wait(1000);
                 }
@@ -27,14 +25,11 @@ namespace Desafio___Tetris.Presenter
         private bool _over { get; set; }
         public bool Over 
         { 
-            get 
-            { 
-                return _over;
-            } 
+            get => _over;
             set 
             {
                 _over = value;
-                PauseView.Over();
+                PauseView.Over(value);
             } 
         }
         public Stopwatch Stopwatch { get; set; }
@@ -44,11 +39,11 @@ namespace Desafio___Tetris.Presenter
             while ((DateTime.Now - start).TotalMilliseconds < ms)
                 Application.DoEvents();
         }
-        public PausePresenter()
+        public PausePresenter(Control pausePlaceHolderPanel)
         {
             this._paused = false;
             this._over = false;
-            this.PauseView = new PauseView();
+            this.PauseView = new PauseView(pausePlaceHolderPanel);
             this.Stopwatch = new Stopwatch();
         }
     }

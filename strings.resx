@@ -133,4 +133,7 @@
 	PRIMARY KEY("id" AUTOINCREMENT)
 );</value>
   </data>
+  <data name="Form1_Tetris_Game_Over" xml:space="preserve">
+	  <value>Game Over</value>
+  </data>
 </root>

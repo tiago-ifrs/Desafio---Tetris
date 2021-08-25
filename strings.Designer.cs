@@ -61,6 +61,15 @@ namespace Desafio___Tetris {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Game Over.
+        /// </summary>
+        internal static string Form1_Tetris_Game_Over {
+            get {
+                return ResourceManager.GetString("Form1_Tetris_Game_Over", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a {0} (linhas/s).
         /// </summary>
         internal static string ScoreView_Speed__0___lines_s_ {

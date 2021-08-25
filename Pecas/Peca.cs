@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-public class Peca : Abspeca
+public class Piece : Abspeca
 {
     public override List<int[]> Linhas { get; set; }
     public override Color Cor => Abspeca.Cor;
@@ -37,7 +37,7 @@ public class Peca : Abspeca
     public Panel Ap { get; set; } //ap = atual ou proximo
     private readonly Tabuleiro _tabuleiro;
     public char Tpeca { get; }
-    public Peca(Tabuleiro tab, Panel ap)
+    public Piece(Tabuleiro tab, Panel ap)
     {
         char[] tiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
         Random random = new Random();
