@@ -2,7 +2,7 @@
 
 namespace Desafio___Tetris.Labels
 {
-    public class FormLabels
+    class FormLabels
     {
         internal Label gameTimerCaptionLabel { get; set; }
         internal Label gameTimerLabel { get; set; }

@@ -31,7 +31,6 @@ namespace Desafio___Tetris
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panelTabuleiro = new System.Windows.Forms.Panel();
-            this.labelPause = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panelAtual = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,8 +44,24 @@ namespace Desafio___Tetris
             this.trackBarNivel = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
             this.labelTBNivel = new System.Windows.Forms.Label();
+            scorePlaceHolderPanel = new System.Windows.Forms.Panel();
+            pausePlaceHolderPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).BeginInit();
             this.SuspendLayout();
+            //
+            // pausePlaceHolderPanel 
+            //
+            pausePlaceHolderPanel.Location = new System.Drawing.Point(439, 618);
+            pausePlaceHolderPanel.Name = "pausePlaceHolderPanel";
+            pausePlaceHolderPanel.Size = new System.Drawing.Size(111, 78);
+            pausePlaceHolderPanel.TabIndex = 29;
+            // 
+            // scorePlaceHolderPanel
+            // 
+            scorePlaceHolderPanel.Location = new System.Drawing.Point(616, 13);
+            scorePlaceHolderPanel.Name = "scorePlaceHolderPanel";
+            scorePlaceHolderPanel.Size = new System.Drawing.Size(300, 150);
+            scorePlaceHolderPanel.TabIndex = 29;
             // 
             // label1
             // 
@@ -63,19 +78,6 @@ namespace Desafio___Tetris
             this.panelTabuleiro.Name = "panelTabuleiro";
             this.panelTabuleiro.Size = new System.Drawing.Size(420, 680);
             this.panelTabuleiro.TabIndex = 3;
-            // 
-            // labelPause
-            // 
-            this.labelPause.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.labelPause.AutoSize = true;
-            this.labelPause.BackColor = System.Drawing.Color.Transparent;
-            this.labelPause.Font = new System.Drawing.Font("Webdings", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelPause.Location = new System.Drawing.Point(439, 632);
-            this.labelPause.Name = "labelPause";
-            this.labelPause.Size = new System.Drawing.Size(87, 61);
-            this.labelPause.TabIndex = 0;
-            this.labelPause.Text = "<";
-            this.labelPause.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
@@ -212,7 +214,6 @@ namespace Desafio___Tetris
             this.Controls.Add(this.buttonPrint);
             this.Controls.Add(this.buttonTGD);
             this.Controls.Add(this.labelKey);
-            this.Controls.Add(this.labelPause);
             this.Controls.Add(this.buttonPause);
             this.Controls.Add(this.buttonNJ);
             this.Controls.Add(this.panelProx);
@@ -221,6 +222,8 @@ namespace Desafio___Tetris
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panelTabuleiro);
             this.Controls.Add(this.label1);
+            this.Controls.Add(pausePlaceHolderPanel);
+            this.Controls.Add(scorePlaceHolderPanel);
             this.MaximumSize = new System.Drawing.Size(1024, 768);
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Form1";
@@ -230,7 +233,6 @@ namespace Desafio___Tetris
             ((System.ComponentModel.ISupportInitialize)(this.trackBarNivel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -241,7 +243,6 @@ namespace Desafio___Tetris
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelProx;
         private System.Windows.Forms.Button buttonNJ;
-        internal static System.Windows.Forms.Label labelPause;
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Label labelKey;
         private System.Windows.Forms.Button buttonTGD;
@@ -250,7 +251,8 @@ namespace Desafio___Tetris
         private System.Windows.Forms.TrackBar trackBarNivel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labelTBNivel;
-        public static System.Windows.Forms.Panel scorePlaceHolderPanel;
+        public static System.Windows.Forms.Panel pausePlaceHolderPanel { get; set; }
+        public static System.Windows.Forms.Panel scorePlaceHolderPanel { get; set; }
     }
 }
 

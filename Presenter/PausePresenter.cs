@@ -24,6 +24,19 @@ namespace Desafio___Tetris.Presenter
                 }
             }
         }
+        private bool _over { get; set; }
+        public bool Over 
+        { 
+            get 
+            { 
+                return _over;
+            } 
+            set 
+            {
+                _over = value;
+                PauseView.Over();
+            } 
+        }
         public Stopwatch Stopwatch { get; set; }
         public void Wait(int ms)
         {
@@ -33,7 +46,8 @@ namespace Desafio___Tetris.Presenter
         }
         public PausePresenter()
         {
-            this.Paused = false;
+            this._paused = false;
+            this._over = false;
             this.PauseView = new PauseView();
             this.Stopwatch = new Stopwatch();
         }

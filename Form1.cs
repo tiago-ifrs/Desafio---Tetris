@@ -70,7 +70,7 @@ namespace Desafio___Tetris
         }
         public void Tetris()
         {
-            labelPause.Text = char.ToString((char)0x34);
+            
             buttonPause.Enabled = true;
             
             trackBarNivel.Enabled = false;
@@ -93,7 +93,7 @@ namespace Desafio___Tetris
                 over = Jogo.Percorre();
             }
             Jogo.ParaRelogio();
-            labelPause.Text = char.ToString((char)0x3c);
+            
             MessageBox.Show("Game Over");
             SalvaPontuacao();
             buttonPause.Enabled = false;

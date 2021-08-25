@@ -3,35 +3,36 @@ using System.Windows.Forms;
 
 namespace Desafio___Tetris.Labels
 {
-    public class FormPanels : FormLabels
+    class FormPanels : FormLabels
     {
-        public Panel panelPlacar { get; set; }
+        public static Panel panelPlacar { get; set; }
         public FormPanels() : base()
         {
-            this.panelPlacar = new Panel();
+            FormLabels formLabels = new FormLabels();
+            panelPlacar = new Panel();
             // 
             // Form1
             // 
-            this.panelPlacar.ResumeLayout(false);
-            this.panelPlacar.PerformLayout();
+            panelPlacar.ResumeLayout(false);
+            panelPlacar.PerformLayout();
             // 
             // panelPlacar
             // 
-            this.panelPlacar.Controls.Add(scoreCaptionLabel);
-            this.panelPlacar.Controls.Add(scoreLabel);
-            this.panelPlacar.Controls.Add(pieceCounterCaptionLabel);
-            this.panelPlacar.Controls.Add(gameTimerLabel);
-            this.panelPlacar.Controls.Add(levelCaptionLabel);
-            this.panelPlacar.Controls.Add(gameTimerCaptionLabel);
-            this.panelPlacar.Controls.Add(pieceCounterLabel);
-            this.panelPlacar.Controls.Add(levelLabel);
-            this.panelPlacar.Controls.Add(speedCaptionLabel);
-            this.panelPlacar.Controls.Add(speedLabel);
-            this.panelPlacar.Location = new Point(748, 13);
-            this.panelPlacar.Name = "panelPlacar";
-            this.panelPlacar.Size = new Size(242, 198);
-            this.panelPlacar.TabIndex = 24;
-            this.panelPlacar.SuspendLayout();
+            panelPlacar.Controls.Add(formLabels.scoreCaptionLabel);
+            panelPlacar.Controls.Add(formLabels.scoreLabel);
+            panelPlacar.Controls.Add(formLabels.pieceCounterCaptionLabel);
+            panelPlacar.Controls.Add(formLabels.gameTimerLabel);
+            panelPlacar.Controls.Add(formLabels.levelCaptionLabel);
+            panelPlacar.Controls.Add(formLabels.gameTimerCaptionLabel);
+            panelPlacar.Controls.Add(formLabels.pieceCounterLabel);
+            panelPlacar.Controls.Add(formLabels.levelLabel);
+            panelPlacar.Controls.Add(formLabels.speedCaptionLabel);
+            panelPlacar.Controls.Add(formLabels.speedLabel);
+            panelPlacar.Location = new Point(748, 13);
+            panelPlacar.Name = "panelPlacar";
+            panelPlacar.Size = new Size(242, 198);
+            panelPlacar.TabIndex = 24;
+            panelPlacar.SuspendLayout();
         }
     }
 }
