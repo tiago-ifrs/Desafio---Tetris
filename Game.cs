@@ -1,6 +1,7 @@
 ﻿using Desafio___Tetris.Presenter;
 using System;
 using System.Windows.Forms;
+using Desafio___Tetris.Model.Pecas;
 
 namespace Desafio___Tetris
 {
@@ -15,6 +16,8 @@ namespace Desafio___Tetris
         private int Yoffset { get; set; }
         private Timer TimerJogo { get; }
         private PausePresenter PausePresenter { get; }
+        private PiecePresenter CurrentPiecePresenter { get; set; }
+        private PiecePresenter NextPiecePresenter { get; set; }
         public bool Over
         {
             get => PausePresenter.Over;
@@ -47,9 +50,10 @@ namespace Desafio___Tetris
                 PausePresenter.Paused = false;
             }
         }
-        public Game(Tabuleiro tabuleiro, Placar placar, Control pausePlaceHolderPanel)
+        public Game(Tabuleiro tabuleiro, Placar placar, Control pausePlaceHolderPanel, Panel currentPiecePanel, Panel nextPiecePanel)
         {
             this.PausePresenter = new PausePresenter(pausePlaceHolderPanel);
+            
             this.Over = false;
 
             this.TimerJogo = new Timer();
@@ -57,11 +61,28 @@ namespace Desafio___Tetris
 
             this.Tabuleiro = tabuleiro;
             this.Placar = placar;
+
+            this.CurrentPiece = new Piece();
+            this.NextPiece = null;
+
+            this.CurrentPiecePresenter = new PiecePresenter(currentPiecePanel)
+            {
+                Piece = CurrentPiece,
+                Tabuleiro = tabuleiro
+            };
+
+            this.NextPiecePresenter = new PiecePresenter(nextPiecePanel)
+            {
+                Piece = NextPiece,
+                Tabuleiro = tabuleiro
+            };
+
+            this.AcionaRelogio();
         }
         public void RotacionaPeca()
         {
-            int ulAnt = CurrentPiece.QLinhas - 1;
-            int ucAnt = CurrentPiece.QColunas(ulAnt);
+            int ulAnt = CurrentPiece.LineCount - 1;
+            int ucAnt = CurrentPiece.ColumnCount(ulAnt);
             int rotAnt = CurrentPiece.Rot;
             Tabuleiro.LimpaPeca(CurrentPiece, Ytab + Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
             if (CurrentPiece.Rot < 4)
@@ -76,8 +97,8 @@ namespace Desafio___Tetris
          * DETECTAR COLISÃO HORIZONTAL ANTES DE DESENHAR
          * AS COLISÕES PODEM ACONTECEM NO LADO DIREITO, POIS XTAB É O PONTO DE ORIGEM DO DESENHO DA PEÇA
          */
-            int ulPos = CurrentPiece.QLinhas - 1;
-            int ucPos = CurrentPiece.QColunas(ulPos);
+            int ulPos = CurrentPiece.LineCount - 1;
+            int ucPos = CurrentPiece.ColumnCount(ulPos);
             if (Xtab + ucPos >= Tabuleiro.Ncol)
             {
                 //Direita = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos - ucAnt); //detectar colisão uma linha abaixo?
@@ -129,8 +150,8 @@ namespace Desafio___Tetris
         }
         public void MoveDireita()
         {
-            int ul = CurrentPiece.QLinhas - 1;
-            int uc = CurrentPiece.QColunas(ul);
+            int ul = CurrentPiece.LineCount - 1;
+            int uc = CurrentPiece.ColumnCount(ul);
 
             if (Xtab + uc < Tabuleiro.Ncol)
             {
@@ -147,12 +168,23 @@ namespace Desafio___Tetris
                 Tabuleiro.DesenhaY(CurrentPiece, Ytab + Yoffset, Xtab);
             }
         }
+        private void GeraProx()
+        {
+            if (NextPiece != null)
+            {
+                //NextPiece.Ap = panelAtual;
+                CurrentPiece = NextPiece;
+                //CurrentPiece.AtualizaPeca();
+            }
+            NextPiece = new Piece();
+        }
         public void Percorre()
         {
+            GeraProx();
             //condições iniciais:
             Yoffset = 0;
 
-            Xtab = (Tabuleiro.Ncol - CurrentPiece.QColunas(CurrentPiece.QLinhas - 1)) / 2; // Centraliza a peça
+            Xtab = (Tabuleiro.Ncol - CurrentPiece.ColumnCount(CurrentPiece.LineCount - 1)) / 2; // Centraliza a peça
             Placar.Atualiza();
             Placar.QtdPecas++;
 
@@ -178,7 +210,7 @@ namespace Desafio___Tetris
                 {
                     Tabuleiro.LimpaPeca(CurrentPiece, Ytab + Yoffset - 1, Xtab);
                     Tabuleiro.DesenhaY(CurrentPiece, Ytab + Yoffset - 1, Xtab);
-                    if (colisaoY.Ycoli < CurrentPiece.QLinhas-1)
+                    if (colisaoY.Ycoli < CurrentPiece.LineCount-1)
                     {
                         this.Over = true;
                         this.ParaRelogio();

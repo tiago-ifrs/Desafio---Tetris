@@ -78,7 +78,7 @@ namespace Desafio___Tetris
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 25);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Score";
+            this.label2.Text = strings.FormLabels_FormLabels_Score;
             // 
             // label3
             // 
@@ -87,7 +87,7 @@ namespace Desafio___Tetris
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 25);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Nível";
+            this.label3.Text = strings.FormLabels_FormLabels_Level;
             // 
             // scoreCaptionLabel
             // 
@@ -96,7 +96,7 @@ namespace Desafio___Tetris
             this.scoreCaptionLabel.Name = "scoreCaptionLabel";
             this.scoreCaptionLabel.Size = new System.Drawing.Size(135, 25);
             this.scoreCaptionLabel.TabIndex = 3;
-            this.scoreCaptionLabel.Text = "Tempo de Jogo";
+            this.scoreCaptionLabel.Text = strings.FormLabels_FormLabels_Elapsed_Time;
             // 
             // levelCaptionLabel
             // 
@@ -105,7 +105,7 @@ namespace Desafio___Tetris
             this.levelCaptionLabel.Name = "levelCaptionLabel";
             this.levelCaptionLabel.Size = new System.Drawing.Size(55, 25);
             this.levelCaptionLabel.TabIndex = 4;
-            this.levelCaptionLabel.Text = "Peças";
+            this.levelCaptionLabel.Text = strings.FormLabels_FormLabels_Pieces;
             // 
             // gameTimerCaptionLabel
             // 

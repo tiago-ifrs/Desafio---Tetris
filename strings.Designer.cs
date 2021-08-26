@@ -70,6 +70,51 @@ namespace Desafio___Tetris {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Tempo de Jogo.
+        /// </summary>
+        internal static string FormLabels_FormLabels_Elapsed_Time {
+            get {
+                return ResourceManager.GetString("FormLabels_FormLabels_Elapsed_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nível.
+        /// </summary>
+        internal static string FormLabels_FormLabels_Level {
+            get {
+                return ResourceManager.GetString("FormLabels_FormLabels_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Peças.
+        /// </summary>
+        internal static string FormLabels_FormLabels_Pieces {
+            get {
+                return ResourceManager.GetString("FormLabels_FormLabels_Pieces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Score.
+        /// </summary>
+        internal static string FormLabels_FormLabels_Score {
+            get {
+                return ResourceManager.GetString("FormLabels_FormLabels_Score", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Velocidade.
+        /// </summary>
+        internal static string FormLabels_FormLabels_Speed {
+            get {
+                return ResourceManager.GetString("FormLabels_FormLabels_Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a {0} (linhas/s).
         /// </summary>
         internal static string ScoreView_Speed__0___lines_s_ {

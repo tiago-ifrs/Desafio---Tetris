@@ -1,4 +1,6 @@
-﻿public sealed class ColisaoY : AbsColisao
+﻿using Desafio___Tetris.Model.Pecas;
+
+public sealed class ColisaoY : AbsColisao
 {
     public ColisaoY(Tabuleiro tabuleiro, Piece peca, int yorig, int ydest, int xdest)
     {
@@ -13,8 +15,8 @@
     }
     public override void Detecta()
     {
-        int ul = Peca.QLinhas - 1;
-        int uc = Peca.QColunas(ul);
+        int ul = Peca.LineCount - 1;
+        int uc = Peca.ColumnCount(ul);
 
         for (int ypec = 0; ypec <= ul && (Ydest - ypec) >= 0; ypec++)
         {

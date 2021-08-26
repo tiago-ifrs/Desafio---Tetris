@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Desafio___Tetris.Model.Pecas;
 
 namespace Desafio___Tetris
 {
@@ -79,15 +80,10 @@ namespace Desafio___Tetris
             this.Tabuleiro.Inicia();
 
             Placar = new Placar(Tabuleiro, trackBarNivel.Value, scorePlaceHolderPanel);
-            this.Game = new Game(Tabuleiro, Placar, pausePlaceHolderPanel);
+            this.Game = new Game(Tabuleiro, Placar, pausePlaceHolderPanel, panelAtual, panelProx);
 
-            Game.CurrentPiece = new Piece(Tabuleiro, panelAtual);
-            Game.NextPiece = null;
-
-            Game.AcionaRelogio();
             while (!Game.Over)
             {
-                GeraProx();
                 Game.Percorre();
             }
             
@@ -110,16 +106,6 @@ namespace Desafio___Tetris
             }
             conexao.DbConnection.Close();
         }
-        private void GeraProx()
-        {
-            if (Game.NextPiece != null)
-            {
-                Game.NextPiece.Ap = panelAtual;
-                Game.CurrentPiece = Game.NextPiece;
-                Game.CurrentPiece.AtualizaPeca();
-            }
-            Game.NextPiece = new Piece(Tabuleiro, panelProx);
-        }
         private void ButtonTGD_Click(object sender, EventArgs e)
         {
             MessageBox.Show("https://github.com/tiago-ifrs/Desafio---Tetris" +
@@ -127,7 +113,6 @@ namespace Desafio___Tetris
                             "tgdbr@yahoo.com.br",
                             "Tetris 21");
         }
-        
         private void ButtonPrint_Click(object sender, EventArgs e)
         {
             string minhasImagens = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);

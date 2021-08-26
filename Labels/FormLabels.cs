@@ -1,110 +1,111 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace Desafio___Tetris.Labels
 {
-    class FormLabels
+    internal class FormLabels
     {
-        internal Label gameTimerCaptionLabel { get; set; }
-        internal Label gameTimerLabel { get; set; }
-        internal Label levelCaptionLabel { get; set; }
-        internal Label levelLabel { get; set; }
-        internal Label pieceCounterCaptionLabel { get; set; }
-        internal Label pieceCounterLabel { get; set; }
-        internal Label scoreCaptionLabel { get; set; }
-        internal Label scoreLabel { get; set; }
-        internal Label speedCaptionLabel { get; set; }
-        internal Label speedLabel { get; set; }
+        internal Label GameTimerCaptionLabel { get; set; }
+        internal Label GameTimerLabel { get; set; }
+        internal Label LevelCaptionLabel { get; set; }
+        internal Label LevelLabel { get; set; }
+        internal Label PieceCounterCaptionLabel { get; set; }
+        internal Label PieceCounterLabel { get; set; }
+        internal Label ScoreCaptionLabel { get; set; }
+        internal Label ScoreLabel { get; set; }
+        internal Label SpeedCaptionLabel { get; set; }
+        internal Label SpeedLabel { get; set; }
         internal FormLabels()
         {
-            this.gameTimerCaptionLabel = new Label
+            GameTimerCaptionLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(4, 100),
                 Name = "gameTimerCaptionLabel",
                 Size = new System.Drawing.Size(135, 25),
                 TabIndex = 18,
-                Text = "Tempo de Jogo"
+                Text = strings.FormLabels_FormLabels_Elapsed_Time
             };
-            this.gameTimerLabel = new Label
+            GameTimerLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(145, 100),
                 Name = "gameTimerLabel",
                 Size = new System.Drawing.Size(22, 25),
                 TabIndex = 19,
-                Text = "0"
+                Text = TimeSpan.Zero.ToString()
             };
-            this.levelCaptionLabel = new Label
+            LevelCaptionLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(4, 25),
                 Name = "levelCaptionLabel",
                 Size = new System.Drawing.Size(51, 25),
                 TabIndex = 14,
-                Text = "Nível"
+                Text = strings.FormLabels_FormLabels_Level
             };
-            this.levelLabel = new Label
+            LevelLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(61, 25),
                 Name = "levelLabel",
                 Size = new System.Drawing.Size(22, 25),
                 TabIndex = 15,
-                Text = "0"
+                Text = 0.ToString()
             };
-            this.pieceCounterCaptionLabel = new Label
+            PieceCounterCaptionLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(4, 75),
                 Name = "pieceCounterCaptionLabel",
                 Size = new System.Drawing.Size(55, 25),
                 TabIndex = 21,
-                Text = "Peças"
+                Text = strings.FormLabels_FormLabels_Pieces
             };
-            this.pieceCounterLabel = new Label
+            PieceCounterLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(65, 75),
                 Name = "pieceCounterLabel",
                 Size = new System.Drawing.Size(22, 25),
                 TabIndex = 22,
-                Text = "0"
+                Text = 0.ToString()
             };
-            this.scoreCaptionLabel = new Label
+            ScoreCaptionLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(3, 0),
                 Name = "scoreCaptionLabel",
                 Size = new System.Drawing.Size(56, 25),
                 TabIndex = 11,
-                Text = "Score"
+                Text = strings.FormLabels_FormLabels_Score
             };
-            this.scoreLabel = new Label
+            ScoreLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(65, 0),
                 Name = "scoreLabel",
                 Size = new System.Drawing.Size(22, 25),
                 TabIndex = 12,
-                Text = "0"
+                Text = 0.ToString()
             };
-            this.speedCaptionLabel = new Label
+            SpeedCaptionLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(4, 50),
                 Name = "speedCaptionLabel",
                 Size = new System.Drawing.Size(98, 25),
                 TabIndex = 16,
-                Text = "Velocidade"
+                Text = strings.FormLabels_FormLabels_Speed
             };
-            this.speedLabel = new Label
+            SpeedLabel = new Label
             {
                 AutoSize = true,
                 Location = new System.Drawing.Point(108, 50),
                 Name = "speedLabel",
                 Size = new System.Drawing.Size(22, 25),
                 TabIndex = 17,
-                Text = "0"
+                Text = 0.ToString()
             };
         }
     }

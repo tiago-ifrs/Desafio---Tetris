@@ -136,4 +136,19 @@
   <data name="Form1_Tetris_Game_Over" xml:space="preserve">
 	  <value>Game Over</value>
   </data>
+  <data name="FormLabels_FormLabels_Elapsed_Time" xml:space="preserve">
+	  <value>Tempo de Jogo</value>
+  </data>
+  <data name="FormLabels_FormLabels_Level" xml:space="preserve">
+	  <value>Nível</value>
+  </data>
+  <data name="FormLabels_FormLabels_Pieces" xml:space="preserve">
+	  <value>Peças</value>
+  </data>
+  <data name="FormLabels_FormLabels_Score" xml:space="preserve">
+	  <value>Score</value>
+  </data>
+  <data name="FormLabels_FormLabels_Speed" xml:space="preserve">
+	  <value>Velocidade</value>
+  </data>
 </root>

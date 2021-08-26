@@ -1,4 +1,6 @@
-﻿public abstract class AbsColisao
+﻿using Desafio___Tetris.Model.Pecas;
+
+public abstract class AbsColisao
 {
     public abstract AbsColisao Colisao { get; set; }
     public abstract int Ycoli { get; set; }

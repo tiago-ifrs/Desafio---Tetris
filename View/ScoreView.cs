@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Desafio___Tetris.Labels;
+using System;
 using System.Windows.Forms;
-using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris.View
 {
@@ -56,8 +56,8 @@ namespace Desafio___Tetris.View
             set
             {
                 _timeSpan = value;
-                FormPanels.gameTimerLabel.Text = $@"{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
-                FormPanels.gameTimerLabel.Refresh();
+                FormPanels.GameTimerLabel.Text = $@"{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
+                FormPanels.GameTimerLabel.Refresh();
             }
         }
         private int _level { get; set; }
@@ -67,8 +67,8 @@ namespace Desafio___Tetris.View
             set
             {
                 _level = value;
-                FormPanels.levelLabel.Text = value.ToString();
-                FormPanels.levelLabel.Refresh();
+                FormPanels.LevelLabel.Text = value.ToString();
+                FormPanels.LevelLabel.Refresh();
             }
         }
         private int _pieceCounter { get; set; }
@@ -78,8 +78,8 @@ namespace Desafio___Tetris.View
             set
             {
                 _pieceCounter = value;
-                FormPanels.pieceCounterLabel.Text = value.ToString();
-                FormPanels.pieceCounterLabel.Refresh();
+                FormPanels.PieceCounterLabel.Text = value.ToString();
+                FormPanels.PieceCounterLabel.Refresh();
             }
         }
         private int _score { get; set; }
@@ -89,8 +89,8 @@ namespace Desafio___Tetris.View
             set
             {
                 _score = value;
-                FormPanels.scoreLabel.Text = value.ToString();
-                FormPanels.scoreLabel.Refresh();
+                FormPanels.ScoreLabel.Text = value.ToString();
+                FormPanels.ScoreLabel.Refresh();
             }
         }
         private double _speed { get; set; }
@@ -100,8 +100,8 @@ namespace Desafio___Tetris.View
             set
             {
                 _speed = value;
-                FormPanels.speedLabel.Text = string.Format(strings.ScoreView_Speed__0___lines_s_, Math.Round(1000 / value, 2));
-                FormPanels.speedLabel.Refresh();
+                FormPanels.SpeedLabel.Text = string.Format(strings.ScoreView_Speed__0___lines_s_, Math.Round(1000 / value, 2));
+                FormPanels.SpeedLabel.Refresh();
             }
         }
         public ScoreView()

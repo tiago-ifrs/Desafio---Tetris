@@ -1,4 +1,6 @@
-﻿public sealed class ColisaoX : AbsColisao
+﻿using Desafio___Tetris.Model.Pecas;
+
+public sealed class ColisaoX : AbsColisao
 {
     private int Xorig { get; set; }
     private void VerificaDireita(int ul, int uc)
@@ -97,8 +99,8 @@
 
     public override void Detecta()
     {
-        int ul = Peca.QLinhas - 1;
-        int uc = Peca.QColunas(ul);
+        int ul = Peca.LineCount - 1;
+        int uc = Peca.ColumnCount(ul);
 
         if (Xdest < Xorig)
         {

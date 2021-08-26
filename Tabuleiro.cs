@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Desafio___Tetris.Model.Pecas;
 
 public class Tabuleiro
 {
@@ -54,8 +55,8 @@ public class Tabuleiro
     }
     public bool DesenhaY(Piece p, int ytab, int xtab)
     {
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
+        int ul = p.LineCount - 1;
+        int uc = p.ColumnCount(ul);
         int ypec = ul;
         int y = ytab;
         int qtdY = Math.Min(y, ul); //tratamento para evitar IndexOutofRangeException
@@ -92,8 +93,8 @@ public class Tabuleiro
         FUNÇÃO DE LIMPEZA
         CHAMADA PELA DETECÇÃO DE COLISÃO 
          */
-        int ul = p.QLinhas - 1;
-        int uc = p.QColunas(ul);
+        int ul = p.LineCount - 1;
+        int uc = p.ColumnCount(ul);
 
         for (int ypec = ul; ypec >= 0 && ytab >= 0; ypec--, ytab--)
         {
