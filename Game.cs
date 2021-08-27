@@ -9,15 +9,23 @@ namespace Desafio___Tetris
     {
         private int Ytab { get; set; }   // coordenada y do tabuleiro
         private int Xtab { get; set; }   // coordenada x do tabuleiro
-        public Piece CurrentPiece { get; set; }
-        public Piece NextPiece { get; set; }
+        public Piece CurrentPiece
+        {
+            get => CurrentPiecePresenter.Piece;
+            set => CurrentPiecePresenter.Piece = value;
+        }
+        public Piece NextPiece
+        {
+            get => NextPiecePresenter.Piece;
+            set => NextPiecePresenter.Piece = value;
+        }
         public Placar Placar { get; set; }
         public Tabuleiro Tabuleiro { get; set; }
         private int Yoffset { get; set; }
         private Timer TimerJogo { get; }
         private PausePresenter PausePresenter { get; }
-        private PiecePresenter CurrentPiecePresenter { get; set; }
-        private PiecePresenter NextPiecePresenter { get; set; }
+        private PiecePresenter CurrentPiecePresenter { get; }
+        private PiecePresenter NextPiecePresenter { get; }
         public bool Over
         {
             get => PausePresenter.Over;
@@ -37,6 +45,13 @@ namespace Desafio___Tetris
         {
             Placar.TimeSpan = PausePresenter.Stopwatch.Elapsed;
         }
+
+        public bool Paused
+        {
+            get => PausePresenter.Paused;
+            set => PausePresenter.Paused = value;
+        }
+
         public void Pause()
         {
             if (PausePresenter.Paused == false)
@@ -62,20 +77,13 @@ namespace Desafio___Tetris
             this.Tabuleiro = tabuleiro;
             this.Placar = placar;
 
+
+
+            this.CurrentPiecePresenter = new PiecePresenter(currentPiecePanel);
+            this.NextPiecePresenter = new PiecePresenter(nextPiecePanel);
+            
             this.CurrentPiece = new Piece();
             this.NextPiece = null;
-
-            this.CurrentPiecePresenter = new PiecePresenter(currentPiecePanel)
-            {
-                Piece = CurrentPiece,
-                Tabuleiro = tabuleiro
-            };
-
-            this.NextPiecePresenter = new PiecePresenter(nextPiecePanel)
-            {
-                Piece = NextPiece,
-                Tabuleiro = tabuleiro
-            };
 
             this.AcionaRelogio();
         }
@@ -188,7 +196,7 @@ namespace Desafio___Tetris
             Placar.Atualiza();
             Placar.QtdPecas++;
 
-            for (Ytab = 0; (Ytab + Yoffset) < Tabuleiro.Nlin; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
+            for (Ytab = 0; ((Ytab + Yoffset) < Tabuleiro.Nlin) && !Over; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
             {
                 /*
              * NO LOOP PRINCIPAL, O PONTO DE COLISÃO É O PRÓPRIO PONTO A SER DESENHADO

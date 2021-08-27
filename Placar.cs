@@ -29,9 +29,9 @@ namespace Desafio___Tetris
             get => ScoreView.Output;
             set => ScoreView.Output = value;
         }
-        public Placar(Tabuleiro tabuleiro, int nivelInicial, Panel scorePlaceHolderPanel)
+        public Placar(int nivelInicial, Panel scorePlaceHolderPanel)
         {
-            this.Tabuleiro = tabuleiro;
+            this.Tabuleiro = Tabuleiro.GetInstance();
             this.Score = 0;
             this.Nivel = this.NivelInicial = nivelInicial;
             this.Velo = ScoreView.Times[this.Nivel];

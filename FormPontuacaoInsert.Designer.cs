@@ -105,7 +105,10 @@ namespace Desafio___Tetris
             this.MinimizeBox = false;
             this.Name = "FormPontuacaoInsert";
             this.Text = "Salvar Pontuação";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormPontuacaoInsert_FormClosed);
             this.Load += new System.EventHandler(this.FormPontuacaoInsert_Load);
+            this.Validating += new System.ComponentModel.CancelEventHandler(this.FormPontuacaoInsert_Validating);
+            this.Validated += new System.EventHandler(this.FormPontuacaoInsert_Validated);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTabuleiro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

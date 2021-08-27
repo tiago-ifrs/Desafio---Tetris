@@ -4,28 +4,39 @@ using Desafio___Tetris.View;
 
 namespace Desafio___Tetris.Presenter
 {
-    internal class PiecePresenter:AbstractPiecePresenter
+    internal class PiecePresenter
     {
-        public override Panel Panel //ap = atual ou proximo
+        private Panel _panel { get; set; }
+        public Panel Panel //ap = atual ou proximo
         {
-            get => PieceView.Panel;
-            set => PieceView.Panel = value;
+            get => _panel;
+            set
+            {
+                _panel = value;
+                if (PieceView != null)
+                {
+                    PieceView.Panel = value;
+                }
+            }
         }
-        public override Piece Piece
+        private Piece _piece { get; set; }
+        public Piece Piece
         {
-            get => PieceView.Piece;
-            set => PieceView.Piece = value;
+            get => _piece;
+            set
+            {
+                _piece = value;
+                if (PieceView != null)
+                {
+                    PieceView.Piece = value;
+                }
+            }
         }
-        public override Tabuleiro Tabuleiro
+        public PieceView PieceView { get; set; }
+        public PiecePresenter(Panel panel) 
         {
-            get => PieceView.Tabuleiro;
-            set => PieceView.Tabuleiro = value;
-        }
-        public override PieceView PieceView { get; set; }
-        public PiecePresenter(Panel panel) : base(panel)
-        {
+            this.PieceView = new PieceView(panel);
             this.Panel = panel;
-            this.PieceView = new PieceView();
         }
     }
 }

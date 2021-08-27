@@ -8,18 +8,17 @@ public class Tabuleiro
     public readonly int Nlin = 16;
     public readonly int Ncol = 10;
     public RetanguloTabuleiro[][] Matrix { get; set; }
-    public static Panel Panel { get; set; }
-    private Tabuleiro(Panel t)
+    public Panel Panel { get; set; }
+    private Tabuleiro()
     {
-        Panel = t;
     }
 
     private static Tabuleiro _instance;
-    public static Tabuleiro GetInstance(Panel t)
+    public static Tabuleiro GetInstance()
     {
         if (_instance == null)
         {
-            _instance = new Tabuleiro(t);
+            _instance = new Tabuleiro();
         }
         return _instance;
     }

@@ -14,7 +14,6 @@ namespace Desafio___Tetris
     {
         private Game Game { get; set; }
         private Tabuleiro Tabuleiro { get; set; }
-        private Placar Placar { get; set; }
 
         //private FormPontuacaoSelect Fs { get; set; }
         public Form1()
@@ -75,18 +74,19 @@ namespace Desafio___Tetris
         {
             buttonPause.Enabled = true;
             trackBarNivel.Enabled = false;
-            
-            this.Tabuleiro = Tabuleiro.GetInstance(panelTabuleiro);
+
+            this.Tabuleiro = Tabuleiro.GetInstance();
+            this.Tabuleiro.Panel = panelTabuleiro;
             this.Tabuleiro.Inicia();
 
-            Placar = new Placar(Tabuleiro, trackBarNivel.Value, scorePlaceHolderPanel);
-            this.Game = new Game(Tabuleiro, Placar, pausePlaceHolderPanel, panelAtual, panelProx);
+            Placar placar = new Placar(trackBarNivel.Value, scorePlaceHolderPanel);
+            this.Game = new Game(Tabuleiro, placar, pausePlaceHolderPanel, panelAtual, panelProx);
 
             while (!Game.Over)
             {
                 Game.Percorre();
             }
-            
+
             MessageBox.Show(strings.Form1_Tetris_Game_Over);
             SalvaPontuacao();
             buttonPause.Enabled = false;
@@ -95,14 +95,13 @@ namespace Desafio___Tetris
         private void SalvaPontuacao()
         {
             FormPontuacaoInsert fp = new FormPontuacaoInsert(Game);
-            
+
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.DbConnection;
             conexao.VerifyDbConnection();
             if (dbConnection != null)
             {
                 fp.ShowDialog();
-                Placar.Output = scorePlaceHolderPanel;
             }
             conexao.DbConnection.Close();
         }
@@ -145,6 +144,11 @@ namespace Desafio___Tetris
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            if (Game.Paused)
+            {
+                Game.Paused = false;
+                Game.Over = true;
+            }
             Application.Exit();
         }
         private void ButtonPontuacao_Click(object sender, EventArgs e)

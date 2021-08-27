@@ -13,10 +13,14 @@ namespace Desafio___Tetris
     {
         private Placar Placar { get; }
         private Bitmap CaptureBitmap { get; }
-        public FormPontuacaoInsert(Game jogo)
+        private Game Game { get; set; }
+        private Panel Panel { get; set; }
+
+        public FormPontuacaoInsert(Game game)
         {
-            this.Placar = jogo.Placar;
-            this.CaptureBitmap = new Bitmap(Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);
+            this.Placar = game.Placar;
+            this.Game = game;
+            this.CaptureBitmap = new Bitmap(game.Tabuleiro.Panel.Width, game.Tabuleiro.Panel.Height);
             InitializeComponent();
         }
         private void ButtonOK_Click(object sender, EventArgs e)
@@ -53,15 +57,31 @@ namespace Desafio___Tetris
         private void FormPontuacaoInsert_Load(object sender, EventArgs e)
         {
             Bitmap bitmapPictureBoxImage = new Bitmap(pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
-            Rectangle captureRectangle = new Rectangle(0, 0, Tabuleiro.Panel.Width, Tabuleiro.Panel.Height);
-            Tabuleiro.Panel.DrawToBitmap(CaptureBitmap, captureRectangle);
+            Rectangle captureRectangle = new Rectangle(0, 0, Game.Tabuleiro.Panel.Width, Game.Tabuleiro.Panel.Height);
+            Game.Tabuleiro.Panel.DrawToBitmap(CaptureBitmap, captureRectangle);
             Graphics g = Graphics.FromImage(bitmapPictureBoxImage);
 
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.DrawImage(CaptureBitmap, 0, 0, pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
 
             pictureBoxTabuleiro.Image = bitmapPictureBoxImage;
+            Panel = Placar.Output;
             Placar.Output = panelPlacarInsert;
+        }
+
+        private void FormPontuacaoInsert_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void FormPontuacaoInsert_Validated(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormPontuacaoInsert_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Placar.Output = Panel;
         }
     }
 }
