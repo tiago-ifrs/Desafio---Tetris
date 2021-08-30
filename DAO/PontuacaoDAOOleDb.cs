@@ -6,49 +6,51 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
-using Desafio___Tetris.Model;
 using Desafio___Tetris.Conexoes;
+using Desafio___Tetris.Model;
 
-public class PontuacaoDaoOleDb:AbsPontuacaoDao
+namespace Desafio___Tetris.DAO
 {
-    public PontuacaoDaoOleDb()
+    public class PontuacaoDaoOleDb:AbsPontuacaoDao
     {
-    }
-    public override void Insert(Pontuacao p)
-    {
-        MemoryStream ms = new MemoryStream();
-        byte[] photoAray = new byte[ms.Length]; 
-        Conexao conexao = new Conexao();
-
-        p.Tabuleiro.Save(ms, ImageFormat.Jpeg);
-        ms.Position = 0;
-        ms.Read(photoAray, 0, photoAray.Length);
-        try
+        public PontuacaoDaoOleDb()
         {
-            OleDbDataReader result;
-            DbConnection connection = conexao.DbConnection;
-            conexao.VerifyDbConnection();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Clear()
-                .AppendLine("USE TETRIS                         ")
-                .AppendLine("INSERT INTO                        ")
-                .AppendLine("   DBO.PONTUACAO                   ")
-                .AppendLine("   (                               ")
-                .AppendLine("   NOME,                           ")
-                .AppendLine("   SCORE,                          ")
-                .AppendLine("   NIVEL,                          ")
-                .AppendLine("   TEMPO_JOGO,                     ")
-                .AppendLine("   QTD_PECAS,                      ")
-                .AppendLine("   DATA_SCORE,                     ")
-                .AppendLine("   TABULEIRO)                      ")
-                .AppendLine("   VALUES                          ")
-                .AppendLine("   (?,                             ")
-                .AppendLine("   ?,                              ")
-                .AppendLine("   ?,                              ")
-                .AppendLine("   ?,                              ")
-                .AppendLine("   ?,                              ")
-                .AppendLine("   ?,                              ")
-                .AppendLine("   ?);                             ");
+        }
+        public override void Insert(Pontuacao p)
+        {
+            MemoryStream ms = new MemoryStream();
+            byte[] photoAray = new byte[ms.Length]; 
+            Conexao conexao = new Conexao();
+
+            p.Tabuleiro.Save(ms, ImageFormat.Jpeg);
+            ms.Position = 0;
+            ms.Read(photoAray, 0, photoAray.Length);
+            try
+            {
+                OleDbDataReader result;
+                DbConnection connection = conexao.DbConnection;
+                conexao.VerifyDbConnection();
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Clear()
+                    .AppendLine("USE TETRIS                         ")
+                    .AppendLine("INSERT INTO                        ")
+                    .AppendLine("   DBO.PONTUACAO                   ")
+                    .AppendLine("   (                               ")
+                    .AppendLine("   NOME,                           ")
+                    .AppendLine("   SCORE,                          ")
+                    .AppendLine("   NIVEL,                          ")
+                    .AppendLine("   TEMPO_JOGO,                     ")
+                    .AppendLine("   QTD_PECAS,                      ")
+                    .AppendLine("   DATA_SCORE,                     ")
+                    .AppendLine("   TABULEIRO)                      ")
+                    .AppendLine("   VALUES                          ")
+                    .AppendLine("   (?,                             ")
+                    .AppendLine("   ?,                              ")
+                    .AppendLine("   ?,                              ")
+                    .AppendLine("   ?,                              ")
+                    .AppendLine("   ?,                              ")
+                    .AppendLine("   ?,                              ")
+                    .AppendLine("   ?);                             ");
 
                 using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
                 command.CommandText = stringBuilder.ToString();
@@ -62,172 +64,173 @@ public class PontuacaoDaoOleDb:AbsPontuacaoDao
                 command.Parameters.AddWithValue("@TABULEIRO", photoAray);
 
                 result = command.ExecuteReader();
-        }
-        catch (Exception exception)
-        {
-            throw new Exception(exception.Message);
-        }
-        finally
-        {
-            conexao.DbConnection.Close();
-        }
-    }
-    public override Pontuacao ImagemPorId(int id)
-    {
-        Conexao conexao = new Conexao();
-        try
-        {
-            DbConnection connection = conexao.DbConnection;
-            conexao.VerifyDbConnection();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Clear()
-                .AppendLine("USE TETRIS                         ")
-                .AppendLine("SELECT                             ")
-                .AppendLine("   NOME,                           ")
-                .AppendLine("   DATA_SCORE,                     ")
-                .AppendLine("   TABULEIRO                       ")
-                .AppendLine("FROM                               ")
-                .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
-                .AppendLine("   WHERE                           ")
-                .AppendLine("   ID = ?                          ");
-
-            using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
-            command.CommandText = stringBuilder.ToString();
-            command.Parameters.AddWithValue("@ID", id);
-
-            OleDbDataReader result = command.ExecuteReader();
-            result.Read();
-            MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-            Pontuacao p = new Pontuacao
+            }
+            catch (Exception exception)
             {
-                Id = id,
-                Nome = result["NOME"].ToString(),
-                DataScore = (DateTime)result["DATA_SCORE"],
-                Tabuleiro = new Bitmap(ms)
-            };
-            return p;
-        }
-        catch (Exception exception)
-        {
-            throw new Exception(exception.Message);
-        }
-        finally
-        {
-            conexao.DbConnection.Close();
-        }
-    }
-    public override List<Pontuacao> ListaTodos()
-    {
-        Conexao conexao = new Conexao();
-        List<Pontuacao> lp = new List<Pontuacao>();
-        try
-        {
-            DbConnection connection = conexao.DbConnection;
-            conexao.VerifyDbConnection();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Clear()
-                .AppendLine("USE TETRIS                         ")
-                .AppendLine("SELECT                             ")
-                .AppendLine("   ID,                             ")
-                .AppendLine("   NOME,                           ")
-                .AppendLine("   SCORE,                          ")
-                .AppendLine("   NIVEL,                          ")
-                .AppendLine("   TEMPO_JOGO,                     ")
-                .AppendLine("   QTD_PECAS,                      ")
-                .AppendLine("   DATA_SCORE,                     ")
-                .AppendLine("   TABULEIRO                       ")
-                .AppendLine("FROM                               ")
-                .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
-                .AppendLine("   ORDER BY                        ")
-                .AppendLine("   SCORE                           ")
-                .AppendLine("   DESC                            ");
-
-
-            using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
-            command.CommandText = stringBuilder.ToString();
-
-            OleDbDataReader result = command.ExecuteReader();
-            while (result.Read())
+                throw new Exception(exception.Message);
+            }
+            finally
             {
+                conexao.DbConnection.Close();
+            }
+        }
+        public override Pontuacao ImagemPorId(int id)
+        {
+            Conexao conexao = new Conexao();
+            try
+            {
+                DbConnection connection = conexao.DbConnection;
+                conexao.VerifyDbConnection();
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Clear()
+                    .AppendLine("USE TETRIS                         ")
+                    .AppendLine("SELECT                             ")
+                    .AppendLine("   NOME,                           ")
+                    .AppendLine("   DATA_SCORE,                     ")
+                    .AppendLine("   TABULEIRO                       ")
+                    .AppendLine("FROM                               ")
+                    .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
+                    .AppendLine("   WHERE                           ")
+                    .AppendLine("   ID = ?                          ");
+
+                using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+                command.CommandText = stringBuilder.ToString();
+                command.Parameters.AddWithValue("@ID", id);
+
+                OleDbDataReader result = command.ExecuteReader();
+                result.Read();
                 MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
-                Pontuacao p = new Pontuacao()
+                Pontuacao p = new Pontuacao
                 {
-                    Id = (int)result["ID"],
+                    Id = id,
                     Nome = result["NOME"].ToString(),
-                    Score = (int)result["SCORE"],
-                    Nivel = (int)result["NIVEL"],
-                    TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString() ?? throw new InvalidOperationException()),
-                    QtdPecas = (int)result["QTD_PECAS"],
                     DataScore = (DateTime)result["DATA_SCORE"],
                     Tabuleiro = new Bitmap(ms)
                 };
-                lp.Add(p);
+                return p;
             }
-
-            return lp;
-        }
-        catch (Exception exception)
-        {
-            throw new Exception(exception.Message);
-        }
-        finally
-        {
-            conexao.DbConnection.Close();
-        }
-    }
-    public override List<Pontuacao> ListaTodosTlp()
-    {
-        Conexao conexao = new Conexao();
-        List<Pontuacao> lp = new List<Pontuacao>();
-        try
-        {
-            DbConnection connection = conexao.DbConnection;
-            conexao.VerifyDbConnection();
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Clear()
-            .AppendLine("USE TETRIS                         ")
-            .AppendLine("SELECT                             ")
-            .AppendLine("   ID,                             ")
-            .AppendLine("   NOME,                           ")
-            .AppendLine("   SCORE,                          ")
-            .AppendLine("   NIVEL,                          ")
-            .AppendLine("   TEMPO_JOGO,                     ")
-            .AppendLine("   QTD_PECAS,                      ")
-            .AppendLine("   DATA_SCORE                      ")
-            .AppendLine("FROM                               ")
-            .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
-            .AppendLine("   ORDER BY                        ")
-            .AppendLine("   SCORE                           ")
-            .AppendLine("   DESC                            ");
-            using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
-            command.CommandText = stringBuilder.ToString();
-
-            OleDbDataReader result = command.ExecuteReader();
-            while (result.Read())
+            catch (Exception exception)
             {
-                Pontuacao p = new Pontuacao()
-                {
-                    Id = (int)result["ID"],
-                    Nome = result["NOME"].ToString(),
-                    Score = (int)result["SCORE"],
-                    Nivel = (int)result["NIVEL"],
-                    TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString() ?? throw new InvalidOperationException()),
-                    QtdPecas = (int)result["QTD_PECAS"],
-                    DataScore = (DateTime)result["DATA_SCORE"],
-                };
-                lp.Add(p);
+                throw new Exception(exception.Message);
             }
+            finally
+            {
+                conexao.DbConnection.Close();
+            }
+        }
+        public override List<Pontuacao> ListaTodos()
+        {
+            Conexao conexao = new Conexao();
+            List<Pontuacao> lp = new List<Pontuacao>();
+            try
+            {
+                DbConnection connection = conexao.DbConnection;
+                conexao.VerifyDbConnection();
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Clear()
+                    .AppendLine("USE TETRIS                         ")
+                    .AppendLine("SELECT                             ")
+                    .AppendLine("   ID,                             ")
+                    .AppendLine("   NOME,                           ")
+                    .AppendLine("   SCORE,                          ")
+                    .AppendLine("   NIVEL,                          ")
+                    .AppendLine("   TEMPO_JOGO,                     ")
+                    .AppendLine("   QTD_PECAS,                      ")
+                    .AppendLine("   DATA_SCORE,                     ")
+                    .AppendLine("   TABULEIRO                       ")
+                    .AppendLine("FROM                               ")
+                    .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
+                    .AppendLine("   ORDER BY                        ")
+                    .AppendLine("   SCORE                           ")
+                    .AppendLine("   DESC                            ");
 
-            return lp;
+
+                using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+                command.CommandText = stringBuilder.ToString();
+
+                OleDbDataReader result = command.ExecuteReader();
+                while (result.Read())
+                {
+                    MemoryStream ms = new MemoryStream((byte[])result["TABULEIRO"]);
+                    Pontuacao p = new Pontuacao()
+                    {
+                        Id = (int)result["ID"],
+                        Nome = result["NOME"].ToString(),
+                        Score = (int)result["SCORE"],
+                        Nivel = (int)result["NIVEL"],
+                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString() ?? throw new InvalidOperationException()),
+                        QtdPecas = (int)result["QTD_PECAS"],
+                        DataScore = (DateTime)result["DATA_SCORE"],
+                        Tabuleiro = new Bitmap(ms)
+                    };
+                    lp.Add(p);
+                }
+
+                return lp;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                conexao.DbConnection.Close();
+            }
         }
-        catch (Exception exception)
+        public override List<Pontuacao> ListaTodosTlp()
         {
-            throw new Exception(exception.Message);
-        }
-        finally
-        {
-            conexao.DbConnection.Close();
+            Conexao conexao = new Conexao();
+            List<Pontuacao> lp = new List<Pontuacao>();
+            try
+            {
+                DbConnection connection = conexao.DbConnection;
+                conexao.VerifyDbConnection();
+                StringBuilder stringBuilder = new StringBuilder();
+
+                stringBuilder.Clear()
+                    .AppendLine("USE TETRIS                         ")
+                    .AppendLine("SELECT                             ")
+                    .AppendLine("   ID,                             ")
+                    .AppendLine("   NOME,                           ")
+                    .AppendLine("   SCORE,                          ")
+                    .AppendLine("   NIVEL,                          ")
+                    .AppendLine("   TEMPO_JOGO,                     ")
+                    .AppendLine("   QTD_PECAS,                      ")
+                    .AppendLine("   DATA_SCORE                      ")
+                    .AppendLine("FROM                               ")
+                    .AppendLine("   DBO.PONTUACAO      WITH(NOLOCK) ")
+                    .AppendLine("   ORDER BY                        ")
+                    .AppendLine("   SCORE                           ")
+                    .AppendLine("   DESC                            ");
+                using OleDbCommand command = (OleDbCommand)connection.CreateCommand();
+                command.CommandText = stringBuilder.ToString();
+
+                OleDbDataReader result = command.ExecuteReader();
+                while (result.Read())
+                {
+                    Pontuacao p = new Pontuacao()
+                    {
+                        Id = (int)result["ID"],
+                        Nome = result["NOME"].ToString(),
+                        Score = (int)result["SCORE"],
+                        Nivel = (int)result["NIVEL"],
+                        TempoJogo = TimeSpan.Parse(result["TEMPO_JOGO"].ToString() ?? throw new InvalidOperationException()),
+                        QtdPecas = (int)result["QTD_PECAS"],
+                        DataScore = (DateTime)result["DATA_SCORE"],
+                    };
+                    lp.Add(p);
+                }
+
+                return lp;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                conexao.DbConnection.Close();
+            }
         }
     }
 }

@@ -1,25 +1,43 @@
 ﻿using Desafio___Tetris.Conexoes;
-using Desafio___Tetris.Labels;
+using Desafio___Tetris.View;
 using System;
 using System.Data.Common;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using Desafio___Tetris.Model.Pecas;
 
 namespace Desafio___Tetris
 {
     public partial class Form1 : Form
     {
         private Game Game { get; set; }
-        private Tabuleiro Tabuleiro { get; set; }
 
         //private FormPontuacaoSelect Fs { get; set; }
+        private BoardView BoardView { get; set; }
+        private PauseView PauseView { get; set; }
+        private PieceView PieceView { get; set; }
+        private ScoreView ScoreView { get; set; }
         public Form1()
         {
             InitializeComponent();
-            pausePlaceHolderPanel.Controls.Add(new LabelPause());
+            BoardView = new BoardView
+            {
+                Panel = panelTabuleiro
+            };
+            PieceView = new PieceView()
+            {
+                CurrentPanel = panelAtual,
+                NextPanel = panelProx,
+            };
+            PauseView = new PauseView
+            {
+                Panel = pausePlaceHolderPanel
+            };
+            ScoreView  = new ScoreView
+            {
+                Output = scorePlaceHolderPanel
+            };
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -74,13 +92,20 @@ namespace Desafio___Tetris
         {
             buttonPause.Enabled = true;
             trackBarNivel.Enabled = false;
+            
+            GameView gameView = new GameView
+            {
+                BoardView = BoardView,
+                PauseView = PauseView,
+                PieceView = PieceView,
+                ScoreView = ScoreView
+            };
 
-            this.Tabuleiro = Tabuleiro.GetInstance();
-            this.Tabuleiro.Panel = panelTabuleiro;
-            this.Tabuleiro.Inicia();
-
-            Placar placar = new Placar(trackBarNivel.Value, scorePlaceHolderPanel);
-            this.Game = new Game(Tabuleiro, placar, pausePlaceHolderPanel, panelAtual, panelProx);
+            this.Game = new Game
+            {
+                GameView = gameView,
+                StartLevel = trackBarNivel.Value
+            };
 
             while (!Game.Over)
             {

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using Desafio___Tetris.DAO;
 using Desafio___Tetris.Model;
 
 namespace Desafio___Tetris

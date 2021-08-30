@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Configuration;
 
-public class PontuacaoDao
+namespace Desafio___Tetris.DAO
 {
-    public AbsPontuacaoDao AbsPontuacaoDao { get; set; }
-    public PontuacaoDao()
+    public class PontuacaoDao
     {
-        string dbt = this.GetType().ToString()+
-            ConfigurationManager.AppSettings.Get("DbType");
-        AbsPontuacaoDao = Activator.CreateInstance(Type.GetType(dbt) ?? throw new InvalidOperationException()) as AbsPontuacaoDao;
+        public AbsPontuacaoDao AbsPontuacaoDao { get; set; }
+        public PontuacaoDao()
+        {
+            string dbt = this.GetType().ToString()+
+                         ConfigurationManager.AppSettings.Get("DbType");
+            AbsPontuacaoDao = Activator.CreateInstance(Type.GetType(dbt) ?? throw new InvalidOperationException()) as AbsPontuacaoDao;
+        }
     }
 }

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using Desafio___Tetris.Model;
 using Desafio___Tetris.Model.Pecas;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Desafio___Tetris.View
 {
     class PieceView
     {
+        public Panel CurrentPanel { get; set; }
+        public Panel NextPanel { get; set; }
         private Piece _piece { get; set; }
         public Piece Piece
         {
@@ -24,9 +24,7 @@ namespace Desafio___Tetris.View
                 }
             }
         }
-
-        private Tabuleiro Tabuleiro { get; set; }
-
+        private Size Size { get; set; }
         /*
         private Tabuleiro _tabuleiro { get; set; }
         public Tabuleiro Tabuleiro
@@ -43,7 +41,7 @@ namespace Desafio___Tetris.View
                 }
             }
         }
-        */
+        
         private Panel _panel { get; set; }
         public Panel Panel //ap = atual ou proximo
         {
@@ -52,15 +50,12 @@ namespace Desafio___Tetris.View
             {
                 _panel = value;
                 //Inicializa(value, Piece.LineCount, ColumnCount, Height, Width);
-                
             }
         }
-        
+        */
         private int ColumnCount { get; set; }
-        public PieceView(Panel panel)
+        public PieceView()
         {
-            this.Panel = panel;
-            this.Tabuleiro = Tabuleiro.GetInstance();
         }
         public void Inicializa(Panel pai, int qy, int qx, int alt, int larg)
         {
@@ -95,11 +90,11 @@ namespace Desafio___Tetris.View
                 nova[i] = new RetanguloTabuleiro[Piece.ColumnCount(Piece.LineCount - 1)];
                 for (int j = 0; j < Piece.ColumnCount(Piece.LineCount - 1); j++)
                 {
-                    int xform = j * Tabuleiro.Matrix[0][0].Width;
-                    int yform = i * Tabuleiro.Matrix[0][0].Height;
+                    int xform = j * Size.Width;
+                    int yform = i * Size.Height;
                     nova[i][j] = new RetanguloTabuleiro
                     {
-                        Size = Tabuleiro.Matrix[0][0].Size, //quadrados iguais, pega o primeiro índice
+                        Size = this.Size,
                         Location = new Point(xform, yform),
                         Valor = Piece.Ponto(i, j),
                         BorderStyle = BorderStyle.FixedSingle,
@@ -109,7 +104,6 @@ namespace Desafio___Tetris.View
                 }
             }
             Panel.Size = new Size(Panel.Controls[0].Width * Piece.ColumnCount(Piece.LineCount - 1), Panel.Controls[0].Height * Piece.LineCount);
-            
         }
     }
 }

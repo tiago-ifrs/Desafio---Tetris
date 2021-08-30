@@ -39,11 +39,11 @@ namespace Desafio___Tetris.Presenter
             while ((DateTime.Now - start).TotalMilliseconds < ms)
                 Application.DoEvents();
         }
-        public PausePresenter(Control pausePlaceHolderPanel)
+        public PausePresenter()
         {
             this._paused = false;
             this._over = false;
-            this.PauseView = new PauseView(pausePlaceHolderPanel);
+            
             this.Stopwatch = new Stopwatch();
         }
     }

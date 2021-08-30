@@ -227,7 +227,7 @@ namespace Desafio___Tetris
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panelTabuleiro);
             this.Controls.Add(this.label1);
-            this.Controls.Add(pausePlaceHolderPanel);
+            
             this.Controls.Add(scorePlaceHolderPanel);
             this.MaximumSize = new System.Drawing.Size(1024, 768);
             this.MinimumSize = new System.Drawing.Size(1024, 768);
