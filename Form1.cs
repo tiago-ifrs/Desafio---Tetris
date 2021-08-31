@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Desafio___Tetris.Labels;
 
 namespace Desafio___Tetris
 {
@@ -15,12 +16,14 @@ namespace Desafio___Tetris
 
         //private FormPontuacaoSelect Fs { get; set; }
         private BoardView BoardView { get; set; }
-        private PauseView PauseView { get; set; }
+        private GameView GameView { get; set; }
+        private TimeView TimeView { get; set; }
         private PieceView PieceView { get; set; }
         private ScoreView ScoreView { get; set; }
         public Form1()
         {
             InitializeComponent();
+            FormPanels FormPanels = new FormPanels();
             BoardView = new BoardView
             {
                 Panel = panelTabuleiro
@@ -30,13 +33,21 @@ namespace Desafio___Tetris
                 CurrentPanel = panelAtual,
                 NextPanel = panelProx,
             };
-            PauseView = new PauseView
-            {
-                Panel = pausePlaceHolderPanel
-            };
+            
             ScoreView  = new ScoreView
             {
+                FormPanels = FormPanels,
                 Output = scorePlaceHolderPanel
+            };
+            TimeView = new TimeView
+            {
+                FormPanels = FormPanels,
+                Panel = pausePlaceHolderPanel,
+                ScorePanel = scorePlaceHolderPanel
+            };
+            GameView = new GameView()
+            {
+                TrackBar = trackBarNivel
             };
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -61,7 +72,7 @@ namespace Desafio___Tetris
         }
         private void ButtonPause_Click(object sender, EventArgs e)
         {
-            Game.Pause();
+            GameView.Pause();
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
@@ -69,19 +80,19 @@ namespace Desafio___Tetris
             {
                 case (Keys.Up):
                     labelKey.Text = char.ToString((char)0xe1);
-                    Game.RotacionaPeca();
+                    GameView.RotacionaPeca();
                     break;
                 case (Keys.Down):
                     labelKey.Text = char.ToString((char)0xe2);
-                    Game.MoveAbaixo();
+                    GameView.MoveAbaixo();
                     break;
                 case (Keys.Left):
                     labelKey.Text = char.ToString((char)0xdf);
-                    Game.MoveEsquerda();
+                    GameView.MoveEsquerda();
                     break;
                 case (Keys.Right):
                     labelKey.Text = char.ToString((char)0xe0);
-                    Game.MoveDireita();
+                    GameView.MoveDireita();
                     break;
             };
             // return the key to the base class if not used.
@@ -92,26 +103,14 @@ namespace Desafio___Tetris
         {
             buttonPause.Enabled = true;
             trackBarNivel.Enabled = false;
+
+            GameView.BoardView = BoardView;
+            GameView.TimeView = TimeView;
+            GameView.PieceView = PieceView;
+            GameView.ScoreView = ScoreView;
+
+            GameView.Start();
             
-            GameView gameView = new GameView
-            {
-                BoardView = BoardView,
-                PauseView = PauseView,
-                PieceView = PieceView,
-                ScoreView = ScoreView
-            };
-
-            this.Game = new Game
-            {
-                GameView = gameView,
-                StartLevel = trackBarNivel.Value
-            };
-
-            while (!Game.Over)
-            {
-                Game.Percorre();
-            }
-
             MessageBox.Show(strings.Form1_Tetris_Game_Over);
             SalvaPontuacao();
             buttonPause.Enabled = false;
@@ -169,9 +168,9 @@ namespace Desafio___Tetris
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (Game.Paused)
+            if (Game.Time.Paused)
             {
-                Game.Paused = false;
+                Game.Time.Paused = false;
                 Game.Over = true;
             }
             Application.Exit();

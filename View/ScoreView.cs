@@ -6,7 +6,7 @@ namespace Desafio___Tetris.View
 {
     public class ScoreView
     {
-        private FormPanels FormPanels{ get; }
+        internal FormPanels FormPanels { get; set; }
         private Panel _output { get; set; }
         public Panel Output
         {
@@ -23,17 +23,7 @@ namespace Desafio___Tetris.View
                 _output = value;
             }
         }
-        private TimeSpan _timeSpan { get; set; }
-        public TimeSpan TimeSpan
-        {
-            get => _timeSpan;
-            set
-            {
-                _timeSpan = value;
-                FormPanels.GameTimerLabel.Text = $@"{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
-                FormPanels.GameTimerLabel.Refresh();
-            }
-        }
+        
         private int _level { get; set; }
         public int Level
         {
@@ -80,7 +70,7 @@ namespace Desafio___Tetris.View
         }
         public ScoreView()
         {
-            FormPanels = new FormPanels();
+            
         }
     }
 }

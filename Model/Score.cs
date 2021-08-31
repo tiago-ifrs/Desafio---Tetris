@@ -33,8 +33,7 @@ namespace Desafio___Tetris.Model
         public int Points { get; set; }
         public int Level { get; set; }
         public double Speed { get; set; }
-        public TimeSpan TimeSpan { get; set; }
-        public int PieceCount { get; set; }
+        public int PieceCounter { get; set; }
         public Score()
         {
         }

@@ -19,8 +19,9 @@ namespace Desafio___Tetris.Presenter
             }
         }
         public PieceView PieceView { get; set; }
-        public PiecePresenter() 
+        public PiecePresenter()
         {
+            Piece = new Piece();
             //this.PieceView = new PieceView(panel);
             //this.Panel = panel;
         }

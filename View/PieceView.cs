@@ -1,11 +1,13 @@
 ﻿using Desafio___Tetris.Model.Pecas;
 using System.Drawing;
 using System.Windows.Forms;
+using Desafio___Tetris.Presenter;
 
 namespace Desafio___Tetris.View
 {
     class PieceView
     {
+        public PiecePresenter PiecePresenter { get; set; }
         public Panel CurrentPanel { get; set; }
         public Panel NextPanel { get; set; }
         private Piece _piece { get; set; }
@@ -55,6 +57,7 @@ namespace Desafio___Tetris.View
         private int ColumnCount { get; set; }
         public PieceView()
         {
+            PiecePresenter = new PiecePresenter();
         }
         public void Inicializa(Panel pai, int qy, int qx, int alt, int larg)
         {

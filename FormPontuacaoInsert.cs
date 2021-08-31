@@ -33,8 +33,8 @@ namespace Desafio___Tetris
                 Nome = textBoxNome.Text,
                 Score = Game.Score.Points,
                 Nivel = Game.Score.Level,
-                QtdPecas = Game.Score.PieceCount,
-                TempoJogo = Game.Score.TimeSpan,
+                QtdPecas = Game.Score.PieceCounter,
+                TempoJogo = Game.Time.TimeSpan,
                 DataScore = DateTime.Now,
                 Tabuleiro = CaptureBitmap
             };

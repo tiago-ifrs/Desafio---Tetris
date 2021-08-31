@@ -9,108 +9,84 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Desafio___Tetris.Presenter
 {
-    class GamePresenter
+    internal class GamePresenter
     {
         private int Ytab { get; set; }   // coordenada y do tabuleiro
         private int Xtab { get; set; }   // coordenada x do tabuleiro
         private int Yoffset { get; set; }
+        public bool Over { get; set; }
         private BoardPresenter BoardPresenter { get; set; }
-        public GameView GameView { get; set; }
-        private PausePresenter PausePresenter { get; }
-        private PiecePresenter CurrentPiecePresenter { get; }
-        private PiecePresenter NextPiecePresenter { get; }
+        public GameView _GameView { get; set; }
+        public GameView GameView
+        {
+            get => _GameView;
+            set
+            {
+                _GameView = value;
+                this.Game = new Game
+                {
+                    GamePresenter = this,
+                    Level = _GameView.TrackBar.Value
+                };
+                BoardPresenter = new BoardPresenter
+                {
+                    Board = Game.Board,
+                    BoardView = GameView.BoardView
+                };
+                BoardPresenter.Inicia();
+                ScorePresenter = new ScorePresenter
+                {
+                    Score = Game.Score,
+                    ScoreView = GameView.ScoreView
+                };
+                TimePresenter = new TimePresenter
+                {
+                    Time = Game.Time,
+                    TimeView = GameView.TimeView
+                };
+                CurrentPiecePresenter = new PiecePresenter();
+                NextPiecePresenter = new PiecePresenter();
+                //TimerJogo = new Timer();
+                while (!Over)
+                {
+                    Percorre();
+                }
+            }
+        }
+        private TimePresenter TimePresenter { get; set; }
+        private PiecePresenter CurrentPiecePresenter { get; set; }
+        private PiecePresenter NextPiecePresenter { get; set; }
         private ScorePresenter ScorePresenter { get; set; }
-        private Board Board { get { return BoardPresenter.Board; } set { BoardPresenter.Board = value; } }
-        private Score Score { get { return ScorePresenter.Score; } set { ScorePresenter.Score = value; } }
-        public Piece CurrentPiece
-        {
-            get => CurrentPiecePresenter.Piece;
-            set => CurrentPiecePresenter.Piece = value;
-        }
-        public Piece NextPiece
-        {
-            get => NextPiecePresenter.Piece;
-            set => NextPiecePresenter.Piece = value;
-        }
-        public bool Over
-        {
-            get => PausePresenter.Over;
-            set => PausePresenter.Over = value;
-        }
-        private Timer TimerJogo { get; }
-        public void AcionaRelogio()
-        {
-            PausePresenter.Stopwatch.Start();
-            TimerJogo.Start();
-        }
+        internal Game Game { get; set; }
 
-        public void ParaRelogio()
+        internal GamePresenter()
         {
-            PausePresenter.Stopwatch.Stop();
-            TimerJogo.Stop();
-        }
-        internal void TimerJogo_Tick(object sender, EventArgs e)
-        {
-            ScorePresenter.TimeSpan = PausePresenter.Stopwatch.Elapsed;
-        }
-        public bool Paused
-        {
-            get => PausePresenter.Paused;
-            set => PausePresenter.Paused = value;
-        }
 
-        public void Pause()
-        {
-            if (PausePresenter.Paused == false)
-            {
-                ParaRelogio();
-                PausePresenter.Paused = true;
-            }
-            else
-            {
-                AcionaRelogio();
-                PausePresenter.Paused = false;
-            }
-        }
-        public Game Game { get; set; }
-        public GamePresenter(Board board, int startLevel)
-        {
-            this.PausePresenter = new PausePresenter();
-            this.BoardPresenter = new BoardPresenter();
-            this.Board = board;
-            this.ScorePresenter = new ScorePresenter(startLevel);
-            this.CurrentPiecePresenter = new PiecePresenter();
-            //currentPiecePanel
-            this.NextPiecePresenter = new PiecePresenter();
-            //nextPiecePanel
-
-            this.TimerJogo.Tick += this.TimerJogo_Tick;
-            this.AcionaRelogio();
         }
         public void RotacionaPeca()
         {
-            int ulAnt = CurrentPiece.LineCount - 1;
-            int ucAnt = CurrentPiece.ColumnCount(ulAnt);
-            int rotAnt = CurrentPiece.Rot;
-            BoardPresenter.LimpaPeca(CurrentPiece, Ytab + Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
-            if (CurrentPiece.Rot < 4)
+            int ulAnt = CurrentPiecePresenter.Piece.LineCount - 1;
+            int ucAnt = CurrentPiecePresenter.Piece.ColumnCount(ulAnt);
+            int rotAnt = CurrentPiecePresenter.Piece.Rot;
+            BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab); // precisa limpar o espaço da peça antes de rotacionar
+            if (CurrentPiecePresenter.Piece.Rot < 4)
             {
-                CurrentPiece.Rot++;
+                CurrentPiecePresenter.Piece.Rot++;
             }
             else
             {
-                CurrentPiece.Rot = 0;
+                CurrentPiecePresenter.Piece.Rot = 0;
             }
             /* 
          * DETECTAR COLISÃO HORIZONTAL ANTES DE DESENHAR
          * AS COLISÕES PODEM ACONTECEM NO LADO DIREITO, POIS XTAB É O PONTO DE ORIGEM DO DESENHO DA PEÇA
          */
-            int ulPos = CurrentPiece.LineCount - 1;
-            int ucPos = CurrentPiece.ColumnCount(ulPos);
+            int ulPos = CurrentPiecePresenter.Piece.LineCount - 1;
+            int ucPos = CurrentPiecePresenter.Piece.ColumnCount(ulPos);
             if (Xtab + ucPos >= Board.ColumnCount)
             {
                 //Direita = new ColisaoX(Tabuleiro, At, Ytab + Yoffset, Xtab, Xtab - ucPos - ucAnt); //detectar colisão uma linha abaixo?
-                ColisaoX direita = new ColisaoX(Board, CurrentPiece, Ytab + Yoffset, Xtab, Xtab - ucPos + ucAnt);
+                ColisaoX direita = new ColisaoX(BoardPresenter.Board, CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab, Xtab - ucPos + ucAnt);
                 if (direita.Xcoli == -1)//não houve colisão
                 {
                     //mantém a rotação
@@ -119,24 +95,24 @@ namespace Desafio___Tetris.Presenter
                 }
                 else
                 {
-                    CurrentPiece.Rot = rotAnt; //recupera a rotação anterior, impedindo o movimento
+                    CurrentPiecePresenter.Piece.Rot = rotAnt; //recupera a rotação anterior, impedindo o movimento
                 }
             }
             /* DESENHA QUALQUER UMA DAS DUAS */
-            BoardPresenter.DesenhaY(CurrentPiece, Ytab + Yoffset, Xtab);
+            BoardPresenter.DesenhaY(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
         }
         public void MoveAbaixo()
         {
             if ((Ytab + Yoffset) < Board.LineCount - 1)
             {
-                BoardPresenter.LimpaPeca(CurrentPiece, Ytab + Yoffset, Xtab);
-                ColisaoY baixo = new ColisaoY(Board, CurrentPiece, Ytab + Yoffset, Ytab + Yoffset + 1, Xtab);
+                BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
+                ColisaoY baixo = new ColisaoY(BoardPresenter.Board, CurrentPiecePresenter.Piece, Ytab + Yoffset, Ytab + Yoffset + 1, Xtab);
 
                 if (baixo.Ycoli == -1)//não houve colisão
                 {
                     Yoffset++;
                 }
-                BoardPresenter.DesenhaY(CurrentPiece, Ytab + Yoffset, Xtab);
+                BoardPresenter.DesenhaY(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
             }
         }
         public void MoveEsquerda()
@@ -146,45 +122,45 @@ namespace Desafio___Tetris.Presenter
                 /* Colisão X não vai limpar a peça 
              * precisa limpar para fazer o teste 
              */
-                BoardPresenter.LimpaPeca(CurrentPiece, Ytab + Yoffset, Xtab);
-                ColisaoX esquerda = new ColisaoX(Board, CurrentPiece, Ytab + Yoffset, Xtab, Xtab - 1);
+                BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
+                ColisaoX esquerda = new ColisaoX(BoardPresenter.Board, CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab, Xtab - 1);
 
                 if (esquerda.Xcoli == -1)//não houve colisão
                 {
                     Xtab--;
                 }
-                BoardPresenter.DesenhaY(CurrentPiece, Ytab + Yoffset, Xtab);
+                BoardPresenter.DesenhaY(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
             }
         }
         public void MoveDireita()
         {
-            int ul = CurrentPiece.LineCount - 1;
-            int uc = CurrentPiece.ColumnCount(ul);
+            int ul = CurrentPiecePresenter.Piece.LineCount - 1;
+            int uc = CurrentPiecePresenter.Piece.ColumnCount(ul);
 
             if (Xtab + uc < Board.ColumnCount)
             {
                 /* Colisão X não vai limpar a peça 
              *  precisa limpar para fazer o teste 
              */
-                BoardPresenter.LimpaPeca(CurrentPiece, Ytab + Yoffset, Xtab);
-                ColisaoX direita = new ColisaoX(Board, CurrentPiece, Ytab + Yoffset, Xtab, Xtab + uc);
+                BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
+                ColisaoX direita = new ColisaoX(BoardPresenter.Board, CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab, Xtab + uc);
 
                 if (direita.Xcoli == -1)//não houve colisão
                 {
                     Xtab++;
                 }
-                BoardPresenter.DesenhaY(CurrentPiece, Ytab + Yoffset, Xtab);
+                BoardPresenter.DesenhaY(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
             }
         }
         private void GeraProx()
         {
-            if (NextPiece != null)
+            if (NextPiecePresenter.Piece != null)
             {
                 //NextPiece.Ap = panelAtual;
-                CurrentPiece = NextPiece;
+                CurrentPiecePresenter.Piece = NextPiecePresenter.Piece;
                 //CurrentPiece.AtualizaPeca();
             }
-            NextPiece = new Piece();
+            NextPiecePresenter.Piece = new Piece();
         }
         public void Percorre()
         {
@@ -192,9 +168,9 @@ namespace Desafio___Tetris.Presenter
             //condições iniciais:
             Yoffset = 0;
 
-            Xtab = (Board.ColumnCount - CurrentPiece.ColumnCount(CurrentPiece.LineCount - 1)) / 2; // Centraliza a peça
+            Xtab = (Board.ColumnCount - CurrentPiecePresenter.Piece.ColumnCount(CurrentPiecePresenter.Piece.LineCount - 1)) / 2; // Centraliza a peça
             Atualiza();
-            Score.PieceCount++;
+            ScorePresenter.PieceCounter++;
 
             for (Ytab = 0; ((Ytab + Yoffset) < Board.LineCount) && !Over; Ytab++) // percorre as linhas do tabuleiro. precisa testar a colisão a cada entrada no loop
             {
@@ -205,27 +181,27 @@ namespace Desafio___Tetris.Presenter
              * CASO DO LOOP FOR:
              * PEÇA JÁ ESTÁ DESENHADA NA LINHA ANTERIOR, PODE IR PARA A ATUAL?
              */
-                BoardPresenter.LimpaPeca(CurrentPiece, Ytab - 1 + Yoffset, Xtab); //precisa limpar A ANTERIOR para fazer o teste
-                ColisaoY colisaoY = new ColisaoY(Board, CurrentPiece, Ytab + Yoffset, Ytab + Yoffset, Xtab);
+                BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab - 1 + Yoffset, Xtab); //precisa limpar A ANTERIOR para fazer o teste
+                ColisaoY colisaoY = new ColisaoY(BoardPresenter.Board, CurrentPiecePresenter.Piece, Ytab + Yoffset, Ytab + Yoffset, Xtab);
 
                 if (colisaoY.Ycoli == -1)//não houve colisão
                 {
-                    BoardPresenter.LimpaPeca(CurrentPiece, Ytab + Yoffset - 1, Xtab);
-                    BoardPresenter.DesenhaY(CurrentPiece, Ytab + Yoffset, Xtab);
+                    BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab + Yoffset - 1, Xtab);
+                    BoardPresenter.DesenhaY(CurrentPiecePresenter.Piece, Ytab + Yoffset, Xtab);
 
                 }
                 else
                 {
-                    BoardPresenter.LimpaPeca(CurrentPiece, Ytab + Yoffset - 1, Xtab);
-                    BoardPresenter.DesenhaY(CurrentPiece, Ytab + Yoffset - 1, Xtab);
-                    if (colisaoY.Ycoli < CurrentPiece.LineCount - 1)
+                    BoardPresenter.LimpaPeca(CurrentPiecePresenter.Piece, Ytab + Yoffset - 1, Xtab);
+                    BoardPresenter.DesenhaY(CurrentPiecePresenter.Piece, Ytab + Yoffset - 1, Xtab);
+                    if (colisaoY.Ycoli < CurrentPiecePresenter.Piece.LineCount - 1)
                     {
                         this.Over = true;
-                        this.ParaRelogio();
+                        TimePresenter.Time.ParaRelogio();
                     }
                     break;
                 }
-                PausePresenter.Wait((int)Score.Speed);
+                TimePresenter.Time.Wait((int)ScorePresenter.Speed);
             }
             //return false;
         }
@@ -239,7 +215,7 @@ namespace Desafio___Tetris.Presenter
                 List<int> vetcol = new List<int>();
                 for (int i = 0; i < Board.ColumnCount; i++)
                 {
-                    vetcol.Add(Board.Matrix[j][i].Valor);
+                    vetcol.Add(BoardPresenter.Board.Matrix[j][i].Valor);
                 }
                 vetlin.Add(vetcol);
                 if (!vetlin[j].Contains(0))
@@ -255,15 +231,15 @@ namespace Desafio___Tetris.Presenter
                 ScorePresenter.Points += 10;
                 //ScoreView.Score = Score.Points;
 
-                Thread.Sleep((int)Score.Times[Score.Level]);
+                Thread.Sleep((int)Score.Times[ScorePresenter.Level]);
             }
 
             if (indices.Count > 0)
             {
-                ScorePresenter.Level = Game.StartLevel + ((int)Score.Points / 100);
+                ScorePresenter.Level = Game.Level + ((int)ScorePresenter.Points / 100);
                 if (ScorePresenter.Level < Score.Times.Length)
                 {
-                    ScorePresenter.Speed = Score.Times[Score.Level];
+                    ScorePresenter.Speed = Score.Times[ScorePresenter.Level];
                 }
             }
         }

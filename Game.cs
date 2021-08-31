@@ -1,81 +1,36 @@
 ﻿using Desafio___Tetris.Model;
 using Desafio___Tetris.Model.Pecas;
 using Desafio___Tetris.Presenter;
-using Desafio___Tetris.View;
-using System.Windows.Forms;
 
 namespace Desafio___Tetris
 {
+    /// <summary>
+    /// class Game must be public because of insertion
+    /// </summary>
     public class Game
     {
-        private Timer Timer {
-            get => ScorePresenter.Timer;
-            set => ScorePresenter.Timer = value;
-        }
-        private ScorePresenter ScorePresenter { get; set; }
-        public Piece CurrentPiece
+        internal Time Time { get; set; }
+        internal Piece CurrentPiece { get; set; }
+        internal Piece NextPiece { get; set; }
+        internal Score Score { get; set; }
+        internal Board Board{ get; set; }
+        internal GamePresenter GamePresenter { get; set; }
+        internal bool Over { get; set; }
+        internal int Level
         {
-            get => GamePresenter.CurrentPiece;
-            set => GamePresenter.CurrentPiece = value;
+            get => Score.Level;
+            set => Score.Level=value;
         }
-        public Piece NextPiece
+        internal Game()
         {
-            get => GamePresenter.NextPiece;
-            set => GamePresenter.NextPiece = value;
-        }
-        public Score Score { get; set; }
-        private Board Board{ get; set; }        
-        private GamePresenter GamePresenter { get; set; }
-        internal GameView GameView
-        {
-            get => GamePresenter.GameView;
-            set => GamePresenter.GameView = value;
-        }
-        public bool Over
-        {
-            get => GamePresenter.Over;
-            set => GamePresenter.Over = value;
-        }
-        public bool Paused
-        {
-            get => GamePresenter.Paused;
-            set => GamePresenter.Paused = value;
-        }
-        public void Pause() 
-        {
-            GamePresenter.Pause();
-        }
-        public void RotacionaPeca() 
-        {
-            GamePresenter.RotacionaPeca();
-        }
-        public void MoveAbaixo() 
-        { 
-            GamePresenter.MoveAbaixo(); 
-        }
-        public void MoveEsquerda()
-        {
-            GamePresenter.MoveEsquerda();
-        }
-        public void MoveDireita()
-        {
-            GamePresenter.MoveDireita();
-        }
-        public void Percorre()
-        {
-            GamePresenter.Percorre();
-        }
-        public int StartLevel { get; set; }
-        public Game()
-        {
-            this.GamePresenter = new GamePresenter(Board, StartLevel);
-            this.Over = false;
-
-            this.Timer = new Timer();
+            Time = new Time
+            {
+                Paused = false
+            };
             this.Board = new Board();
             this.Score = new Score();
             
-            
+            this.Over = false;
             this.CurrentPiece = new Piece();
             this.NextPiece = null;
         }

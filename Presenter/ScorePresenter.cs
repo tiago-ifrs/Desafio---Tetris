@@ -5,12 +5,12 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Desafio___Tetris.Presenter
 {
-    class ScorePresenter
+    public class ScorePresenter
     {
-        public Score Score { get; set; }
+        internal Score Score { get; set; }
         public int Points 
         { 
-            get { return Score.Points; } 
+            get => Score.Points;
             set 
             {
                 Score.Points = value;
@@ -19,10 +19,7 @@ namespace Desafio___Tetris.Presenter
         }
         public int Level 
         { 
-            get 
-            { 
-                return Score.Level; 
-            }
+            get => Score.Level;
             set 
             {
                 Score.Level = value;
@@ -31,27 +28,30 @@ namespace Desafio___Tetris.Presenter
         }
         public double Speed 
         { 
-            get 
-            { 
-                return Score.Speed; 
-            } 
+            get => Score.Speed;
             set 
             {
                 Score.Speed = value;
                 ScoreView.Speed = value;
             } 
         }
-        public TimeSpan TimeSpan
+        
+        public int PieceCounter
         {
-            get => Score.TimeSpan;
+            get => Score.PieceCounter;
             set
             {
-                Score.TimeSpan = value;
-                ScoreView.TimeSpan = value;
+                Score.PieceCounter = value;
+                ScoreView.PieceCounter = value;
             }
         }
         public Timer Timer { get; set; }
-        private ScoreView ScoreView { get; }
+        public ScoreView ScoreView { get; set; }
+        public ScorePresenter()
+        {
+            //Score = new Score();
+        }
+        /*
         public ScorePresenter(int startLevel)
         {
             ScoreView = new ScoreView
@@ -63,6 +63,6 @@ namespace Desafio___Tetris.Presenter
                 Speed = Score.Times[startLevel]
             };
         }
-
+        */
     }
 }

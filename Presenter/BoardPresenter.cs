@@ -10,7 +10,7 @@ namespace Desafio___Tetris.Presenter
     {
         public BoardPresenter()
         {
-            this.Inicia();
+            //this.Board = new Board();
         }
         public BoardView BoardView { get; set; }
         public Board Board { get; set; }
