@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Desafio___Tetris.View
 {
-    internal class ScoreView
+    public class ScoreView
     {
         private FormPanels FormPanels{ get; }
         private Panel _output { get; set; }
@@ -56,13 +56,13 @@ namespace Desafio___Tetris.View
                 FormPanels.PieceCounterLabel.Refresh();
             }
         }
-        private int _score { get; set; }
-        public int Score
+        private int _points { get; set; }
+        public int Points
         {
-            get => _score;
+            get => _points;
             set
             {
-                _score = value;
+                _points = value;
                 FormPanels.ScoreLabel.Text = value.ToString();
                 FormPanels.ScoreLabel.Refresh();
             }

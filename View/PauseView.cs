@@ -30,9 +30,11 @@ namespace Desafio___Tetris.View
         }
         internal PauseView()
         {
+            if (Panel != null)
+            {
+                Panel.Controls.Add(LabelPause);
+            }
             this.LabelPause = new LabelPause();
-            Panel.Controls.Add(LabelPause);
-
             LabelPause.Text = char.ToString((char) 0x34);
             LabelPause.Refresh();
         }

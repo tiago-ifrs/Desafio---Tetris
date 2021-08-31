@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Desafio___Tetris.Model.Pecas;
+﻿using Desafio___Tetris.Model.Pecas;
 using Desafio___Tetris.View;
 
 namespace Desafio___Tetris.Presenter
@@ -22,8 +21,8 @@ namespace Desafio___Tetris.Presenter
         public PieceView PieceView { get; set; }
         public PiecePresenter() 
         {
-            this.PieceView = new PieceView(panel);
-            this.Panel = panel;
+            //this.PieceView = new PieceView(panel);
+            //this.Panel = panel;
         }
     }
 }

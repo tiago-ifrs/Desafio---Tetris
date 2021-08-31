@@ -1,5 +1,4 @@
-﻿using Desafio___Tetris.Model;
-using Desafio___Tetris.Model.Pecas;
+﻿using Desafio___Tetris.Model.Pecas;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -20,7 +19,7 @@ namespace Desafio___Tetris.View
                 {
                     //cria os quadradinhos redimensionados conforme o tamanho da peça
                     this.ColumnCount = value.ColumnCount(value.LineCount - 1);
-                    this.AtualizaPeca();
+                    //this.AtualizaPeca();
                 }
             }
         }
@@ -81,9 +80,9 @@ namespace Desafio___Tetris.View
             }
             pai.Size = new Size(larg * qx, alt * qy);
         }
-        public void AtualizaPeca()
+        public void AtualizaPeca(Panel panel)
         {
-            Panel.Controls.Clear();
+            panel.Controls.Clear();
             var nova = new RetanguloTabuleiro[Piece.LineCount][];
             for (int i = 0; i < Piece.LineCount; i++)
             {
@@ -100,10 +99,10 @@ namespace Desafio___Tetris.View
                         BorderStyle = BorderStyle.FixedSingle,
                         BackColor = Piece.CorPonto(i, j)
                     };
-                    Panel.Controls.Add(nova[i][j]);
+                    panel.Controls.Add(nova[i][j]);
                 }
             }
-            Panel.Size = new Size(Panel.Controls[0].Width * Piece.ColumnCount(Piece.LineCount - 1), Panel.Controls[0].Height * Piece.LineCount);
+            panel.Size = new Size(panel.Controls[0].Width * Piece.ColumnCount(Piece.LineCount - 1), panel.Controls[0].Height * Piece.LineCount);
         }
     }
 }

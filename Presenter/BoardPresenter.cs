@@ -1,8 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Desafio___Tetris.Model;
+﻿using Desafio___Tetris.Model;
 using Desafio___Tetris.Model.Pecas;
+using Desafio___Tetris.View;
+using System;
+using System.Drawing;
 
 namespace Desafio___Tetris.Presenter
 {
@@ -12,38 +12,36 @@ namespace Desafio___Tetris.Presenter
         {
             this.Inicia();
         }
+        public BoardView BoardView { get; set; }
         public Board Board { get; set; }
 
         public void Inicia()
         {
-            int a = Panel.Height / Board.LineCount;
-            int l = Panel.Width / Board.ColumnCount;
+            int a = BoardView.Panel.Height / Board.LineCount;
+            int l = BoardView.Panel.Width / Board.ColumnCount;
             int menor = Math.Min(l, a);
-            Inicializa(Board.LineCount, Board.ColumnCount, menor, menor);
-        }
-        public void Inicializa(int qy, int qx, int alt, int larg)
-        {
-            Board.Matrix = new RetanguloTabuleiro[qy][];
-            this.Panel.Controls.Clear();
+            //Inicializa(Board.LineCount, Board.ColumnCount, menor, menor);
+            Board.Matrix = new RetanguloTabuleiro[Board.LineCount][];
+            BoardView.Panel.Controls.Clear();
 
-            for (int i = 0; i < qy; i++)
+            for (int i = 0; i < Board.LineCount; i++)
             {
-                Board.Matrix[i] = new RetanguloTabuleiro[qx];
-                for (int j = 0; j < qx; j++)
+                Board.Matrix[i] = new RetanguloTabuleiro[Board.ColumnCount];
+                for (int j = 0; j < Board.ColumnCount; j++)
                 {
                     Board.Matrix[i][j] = new RetanguloTabuleiro();
-                    int xform = j * larg;
-                    int yform = i * alt;
+                    int xform = j * menor;
+                    int yform = i * menor;
 
                     Board.Matrix[i][j].Valor = 0;
                     Board.Matrix[i][j].BackColor = Color.White;
                     Board.Matrix[i][j].Location = new Point(xform, yform);
-                    Board.Matrix[i][j].Size = new Size(larg - 1, alt - 1);
+                    Board.Matrix[i][j].Size = new Size(menor - 1, menor - 1);
 
-                    Panel.Controls.Add(Board.Matrix[i][j]);
+                    BoardView.Panel.Controls.Add(Board.Matrix[i][j]);
                 }
             }
-            Panel.Size = new Size(larg * qx, alt * qy);
+            BoardView.Panel.Size = new Size(menor * Board.ColumnCount, menor * Board.LineCount);
         }
         public void Deleta(int ytab)
         {

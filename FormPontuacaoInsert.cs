@@ -7,21 +7,23 @@ using System.Linq;
 using System.Windows.Forms;
 using Desafio___Tetris.DAO;
 using Desafio___Tetris.Model;
+using Desafio___Tetris.View;
 
 namespace Desafio___Tetris
 {
     public partial class FormPontuacaoInsert : Form
     {
-        private Placar Placar { get; }
         private Bitmap CaptureBitmap { get; }
         private Game Game { get; set; }
         private Panel Panel { get; set; }
-
-        public FormPontuacaoInsert(Game game)
+        BoardView BoardView { get; set; }
+        ScoreView ScoreView { get; set; }
+        public FormPontuacaoInsert(Game game, BoardView boardView, ScoreView scoreView)
         {
-            this.Placar = game.Placar;
+            this.BoardView = boardView;
             this.Game = game;
-            this.CaptureBitmap = new Bitmap(game.Tabuleiro.Panel.Width, game.Tabuleiro.Panel.Height);
+            this.ScoreView = scoreView;
+            this.CaptureBitmap = new Bitmap(boardView.Panel.Width, boardView.Panel.Height);
             InitializeComponent();
         }
         private void ButtonOK_Click(object sender, EventArgs e)
@@ -29,10 +31,10 @@ namespace Desafio___Tetris
             Pontuacao po = new Pontuacao
             {
                 Nome = textBoxNome.Text,
-                Score = Placar.Score,
-                Nivel = Placar.Nivel,
-                QtdPecas = Placar.QtdPecas,
-                TempoJogo = Placar.TimeSpan,
+                Score = Game.Score.Points,
+                Nivel = Game.Score.Level,
+                QtdPecas = Game.Score.PieceCount,
+                TempoJogo = Game.Score.TimeSpan,
                 DataScore = DateTime.Now,
                 Tabuleiro = CaptureBitmap
             };
@@ -58,16 +60,16 @@ namespace Desafio___Tetris
         private void FormPontuacaoInsert_Load(object sender, EventArgs e)
         {
             Bitmap bitmapPictureBoxImage = new Bitmap(pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
-            Rectangle captureRectangle = new Rectangle(0, 0, Game.Tabuleiro.Panel.Width, Game.Tabuleiro.Panel.Height);
-            Game.Tabuleiro.Panel.DrawToBitmap(CaptureBitmap, captureRectangle);
+            Rectangle captureRectangle = new Rectangle(0, 0, BoardView.Panel.Width, BoardView.Panel.Height);
+            BoardView.Panel.DrawToBitmap(CaptureBitmap, captureRectangle);
             Graphics g = Graphics.FromImage(bitmapPictureBoxImage);
 
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.DrawImage(CaptureBitmap, 0, 0, pictureBoxTabuleiro.Width, pictureBoxTabuleiro.Height);
 
             pictureBoxTabuleiro.Image = bitmapPictureBoxImage;
-            Panel = Placar.Output;
-            Placar.Output = panelPlacarInsert;
+            Panel = ScoreView.Output;
+            ScoreView.Output = panelPlacarInsert;
         }
 
         private void FormPontuacaoInsert_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -82,7 +84,7 @@ namespace Desafio___Tetris
 
         private void FormPontuacaoInsert_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Placar.Output = Panel;
+            ScoreView.Output = Panel;
         }
     }
 }
