@@ -2,10 +2,8 @@
 using Desafio___Tetris.Model;
 using Desafio___Tetris.Model.Pecas;
 using Desafio___Tetris.View;
-using System;
 using System.Collections.Generic;
 using System.Threading;
-using Timer = System.Windows.Forms.Timer;
 
 namespace Desafio___Tetris.Presenter
 {
@@ -25,8 +23,8 @@ namespace Desafio___Tetris.Presenter
                 _GameView = value;
                 this.Game = new Game
                 {
-                    GamePresenter = this,
-                    Level = _GameView.TrackBar.Value
+                    //GamePresenter = this,
+                    StartLevel = _GameView.TrackBar.Value
                 };
                 BoardPresenter = new BoardPresenter
                 {
@@ -41,16 +39,19 @@ namespace Desafio___Tetris.Presenter
                 };
                 TimePresenter = new TimePresenter
                 {
-                    Time = Game.Time,
-                    TimeView = GameView.TimeView
+                    TimeView = GameView.TimeView, //TimeView must be set first
+                    Time = Game.Time
                 };
+                GameView.GamePresenter = this;
+                GameView.TimePresenter = TimePresenter;
                 CurrentPiecePresenter = new PiecePresenter();
                 NextPiecePresenter = new PiecePresenter();
-                //TimerJogo = new Timer();
+                
                 while (!Over)
                 {
                     Percorre();
                 }
+
             }
         }
         private TimePresenter TimePresenter { get; set; }
@@ -197,11 +198,11 @@ namespace Desafio___Tetris.Presenter
                     if (colisaoY.Ycoli < CurrentPiecePresenter.Piece.LineCount - 1)
                     {
                         this.Over = true;
-                        TimePresenter.Time.ParaRelogio();
+                        TimePresenter.Over();
                     }
                     break;
                 }
-                TimePresenter.Time.Wait((int)ScorePresenter.Speed);
+                Time.Wait((int)ScorePresenter.Speed);
             }
             //return false;
         }
@@ -236,7 +237,7 @@ namespace Desafio___Tetris.Presenter
 
             if (indices.Count > 0)
             {
-                ScorePresenter.Level = Game.Level + ((int)ScorePresenter.Points / 100);
+                ScorePresenter.Level = Game.StartLevel + ((int)ScorePresenter.Points / 100);
                 if (ScorePresenter.Level < Score.Times.Length)
                 {
                     ScorePresenter.Speed = Score.Times[ScorePresenter.Level];

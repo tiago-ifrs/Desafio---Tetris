@@ -1,6 +1,5 @@
 ﻿using Desafio___Tetris.Model;
 using Desafio___Tetris.Model.Pecas;
-using Desafio___Tetris.Presenter;
 
 namespace Desafio___Tetris
 {
@@ -14,12 +13,11 @@ namespace Desafio___Tetris
         internal Piece NextPiece { get; set; }
         internal Score Score { get; set; }
         internal Board Board{ get; set; }
-        internal GamePresenter GamePresenter { get; set; }
         internal bool Over { get; set; }
-        internal int Level
+        internal int StartLevel
         {
-            get => Score.Level;
-            set => Score.Level=value;
+            get => Score.StartLevel;
+            init => Score.StartLevel = value;
         }
         internal Game()
         {

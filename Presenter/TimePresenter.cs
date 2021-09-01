@@ -1,58 +1,50 @@
-﻿using Desafio___Tetris.View;
+﻿using Desafio___Tetris.Model;
+using Desafio___Tetris.View;
 using System;
-using System.Diagnostics;
-using Desafio___Tetris.Model;
 
 namespace Desafio___Tetris.Presenter
 {
     internal class TimePresenter
     {
-        internal Time Time { get; set; }
-        internal TimeView TimeView { get; set; }
-        public TimeSpan TimeSpan
+        private Time _Time { get; init; }
+        internal Time Time
         {
-            get => Time.TimeSpan;
-            set
+            get => _Time;
+            init
             {
-                Time.TimeSpan = value;
-                TimeView.TimeSpan = value;
+                _Time = value;
+                Time.Timer.Tick += Timer_Tick;
+                TimeView.Play();
+                Time.Start();
             }
         }
-        internal bool Paused
+        internal TimeView TimeView { get; init; }
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            get => Time.Paused;
-            set
-            {
-                Time.Paused = value;
-                TimeView.Pause(value);
-                while (Time.Paused)
-                {
-                    Time.Wait(1000);
-                }
-            }
-        }
-        private void TimerJogo_Tick(object sender, EventArgs e)
-        {
-            Time.TimeSpan = Time.Stopwatch.Elapsed;
+            TimeView.TimeSpan = Time.TimeSpan = Time.Stopwatch.Elapsed;
         }
         internal void Pause()
         {
             if (Time.Paused == false)
             {
-                Time.ParaRelogio();
-                Time.Paused = true;
+                Time.Stop();
+                TimeView.Pause();
+                Time.Pause(true);
             }
             else
             {
-                Time.AcionaRelogio();
-                Time.Paused = false;
+                Time.Pause(false);
+                Time.Start();
+                TimeView.Play();
             }
+        }
+        internal void Over()
+        {
+            Time.Stop();
+            TimeView.Over();
         }
         internal TimePresenter()
         {
-            Time.Timer.Tick += this.TimerJogo_Tick;
-            Time.Stopwatch = new Stopwatch();
-            Time.AcionaRelogio();
         }
     }
 }

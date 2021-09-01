@@ -1,7 +1,5 @@
 ﻿using Desafio___Tetris.Model;
 using Desafio___Tetris.View;
-using System;
-using Timer = System.Windows.Forms.Timer;
 
 namespace Desafio___Tetris.Presenter
 {
@@ -45,24 +43,9 @@ namespace Desafio___Tetris.Presenter
                 ScoreView.PieceCounter = value;
             }
         }
-        public Timer Timer { get; set; }
         public ScoreView ScoreView { get; set; }
         public ScorePresenter()
         {
-            //Score = new Score();
         }
-        /*
-        public ScorePresenter(int startLevel)
-        {
-            ScoreView = new ScoreView
-            {
-                //Initializes score labels each new game
-                Level = startLevel,
-                PieceCounter = 0,
-                Points = 0,
-                Speed = Score.Times[startLevel]
-            };
-        }
-        */
     }
 }

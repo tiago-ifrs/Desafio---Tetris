@@ -23,7 +23,8 @@ namespace Desafio___Tetris
         public Form1()
         {
             InitializeComponent();
-            FormPanels FormPanels = new FormPanels();
+            FormPanels formPanels = new();
+            if (formPanels == null) throw new ArgumentNullException(nameof(formPanels));
             BoardView = new BoardView
             {
                 Panel = panelTabuleiro
@@ -36,17 +37,21 @@ namespace Desafio___Tetris
             
             ScoreView  = new ScoreView
             {
-                FormPanels = FormPanels,
+                FormPanels = formPanels,
                 Output = scorePlaceHolderPanel
             };
             TimeView = new TimeView
             {
-                FormPanels = FormPanels,
-                Panel = pausePlaceHolderPanel,
-                ScorePanel = scorePlaceHolderPanel
+                FormPanels = formPanels,
+                Panel = pausePlaceHolderPanel
+                
             };
             GameView = new GameView()
             {
+                BoardView = BoardView,
+                TimeView = TimeView,
+                PieceView = PieceView,
+                ScoreView = ScoreView,
                 TrackBar = trackBarNivel
             };
         }
@@ -104,10 +109,7 @@ namespace Desafio___Tetris
             buttonPause.Enabled = true;
             trackBarNivel.Enabled = false;
 
-            GameView.BoardView = BoardView;
-            GameView.TimeView = TimeView;
-            GameView.PieceView = PieceView;
-            GameView.ScoreView = ScoreView;
+            
 
             GameView.Start();
             

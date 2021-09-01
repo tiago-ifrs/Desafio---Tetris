@@ -4,10 +4,22 @@ using System.Windows.Forms;
 
 namespace Desafio___Tetris.View
 {
-    class TimeView
+    internal class TimeView
     {
+        internal FormPanels FormPanels { get; init; }
+        private LabelPause LabelPause { get; }
+        private Panel _panel { get; init; }
+        internal Panel Panel
+        {
+            get => _panel;
+            init
+            {
+                _panel = value;
+                Panel.Controls.Add(LabelPause);
+            }
+        }
         private TimeSpan _timeSpan { get; set; }
-        public TimeSpan TimeSpan
+        internal TimeSpan TimeSpan
         {
             get => _timeSpan;
             set
@@ -17,36 +29,24 @@ namespace Desafio___Tetris.View
                 FormPanels.GameTimerLabel.Refresh();
             }
         }
-        private LabelPause LabelPause { get; }
-        private Panel _panel { get; set; }
-
-        public Panel Panel
+        internal void Play()
         {
-            get => _panel;
-            set
-            {
-                _panel = value;
-
-            }
-        }
-        public FormPanels FormPanels { get; set; }
-        public Panel ScorePanel { get; set; }
-        public void Pause(bool paused)
-        {
-            LabelPause.Text = paused == false ? char.ToString((char)0x34) : char.ToString((char)0x3b);
+            LabelPause.Text = char.ToString((char)0x34);
             LabelPause.Refresh();
         }
-        public void Over(bool over)
+        internal void Pause()
         {
-            LabelPause.Text = over ? char.ToString((char)0x3c) : char.ToString((char)0x34);
+            LabelPause.Text = char.ToString((char)0x3b);
+            LabelPause.Refresh();
+        }
+        internal void Over()
+        {
+            LabelPause.Text = char.ToString((char)0x3c);
             LabelPause.Refresh();
         }
         internal TimeView()
         {
-            Panel.Controls.Add(LabelPause);
-            this.LabelPause = new LabelPause();
-            LabelPause.Text = char.ToString((char)0x34);
-            LabelPause.Refresh();
+            LabelPause = new LabelPause();
         }
     }
 }

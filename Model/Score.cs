@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Desafio___Tetris.Model
+﻿namespace Desafio___Tetris.Model
 {
     public class Score
     {
@@ -32,10 +30,15 @@ namespace Desafio___Tetris.Model
         #endregion
         public int Points { get; set; }
         public int Level { get; set; }
+        public int StartLevel { get; set; }
         public double Speed { get; set; }
         public int PieceCounter { get; set; }
         public Score()
         {
+            Level = StartLevel;
+            PieceCounter = 0;
+            Points = 0;
+            Speed = Times[StartLevel];
         }
     }
 }

@@ -7,11 +7,11 @@ namespace Desafio___Tetris.View
     {
         internal GamePresenter GamePresenter { get; set; }
         internal TimePresenter TimePresenter { get; set; }
-        internal TrackBar TrackBar { get; set; }
-        internal BoardView BoardView { get; set; }
-        internal TimeView TimeView { get; set; }
-        internal PieceView PieceView { get; set; }
-        internal ScoreView ScoreView { get; set; }
+        internal TrackBar TrackBar { get; init; }
+        internal BoardView BoardView { get; init; }
+        internal TimeView TimeView { get; init; }
+        internal PieceView PieceView { get; init; }
+        internal ScoreView ScoreView { get; init; }
         public GameView()
         {
             
@@ -22,7 +22,6 @@ namespace Desafio___Tetris.View
             {
                 GameView = this
             };
-            TimePresenter = new TimePresenter();
         }
         public void Pause() 
         {
