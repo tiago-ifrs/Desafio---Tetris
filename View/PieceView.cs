@@ -1,15 +1,12 @@
 ﻿using Desafio___Tetris.Model.Pecas;
 using System.Drawing;
 using System.Windows.Forms;
-using Desafio___Tetris.Presenter;
 
 namespace Desafio___Tetris.View
 {
-    class PieceView
+    internal class PieceView
     {
-        public PiecePresenter PiecePresenter { get; set; }
-        public Panel CurrentPanel { get; set; }
-        public Panel NextPanel { get; set; }
+        internal Panel Panel { get; set; }
         private Piece _piece { get; set; }
         public Piece Piece
         {
@@ -21,8 +18,28 @@ namespace Desafio___Tetris.View
                 {
                     //cria os quadradinhos redimensionados conforme o tamanho da peça
                     this.ColumnCount = value.ColumnCount(value.LineCount - 1);
-                    //this.AtualizaPeca();
+                    int width = Panel.Width / ColumnCount;
+                    int height = Panel.Height / Piece.LineCount;
+
+
+                    RetanguloTabuleiro[][] rt = new RetanguloTabuleiro[Piece.LineCount][];
+                    Panel.Controls.Clear();
+
+                    for (int i = 0; i < Piece.LineCount; i++)
+                    {
+                        rt[i] = new RetanguloTabuleiro[ColumnCount];
+                        for (int j = 0; j < ColumnCount; j++)
+                        {
+                            rt[i][j] = new RetanguloTabuleiro();
+                            rt[i][j].Location = new Point(j * (width), i * (height));
+                            rt[i][j].Size = new Size(width - 1, height - 1);
+
+                            Panel.Controls.Add(rt[i][j]);
+                        }
+                    }
+                    Panel.Size = new Size(width * ColumnCount, height * Piece.LineCount);
                 }
+                //this.AtualizaPeca();
             }
         }
         private Size Size { get; set; }
@@ -57,31 +74,11 @@ namespace Desafio___Tetris.View
         private int ColumnCount { get; set; }
         public PieceView()
         {
-            PiecePresenter = new PiecePresenter();
+            
         }
         public void Inicializa(Panel pai, int qy, int qx, int alt, int larg)
         {
-            RetanguloTabuleiro[][] rt = new RetanguloTabuleiro[qy][];
-            pai.Controls.Clear();
-
-            for (int i = 0; i < qy; i++)
-            {
-                rt[i] = new RetanguloTabuleiro[qx];
-                for (int j = 0; j < qx; j++)
-                {
-                    rt[i][j] = new RetanguloTabuleiro();
-                    int xform = j * larg;
-                    int yform = i * alt;
-
-                    rt[i][j].Valor = 0;
-                    rt[i][j].BackColor = Color.White;
-                    rt[i][j].Location = new Point(xform, yform);
-                    rt[i][j].Size = new Size(larg - 1, alt - 1);
-
-                    pai.Controls.Add(rt[i][j]);
-                }
-            }
-            pai.Size = new Size(larg * qx, alt * qy);
+            
         }
         public void AtualizaPeca(Panel panel)
         {

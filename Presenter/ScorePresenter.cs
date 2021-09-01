@@ -3,38 +3,37 @@ using Desafio___Tetris.View;
 
 namespace Desafio___Tetris.Presenter
 {
-    public class ScorePresenter
+    internal class ScorePresenter
     {
-        internal Score Score { get; set; }
-        public int Points 
-        { 
+        internal Score Score { get; init; }
+        internal int Points
+        {
             get => Score.Points;
-            set 
+            set
             {
                 Score.Points = value;
                 ScoreView.Points = value;
-            } 
+            }
         }
-        public int Level 
-        { 
+        internal int Level
+        {
             get => Score.Level;
-            set 
+            set
             {
                 Score.Level = value;
                 ScoreView.Level = value;
-            } 
+            }
         }
-        public double Speed 
-        { 
+        internal double Speed
+        {
             get => Score.Speed;
-            set 
+            set
             {
                 Score.Speed = value;
                 ScoreView.Speed = value;
-            } 
+            }
         }
-        
-        public int PieceCounter
+        internal int PieceCounter
         {
             get => Score.PieceCounter;
             set
@@ -43,9 +42,23 @@ namespace Desafio___Tetris.Presenter
                 ScoreView.PieceCounter = value;
             }
         }
-        public ScoreView ScoreView { get; set; }
-        public ScorePresenter()
+        private ScoreView _ScoreView { get; init; }
+
+        internal ScoreView ScoreView
         {
+            get => _ScoreView;
+            init
+            {
+                _ScoreView = value;
+                ///initialize ScoreView
+                ScoreView.Level = Score.Level;
+                ScoreView.Points = Score.Points;
+                ScoreView.Speed = Score.Speed;
+            }
+        }
+        internal ScorePresenter()
+        {
+
         }
     }
 }

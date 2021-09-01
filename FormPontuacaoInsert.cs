@@ -18,12 +18,12 @@ namespace Desafio___Tetris
         private Panel Panel { get; set; }
         BoardView BoardView { get; set; }
         ScoreView ScoreView { get; set; }
-        public FormPontuacaoInsert(Game game, BoardView boardView, ScoreView scoreView)
+        public FormPontuacaoInsert(Game game, GameView gameView)
         {
-            this.BoardView = boardView;
+            this.BoardView = gameView.BoardView;
             this.Game = game;
-            this.ScoreView = scoreView;
-            this.CaptureBitmap = new Bitmap(boardView.Panel.Width, boardView.Panel.Height);
+            this.ScoreView = gameView.ScoreView;
+            this.CaptureBitmap = new Bitmap(BoardView.Panel.Width, BoardView.Panel.Height);
             InitializeComponent();
         }
         private void ButtonOK_Click(object sender, EventArgs e)
@@ -38,7 +38,6 @@ namespace Desafio___Tetris
                 DataScore = DateTime.Now,
                 Tabuleiro = CaptureBitmap
             };
-
             IEnumerable<ValidationResult> results = Validador.GValidationResults(po);
             string s = string.Empty;
             foreach (ValidationResult variable in results)

@@ -34,7 +34,7 @@ namespace Desafio___Tetris.Presenter
                 BoardPresenter.Inicia();
                 ScorePresenter = new ScorePresenter
                 {
-                    Score = Game.Score,
+                    Score = Game.Score, //Score must be set first
                     ScoreView = GameView.ScoreView
                 };
                 TimePresenter = new TimePresenter
@@ -44,14 +44,21 @@ namespace Desafio___Tetris.Presenter
                 };
                 GameView.GamePresenter = this;
                 GameView.TimePresenter = TimePresenter;
-                CurrentPiecePresenter = new PiecePresenter();
-                NextPiecePresenter = new PiecePresenter();
-                
+                CurrentPiecePresenter = new PiecePresenter
+                {
+                    Piece = Game.CurrentPiece,
+                    PieceView = GameView.CurrentPieceView
+                };
+                NextPiecePresenter = new PiecePresenter
+                {
+                    Piece = Game.NextPiece,
+                    PieceView = GameView.NextPieceView
+                };
+
                 while (!Over)
                 {
                     Percorre();
                 }
-
             }
         }
         private TimePresenter TimePresenter { get; set; }

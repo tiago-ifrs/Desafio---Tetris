@@ -18,7 +18,8 @@ namespace Desafio___Tetris
         private BoardView BoardView { get; set; }
         private GameView GameView { get; set; }
         private TimeView TimeView { get; set; }
-        private PieceView PieceView { get; set; }
+        private PieceView CurrentPieceView { get; set; }
+        private PieceView NextPieceView { get; set; }
         private ScoreView ScoreView { get; set; }
         public Form1()
         {
@@ -29,12 +30,14 @@ namespace Desafio___Tetris
             {
                 Panel = panelTabuleiro
             };
-            PieceView = new PieceView()
+            CurrentPieceView = new PieceView()
             {
-                CurrentPanel = panelAtual,
-                NextPanel = panelProx,
+                Panel = panelAtual
             };
-            
+            NextPieceView = new PieceView()
+            {
+                Panel = panelProx
+            };
             ScoreView  = new ScoreView
             {
                 FormPanels = formPanels,
@@ -50,7 +53,8 @@ namespace Desafio___Tetris
             {
                 BoardView = BoardView,
                 TimeView = TimeView,
-                PieceView = PieceView,
+                CurrentPieceView = CurrentPieceView,
+                NextPieceView = NextPieceView,
                 ScoreView = ScoreView,
                 TrackBar = trackBarNivel
             };
@@ -120,7 +124,7 @@ namespace Desafio___Tetris
         }
         private void SalvaPontuacao()
         {
-            FormPontuacaoInsert fp = new FormPontuacaoInsert(Game, BoardView, ScoreView);
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(Game, GameView);
 
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.DbConnection;

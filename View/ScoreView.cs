@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace Desafio___Tetris.View
 {
-    public class ScoreView
+    internal class ScoreView
     {
         internal FormPanels FormPanels { get; set; }
         private Panel _output { get; set; }
-        public Panel Output
+        internal Panel Output
         {
             get => _output;
             set
@@ -23,9 +23,8 @@ namespace Desafio___Tetris.View
                 _output = value;
             }
         }
-        
         private int _level { get; set; }
-        public int Level
+        internal int Level
         {
             get => _level;
             set
@@ -36,7 +35,7 @@ namespace Desafio___Tetris.View
             }
         }
         private int _pieceCounter { get; set; }
-        public int PieceCounter
+        internal int PieceCounter
         {
             get => _pieceCounter;
             set
@@ -47,7 +46,7 @@ namespace Desafio___Tetris.View
             }
         }
         private int _points { get; set; }
-        public int Points
+        internal int Points
         {
             get => _points;
             set
@@ -58,7 +57,7 @@ namespace Desafio___Tetris.View
             }
         }
         private double _speed { get; set; }
-        public double Speed
+        internal double Speed
         {
             get => _speed;
             set
@@ -68,7 +67,7 @@ namespace Desafio___Tetris.View
                 FormPanels.SpeedLabel.Refresh();
             }
         }
-        public ScoreView()
+        internal ScoreView()
         {
             
         }
