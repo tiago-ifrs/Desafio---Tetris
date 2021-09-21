@@ -1,5 +1,4 @@
 ﻿using Desafio___Tetris.Model;
-using Desafio___Tetris.Model.Pecas;
 using Desafio___Tetris.View;
 using System;
 using System.Drawing;
@@ -14,12 +13,13 @@ namespace Desafio___Tetris.Presenter
         }
         public BoardView BoardView { get; set; }
         public Board Board { get; set; }
-
+        internal int Width { get; set; }
+        internal int Height { get; set; }
         public void Inicia()
         {
-            int a = BoardView.Panel.Height / Board.LineCount;
-            int l = BoardView.Panel.Width / Board.ColumnCount;
-            int menor = Math.Min(l, a);
+            Height = BoardView.Panel.Height / Board.LineCount;
+            Width = BoardView.Panel.Width / Board.ColumnCount;
+            int menor = Math.Min(Width, Height);
             //Inicializa(Board.LineCount, Board.ColumnCount, menor, menor);
             Board.Matrix = new RetanguloTabuleiro[Board.LineCount][];
             BoardView.Panel.Controls.Clear();

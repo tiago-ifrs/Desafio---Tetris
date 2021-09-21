@@ -1,4 +1,4 @@
-﻿using Desafio___Tetris.Model.Pecas;
+﻿using Desafio___Tetris.Model;
 using Desafio___Tetris.View;
 
 namespace Desafio___Tetris.Presenter
@@ -18,12 +18,22 @@ namespace Desafio___Tetris.Presenter
                 }
             }
         }
-        public PieceView PieceView { get; set; }
+        private PieceView _PieceView { get; set; }
+
+        public PieceView PieceView
+        {
+            get => _PieceView;
+            set
+            {
+                _PieceView=value;
+                value.Width = this.Width;
+                value.Height = this.Height;
+            }
+        }
+        public int Height { get; set; }
+        public int Width { get; set; }
         public PiecePresenter()
         {
-            Piece = new Piece();
-            //this.PieceView = new PieceView(panel);
-            //this.Panel = panel;
         }
     }
 }

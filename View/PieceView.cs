@@ -1,4 +1,4 @@
-﻿using Desafio___Tetris.Model.Pecas;
+﻿using Desafio___Tetris.Model;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,6 +8,8 @@ namespace Desafio___Tetris.View
     {
         internal Panel Panel { get; set; }
         private Piece _piece { get; set; }
+        internal int Width { get; set; }
+        internal int Height { get; set; }
         public Piece Piece
         {
             get => _piece;
@@ -17,10 +19,9 @@ namespace Desafio___Tetris.View
                 if (value != null)
                 {
                     //cria os quadradinhos redimensionados conforme o tamanho da peça
-                    this.ColumnCount = value.ColumnCount(value.LineCount - 1);
-                    int width = Panel.Width / ColumnCount;
-                    int height = Panel.Height / Piece.LineCount;
-
+                    this.ColumnCount = Piece.ColumnCount(Piece.LineCount - 1);
+                    //int width = Panel.Width / ColumnCount;
+                    //int height = Panel.Height / Piece.LineCount;
 
                     RetanguloTabuleiro[][] rt = new RetanguloTabuleiro[Piece.LineCount][];
                     Panel.Controls.Clear();
@@ -31,13 +32,13 @@ namespace Desafio___Tetris.View
                         for (int j = 0; j < ColumnCount; j++)
                         {
                             rt[i][j] = new RetanguloTabuleiro();
-                            rt[i][j].Location = new Point(j * (width), i * (height));
-                            rt[i][j].Size = new Size(width - 1, height - 1);
-
+                            rt[i][j].Location = new Point(j * (Width), i * (Height));
+                            rt[i][j].Size = new Size(Width - 1, Height - 1);
+                            rt[i][j].BackColor = Piece.CorPonto(i, j);
                             Panel.Controls.Add(rt[i][j]);
                         }
                     }
-                    Panel.Size = new Size(width * ColumnCount, height * Piece.LineCount);
+                    Panel.Size = new Size(Width * ColumnCount, Height * Piece.LineCount);
                 }
                 //this.AtualizaPeca();
             }

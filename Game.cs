@@ -29,7 +29,8 @@ namespace Desafio___Tetris
             this.Score = new Score();
             
             this.Over = false;
-            this.CurrentPiece = new Piece();
+            //this.CurrentPiece = new Piece();
+            this.CurrentPiece = null;
             this.NextPiece = null;
         }
     }

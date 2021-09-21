@@ -124,7 +124,7 @@ namespace Desafio___Tetris
         }
         private void SalvaPontuacao()
         {
-            FormPontuacaoInsert fp = new FormPontuacaoInsert(Game, GameView);
+            FormPontuacaoInsert fp = new FormPontuacaoInsert(GameView);
 
             Conexao conexao = new Conexao();
             DbConnection dbConnection = conexao.DbConnection;

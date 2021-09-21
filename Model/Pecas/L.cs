@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Desafio___Tetris.Model.Pecas
 {
-    public class L:Abspeca
+    public class L:PieceAbstract
     {
         private int _rot;
         public L()

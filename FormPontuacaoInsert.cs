@@ -14,21 +14,21 @@ namespace Desafio___Tetris
     public partial class FormPontuacaoInsert : Form
     {
         private Bitmap CaptureBitmap { get; }
-        private Game Game { get; set; }
+        private Game Game { get; }
         private Panel Panel { get; set; }
-        BoardView BoardView { get; set; }
-        ScoreView ScoreView { get; set; }
-        public FormPontuacaoInsert(Game game, GameView gameView)
+        private BoardView BoardView { get; }
+        private ScoreView ScoreView { get; }
+        public FormPontuacaoInsert(GameView gameView)
         {
-            this.BoardView = gameView.BoardView;
-            this.Game = game;
-            this.ScoreView = gameView.ScoreView;
-            this.CaptureBitmap = new Bitmap(BoardView.Panel.Width, BoardView.Panel.Height);
+            BoardView = gameView.BoardView;
+            Game = gameView.GamePresenter.Game;
+            ScoreView = gameView.ScoreView;
+            CaptureBitmap = new Bitmap(BoardView.Panel.Width, BoardView.Panel.Height);
             InitializeComponent();
         }
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            Pontuacao po = new Pontuacao
+            Pontuacao po = new()
             {
                 Nome = textBoxNome.Text,
                 Score = Game.Score.Points,
@@ -53,7 +53,7 @@ namespace Desafio___Tetris
             {
                 AbsPontuacaoDao pd = new PontuacaoDao().AbsPontuacaoDao;
                 pd.Insert(po);
-                this.Close();
+                Close();
             }
         }
         private void FormPontuacaoInsert_Load(object sender, EventArgs e)

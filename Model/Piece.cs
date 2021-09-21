@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Desafio___Tetris.Model.Pecas;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Desafio___Tetris.Model.Pecas
+namespace Desafio___Tetris.Model
 {
-    public sealed class Piece : Abspeca
+    public sealed class Piece : PieceAbstract
     {
         public override List<int[]> Linhas { get; set; }
         public override Color Cor => Abspeca.Cor;
@@ -25,21 +26,20 @@ namespace Desafio___Tetris.Model.Pecas
         {
             return (int)Linhas[y].GetValue(x);
         }
-        private Abspeca Abspeca { get; set; }
+        private PieceAbstract Abspeca { get; set; }
         public Piece()
         {
             char[] tiposPeca = { 'I', 'L', 'O', 'S', 'T', 'J', 'Z' };
-            Random random = new Random();
+            Random random = new();
             int al = random.Next(0, tiposPeca.Length);
-            string tpeca = $"{this.GetType().Namespace}.{tiposPeca[al]}";
+            string tpeca = $"{GetType().BaseType?.Namespace}.{tiposPeca[al]}";
             Type type = Type.GetType(tpeca);
-            
-            Abspeca = (Abspeca)Activator.CreateInstance(type ?? throw new InvalidOperationException());
-            if (Abspeca != null)
-            {
-                Abspeca.Rot = 0;
-                Linhas = Abspeca.Linhas;
-            }
+
+            Abspeca = (PieceAbstract)Activator.CreateInstance(type ?? throw new InvalidOperationException());
+
+            if (Abspeca == null) return;
+            Abspeca.Rot = 0;
+            Linhas = Abspeca.Linhas;
         }
         public int LineCount => Abspeca.Linhas.Count;
         public int ColumnCount(int y) { return Abspeca.Linhas[y].Length; }

@@ -46,11 +46,16 @@ namespace Desafio___Tetris.Presenter
                 GameView.TimePresenter = TimePresenter;
                 CurrentPiecePresenter = new PiecePresenter
                 {
+                    Width = BoardPresenter.Width,
+                    Height = BoardPresenter.Height,
                     Piece = Game.CurrentPiece,
                     PieceView = GameView.CurrentPieceView
+
                 };
                 NextPiecePresenter = new PiecePresenter
                 {
+                    Width = BoardPresenter.Width,
+                    Height = BoardPresenter.Height,
                     Piece = Game.NextPiece,
                     PieceView = GameView.NextPieceView
                 };
@@ -162,6 +167,7 @@ namespace Desafio___Tetris.Presenter
         }
         private void GeraProx()
         {
+            CurrentPiecePresenter.Piece ??= new Piece();
             if (NextPiecePresenter.Piece != null)
             {
                 //NextPiece.Ap = panelAtual;
